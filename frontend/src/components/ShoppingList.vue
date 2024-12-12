@@ -1,21 +1,12 @@
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 
 const input = ref(null);
+const addButton = ref(null);
 
 const shoppingList = ref([]);
 const newItem = ref('');
 const isAddingAction = ref(false);
-
-shoppingList.value.push({ id: 1, value: '250g chicken' });
-shoppingList.value.push({ id: 2, value: 'Oranges' });
-
-function deleteItem(id){
-  const index = shoppingList.value.findIndex(item => item.id === id);
-  if (index != -1) {
-    shoppingList.value.splice(index, 1)
-  }
-}
 
 function showInput() {
   isAddingAction.value = true;
@@ -25,21 +16,59 @@ function showInput() {
 }
 
 function addItem() {
-  shoppingList.value = [...shoppingList.value, { id: Math.random(), value: newItem.value }];
+  postShoppingList(newItem.value);
   newItem.value = '';
   isAddingAction.value = false;
+  nextTick(() => {
+    addButton.value.focus();
+  })
 }
+
+function getShoppingList() {
+  fetch('http://localhost:8000/shopping-list')
+    .then(response => response.json())
+    .then(data => shoppingList.value = data.shopping_list)
+    .catch(error => console.error('Error:', error));
+}
+
+function deleteShoppingList(id) {
+  fetch(`http://localhost:8000/shopping-list/${id}`, {
+    method: 'DELETE'
+  })
+  .then(response => response.json())
+  .then(data => shoppingList.value = data.shopping_list)
+  .catch(error => console.error('Error:', error));
+}
+
+function postShoppingList(item) {
+  fetch('http://localhost:8000/shopping-list', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({ item: item })
+  })
+  .then(response => response.json())
+  .then(data => shoppingList.value = data.shopping_list)
+  .catch(error => console.error('Error:', error));
+}
+
+onMounted(() => {
+  getShoppingList();
+})
 </script>
 <template>
   <ul>
     <li 
       v-for="item in shoppingList"
       :key="item.id">
-      {{ item.value }} <button @click="deleteItem(item.id)">Delete</button>
+      {{ item.item }} <button @click="deleteShoppingList(item.id)">Delete</button>
     </li>
     <li>
       <button 
         v-if="!isAddingAction"
+        ref="addButton"
         @click="showInput">
         Add new
       </button>

@@ -1,13 +1,19 @@
 <?php
 
 require_once 'db.php';
+require_once 'cors.php';
+
+cors();
 
 // Get the shopping list
 function getShoppingList() {
     $sql = "SELECT * FROM shopping_list ORDER BY id ASC";
     $stmt = queryDatabase($sql);
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(['shopping_list' => array_map(fn($item) => $item['item'], $items)]);
+    echo json_encode(['shopping_list' => array_map(fn($item) => [
+        'id' => $item['id'],
+        'item' => $item['item']
+    ], $items)]);
 }
 
 // Add an item to the shopping list

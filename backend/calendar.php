@@ -1,6 +1,9 @@
 <?php
 
 require_once 'db.php';
+require_once 'cors.php';
+
+cors();
 
 // Get meals for a specific day
 function getCalendarDay($date) {
