@@ -11,6 +11,7 @@ import MealCalendar from '@/components/MealCalendar.vue'
     <MealCalendar />
     <h2>Shopping List</h2>
     <ShoppingList />
+    <h2>Recipes</h2>
     <RouterLink to="recipes/">See recipes</RouterLink>
   </main>
 </template>
