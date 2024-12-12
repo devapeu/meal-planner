@@ -1,5 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 const name = ref('');
 const ingredient = ref('');
 const ingredients = ref([]);
@@ -14,6 +18,7 @@ function postRecipe() {
       instructions: instructions.value,
     })
   })
+  router.push('/recipes')
 }
 
 function addIngredient() {
