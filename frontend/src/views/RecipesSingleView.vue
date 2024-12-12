@@ -34,6 +34,7 @@ onMounted(() => {
 <template>
   <main>
     <h1>{{ recipe.name }}</h1>
+    <h2>Ingredients</h2>
     <ul>
       <li v-for="ingredient in ingredients" :key="ingredient">
         <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
@@ -44,6 +45,7 @@ onMounted(() => {
         </button>
       </li>
     </ul>
-    <p>Instructions: {{ recipe.instructions }}</p>
+    <h2>Instructions</h2>
+    <p>{{ recipe.instructions }}</p>
   </main>
 </template>
