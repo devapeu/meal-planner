@@ -2,17 +2,6 @@
 import { RouterLink } from 'vue-router'
 import ShoppingList from '@/components/ShoppingList.vue';
 import MealCalendar from '@/components/MealCalendar.vue'
-function mockPost() {
-  fetch('http://localhost:8000/shopping-list', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({ item: '250g of rice' })
-  })
-}
 </script>
 
 <template>
