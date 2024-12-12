@@ -1,14 +1,14 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useShoppingListStore } from '../stores/useShoppingList'
 
 const route = useRoute()
 const shoppingListStore = useShoppingListStore();
+const shoppingList = computed(() => shoppingListStore.shoppingList);
 
 const recipe = ref({})
 const ingredients = ref([])
-const shoppingList = ref([])
 
 watch(recipe, () => {
   ingredients.value = recipe.value.ingredients.split(',') || []
@@ -27,6 +27,7 @@ onMounted(() => {
     .then(response => response.json())
     .then(data => recipe.value = data.recipe)
     .catch(error => console.error('Error:', error));
+  shoppingListStore.get();
 })
 </script>
 
@@ -37,7 +38,10 @@ onMounted(() => {
       <li v-for="ingredient in ingredients" :key="ingredient">
         <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
         {{ ingredient }}
-        <button @click="addToShoppingList(ingredient)">Add to shopping list</button>
+        <button 
+          v-if="!ingredientIsInShoppingList(ingredient)" 
+          @click="addToShoppingList(ingredient)">Add to shopping list
+        </button>
       </li>
     </ul>
     <p>Instructions: {{ recipe.instructions }}</p>
