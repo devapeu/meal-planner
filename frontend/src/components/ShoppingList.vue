@@ -1,10 +1,13 @@
 <script setup>
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, onMounted, computed } from "vue";
+import { useShoppingListStore } from '@/stores/useShoppingList';
+
+const shoppingListStore = useShoppingListStore();
+const shoppingList = computed(() => shoppingListStore.shoppingList);
 
 const input = ref(null);
 const addButton = ref(null);
 
-const shoppingList = ref([]);
 const newItem = ref('');
 const isAddingAction = ref(false);
 
@@ -16,7 +19,7 @@ function showInput() {
 }
 
 function addItem() {
-  postShoppingList(newItem.value);
+  shoppingListStore.add(newItem.value);
   newItem.value = '';
   isAddingAction.value = false;
   nextTick(() => {
@@ -24,34 +27,8 @@ function addItem() {
   })
 }
 
-function deleteShoppingList(id) {
-  fetch(`http://localhost:8000/shopping-list/${id}`, {
-    method: 'DELETE'
-  })
-  .then(response => response.json())
-  .then(data => shoppingList.value = data.shopping_list)
-  .catch(error => console.error('Error:', error));
-}
-
-function postShoppingList(item) {
-  fetch('http://localhost:8000/shopping-list', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({ item: item })
-  })
-  .then(response => response.json())
-  .then(data => shoppingList.value = data.shopping_list)
-  .catch(error => console.error('Error:', error));
-}
-
 onMounted(() => {
-  fetch('http://localhost:8000/shopping-list')
-    .then(response => response.json())
-    .then(data => shoppingList.value = data.shopping_list)
-    .catch(error => console.error('Error:', error));
+  shoppingListStore.get();
 })
 </script>
 <template>
@@ -60,7 +37,7 @@ onMounted(() => {
       v-for="{id, item} in shoppingList"
       :key="id">
       {{ item }} 
-      <button @click="deleteShoppingList(id)">Delete</button>
+      <button @click="shoppingListStore.remove(id)">Delete</button>
     </li>
     <li>
       <button 

@@ -1,21 +1,25 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useShoppingListStore } from '../stores/useShoppingList'
 
 const route = useRoute()
+const shoppingListStore = useShoppingListStore();
 
 const recipe = ref({})
 const ingredients = ref([])
+const shoppingList = ref([])
 
 watch(recipe, () => {
   ingredients.value = recipe.value.ingredients.split(',') || []
 })
 
 function addToShoppingList(ingredient) {
-  fetch('http://localhost:8000/shopping-list', {
-    method: 'POST',
-    body: JSON.stringify({ item: ingredient })
-  })
+  shoppingListStore.add(ingredient)
+}
+
+function ingredientIsInShoppingList(ingredient) {
+  return shoppingList.value.some(item => item.item === ingredient)
 }
 
 onMounted(() => {
@@ -31,6 +35,7 @@ onMounted(() => {
     <h1>{{ recipe.name }}</h1>
     <ul>
       <li v-for="ingredient in ingredients" :key="ingredient">
+        <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
         {{ ingredient }}
         <button @click="addToShoppingList(ingredient)">Add to shopping list</button>
       </li>
