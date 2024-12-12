@@ -4,8 +4,8 @@ import { ref } from 'vue'
 export const useCalendarStore = defineStore('calendar', () => {
   const calendar = ref([])
 
-  function getMealsForWeek(startDate, endDate) {
-    fetch(`http://localhost:8000/calendar?startDate=${startDate}&endDate=${endDate}`)
+  function getMealsForWeek(startDate) {
+    fetch(`http://localhost:8000/calendar?startDate=${startDate}`)
       .then(response => response.json())
       .then(data => calendar.value = data.calendar)
   }

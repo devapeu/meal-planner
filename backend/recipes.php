@@ -1,9 +1,7 @@
 <?php
 
 require_once 'db.php';
-require_once 'cors.php';
 
-cors();
 // Get all recipes
 function getRecipes() {
     $sql = "SELECT * FROM recipes";

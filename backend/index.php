@@ -3,17 +3,20 @@
 require_once 'calendar.php';
 require_once 'shopping_list.php';
 require_once 'recipes.php';
+require_once 'cors.php';
+
+cors();
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$uri = $_SERVER['REQUEST_URI'];
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 header('Content-Type: application/json');
 
 // Calendar routes
-if (preg_match('/^\/calendar\/([\d\-]+)$/', $uri, $matches)) {
-    $date = $matches[1];
+if ($uri == '/calendar') {
     if ($request_method == 'GET') {
-        getCalendarDay($date);
+        $startDate = $_GET['startDate'];
+        getMealsForWeek($startDate);
     } elseif ($request_method == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         addMealToDay($date, $data['meal']);

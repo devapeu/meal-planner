@@ -1,9 +1,6 @@
 <?php
 
 require_once 'db.php';
-require_once 'cors.php';
-
-cors();
 
 // Get the shopping list
 function getShoppingList() {
