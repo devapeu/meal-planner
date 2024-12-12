@@ -11,6 +11,13 @@ watch(recipe, () => {
   ingredients.value = recipe.value.ingredients.split(',') || []
 })
 
+function addToShoppingList(ingredient) {
+  fetch('http://localhost:8000/shopping-list', {
+    method: 'POST',
+    body: JSON.stringify({ item: ingredient })
+  })
+}
+
 onMounted(() => {
   fetch(`http://localhost:8000/recipes/${route.params.id}`)
     .then(response => response.json())
@@ -25,6 +32,7 @@ onMounted(() => {
     <ul>
       <li v-for="ingredient in ingredients" :key="ingredient">
         {{ ingredient }}
+        <button @click="addToShoppingList(ingredient)">Add to shopping list</button>
       </li>
     </ul>
     <p>Instructions: {{ recipe.instructions }}</p>
