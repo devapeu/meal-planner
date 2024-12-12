@@ -61,9 +61,11 @@ onMounted(() => {
 <template>
   <ul>
     <li 
-      v-for="item in shoppingList"
-      :key="item.id">
-      {{ item.item }} <button @click="deleteShoppingList(item.id)">Delete</button>
+      v-for="{id, item} in shoppingList"
+      :key="id">
+      {{ item }} 
+      <button @click="putShoppingList(id, item)">Edit</button>
+      <button @click="deleteShoppingList(id)">Delete</button>
     </li>
     <li>
       <button 
