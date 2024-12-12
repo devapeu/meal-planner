@@ -5,8 +5,11 @@ USE meal_planner;
 -- Calendar table to store meals for each day
 CREATE TABLE calendar (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
-    meal VARCHAR(255) NOT NULL
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    recipe_id INT,
+    meal VARCHAR(255) NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
 
 -- Shopping list table to store items
