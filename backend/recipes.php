@@ -12,6 +12,13 @@ function getRecipes() {
     echo json_encode(['recipes' => $recipes]);
 }
 
+function getRecipe($recipe_id) {
+    $sql = "SELECT * FROM recipes WHERE id = :id";
+    $stmt = queryDatabase($sql, ['id' => $recipe_id]);
+    $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode(['recipe' => $recipe]);
+}
+
 // Add a new recipe
 function addRecipe($name, $ingredients, $instructions) {
     $sql = "INSERT INTO recipes (name, ingredients, instructions) VALUES (:name, :ingredients, :instructions)";

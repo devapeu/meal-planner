@@ -50,6 +50,13 @@ elseif ($uri == '/recipes') {
     }
 }
 
+elseif (preg_match('/^\/recipes\/(\d+)$/', $uri, $matches)) {
+    $recipe_id = (int)$matches[1];
+    if ($request_method == 'GET') {
+        getRecipe($recipe_id);
+    }
+}
+
 // Recipes delete route
 elseif (preg_match('/^\/recipes\/(\d+)$/', $uri, $matches)) {
   $recipe_id = (int)$matches[1];

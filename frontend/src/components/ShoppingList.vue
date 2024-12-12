@@ -24,13 +24,6 @@ function addItem() {
   })
 }
 
-function getShoppingList() {
-  fetch('http://localhost:8000/shopping-list')
-    .then(response => response.json())
-    .then(data => shoppingList.value = data.shopping_list)
-    .catch(error => console.error('Error:', error));
-}
-
 function deleteShoppingList(id) {
   fetch(`http://localhost:8000/shopping-list/${id}`, {
     method: 'DELETE'
@@ -55,7 +48,10 @@ function postShoppingList(item) {
 }
 
 onMounted(() => {
-  getShoppingList();
+  fetch('http://localhost:8000/shopping-list')
+    .then(response => response.json())
+    .then(data => shoppingList.value = data.shopping_list)
+    .catch(error => console.error('Error:', error));
 })
 </script>
 <template>

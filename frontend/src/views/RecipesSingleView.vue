@@ -1,21 +1,32 @@
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-onMounted(() => console.log(route))
+const recipe = ref({})
+const ingredients = ref([])
+
+watch(recipe, () => {
+  ingredients.value = recipe.value.ingredients.split(',') || []
+})
+
+onMounted(() => {
+  fetch(`http://localhost:8000/recipes/${route.params.id}`)
+    .then(response => response.json())
+    .then(data => recipe.value = data.recipe)
+    .catch(error => console.error('Error:', error));
+})
 </script>
 
 <template>
   <main>
-    <h1>Recipes</h1>
+    <h1>{{ recipe.name }}</h1>
     <ul>
-      <li>
-        <RouterLink to="/arroz-tapado">
-          <h2>Arroz Tapado</h2>
-        </RouterLink>
+      <li v-for="ingredient in ingredients" :key="ingredient">
+        {{ ingredient }}
       </li>
     </ul>
+    <p>Instructions: {{ recipe.instructions }}</p>
   </main>
 </template>
