@@ -55,7 +55,7 @@ onMounted(() => {
         <template v-for="{id, meal, start_date, end_date, duration} in calendarStore.calendar">
           <div 
             v-if="start_date === grabDate(day)"
-            :key="`start-${id}`"
+            :key="`meal-${day}-${id}`"
             class="cell"
             :class="{ 'single-cell': start_date === end_date }"
             :style="{ gridColumn: `${day.getDay()} / span ${duration}` }"
