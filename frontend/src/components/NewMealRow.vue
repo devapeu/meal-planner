@@ -18,11 +18,13 @@ const props = defineProps({
 })
 
 function onMouseDown(day) {
+  day.setHours(0, 0, 0, 0);
   startDate.value = day.toISOString().split('T')[0]
   console.log(day)
 }
 
 function onMouseUp(day) {
+  day.setHours(0, 0, 0, 0);
   endDate.value = day.toISOString().split('T')[0]
   showPopup.value = true
   console.log(day)
@@ -30,6 +32,9 @@ function onMouseUp(day) {
 
 function addMeal() {
   calendarStore.addMeal(meal.value, startDate.value, endDate.value)
+  meal.value = ''
+  startDate.value = ''
+  endDate.value = ''
   showPopup.value = false
 }
 </script>
