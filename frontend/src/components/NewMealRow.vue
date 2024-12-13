@@ -35,7 +35,7 @@ function addMeal() {
 </script>
 
 <template>
-  <tr>
+  <div class="row">
     <div 
       v-if="showPopup"
       class="popup">
@@ -45,15 +45,20 @@ function addMeal() {
       <button @click="addMeal">Add</button>
       <button @click="showPopup = false">Cancel</button>
     </div>
-    <td v-for="day in daysOfWeek" :key="day">
-      <button @mousedown="onMouseDown(day)" @mouseup="onMouseUp(day)">&plus;</button>
-    </td>
-  </tr>
+    <div v-for="day in daysOfWeek" :key="day">
+      <button 
+        @mousedown="onMouseDown(day)" 
+        @mouseup="onMouseUp(day)">&plus;</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-tr {
+.row {
   position: relative;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
 }
 
 .popup {

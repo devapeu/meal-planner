@@ -43,66 +43,37 @@ onMounted(() => {
       type="date" 
       @change="calendarStore.getMealsForWeek(selectedDate)"
     />
-    <table>
-      <thead>
-        <tr>
-          <th v-for="day in daysOfWeek" :key="day">{{ day.getDate() }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td 
-            v-for="(day, index) in daysOfWeek" :key="index"
-            @click="console.log(day)">
-            <template v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
-              <div 
-                v-if="start_date === grabDate(day)"
-                :key="`start-${id}`"
-                class="start-cell"
-                :class="{ 'single-cell': start_date === end_date }"
-                @click.stop="null">
-                <button @click="calendarStore.deleteMeal(id)">&times;</button>
-                {{ meal }}
-              </div>
-              <div 
-                v-else-if="start_date < grabDate(day) && end_date > grabDate(day)"
-                :key="`middle-${id}`"
-                class="middle-cell"
-                @click.stop="null">
-                {{ meal }}
-              </div>
-              <div 
-                v-else-if="end_date === grabDate(day)"
-                :key="`end-${id}`"
-                class="end-cell"
-                @click.stop="null">
-                {{ meal }}!!!
-              </div>
-            </template>
-          </td>
-        </tr>
-        <NewMealRow :daysOfWeek="daysOfWeek" />
-      </tbody>
-    </table>
+    <div class="calendar">
+      <div v-for="day in daysOfWeek" :key="day">{{ day.getDate() }}</div>
+      <template v-for="day in daysOfWeek">
+        <template v-for="{id, meal, start_date, end_date, duration} in calendarStore.calendar">
+          <div 
+            v-if="start_date === grabDate(day)"
+            :key="`start-${id}`"
+            class="cell"
+            :class="{ 'single-cell': start_date === end_date }"
+            :style="{ gridColumn: `${day.getDay()} / span ${duration}` }"
+            @click.stop="null">
+            <button @click="calendarStore.deleteMeal(id)">&times;</button>
+            {{ meal }}
+          </div>
+        </template>
+      </template>
+      <NewMealRow :daysOfWeek="daysOfWeek" />
+    </div>
   </div>
 </template>
 
 <style>
-
-td {
-  padding: 0;
-  vertical-align: top;
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(20px, auto);
+  border: 1px solid black;
 }
 
-[class*="cell"] {
-  height: 20px;
-}
-
-.start-cell {
-  background: teal;
-}
-
-.middle-cell, .end-cell {
-  opacity: 0.5;
+.cell {
+  border: 1px solid black;
+  background: lightgray;
 }
 </style>
