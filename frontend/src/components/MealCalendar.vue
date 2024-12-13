@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '../stores/useCalendar'
+import NewMealRow from './NewMealRow.vue'
 
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
@@ -22,15 +23,6 @@ const daysOfWeek = computed(() => {
   }
   return days;
 });
-
-function addMeal(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const meal = formData.get('meal');
-  const startDate = formData.get('startDate');
-  const endDate = formData.get('endDate');
-  calendarStore.addMeal(meal, startDate, endDate);
-}
 
 function grabDate(day) {
   const date = new Date(day);
@@ -89,14 +81,9 @@ onMounted(() => {
             </template>
           </td>
         </tr>
+        <NewMealRow :daysOfWeek="daysOfWeek" />
       </tbody>
     </table>
-    <form @submit.prevent="addMeal">
-      <input type="text" name="meal" placeholder="Add meal...">
-      <input type="date" name="startDate" placeholder="Date...">
-      <input type="date" name="endDate" placeholder="Date...">
-      <button type="submit">Add</button>
-    </form>
   </div>
 </template>
 
