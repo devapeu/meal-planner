@@ -25,7 +25,7 @@ function getMealsForWeek($startDate) {
     echo json_encode(['calendar' => $meals]);
 }
 
-function deleteMeal($id, $startDate) {
+function deleteMeal($id) {
     $sql = "DELETE FROM calendar WHERE id = :id";
     queryDatabase($sql, ['id' => $id]);
     getMealsForWeek($startDate);
