@@ -44,7 +44,13 @@ onMounted(() => {
       @change="calendarStore.getMealsForWeek(selectedDate)"
     />
     <div class="calendar">
-      <div v-for="day in daysOfWeek" :key="day">{{ day.getDate() }}</div>
+      <div 
+        v-for="day in daysOfWeek" 
+        :key="day"
+        class="day-cell"
+        :class="{ 'today': day.toDateString() === new Date().toDateString() }">
+        {{ day.getDate() }}
+      </div>
       <template v-for="day in daysOfWeek">
         <template v-for="{id, meal, start_date, end_date, duration} in calendarStore.calendar">
           <div 
