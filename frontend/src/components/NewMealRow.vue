@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useCalendarStore } from '../stores/useCalendar'
+import { useRecipesStore } from '../stores/useRecipes'
 
 const calendarStore = useCalendarStore()
+const recipesStore = useRecipesStore()
 
 const meal = ref('')
 const startDate = ref('')
@@ -38,14 +40,23 @@ function addMeal() {
   endDate.value = ''
   showPopup.value = false
 }
+
+onMounted(() => {
+  recipesStore.get()
+})
 </script>
 
 <template>
-  <div class="row">
+  <div class="new-row">
     <div 
       v-if="showPopup"
       class="popup">
-      <input type="text" v-model="meal" placeholder="Meal" />
+      <select v-model="meal">
+        <option 
+          v-for="recipe in recipesStore.recipes" 
+          :key="recipe.id" 
+          :value="recipe.name">{{ recipe.name }}</option>
+      </select>
       <input type="date" v-model="startDate" placeholder="Start Date" />
       <input type="date" v-model="endDate" placeholder="End Date" />
       <button @click="addMeal">Add</button>
@@ -60,7 +71,7 @@ function addMeal() {
 </template>
 
 <style scoped>
-.row {
+.new-row {
   position: relative;
   display: grid;
   grid-column: 1 / -1;
