@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useCalendarStore = defineStore('calendar', () => {
-  const calendar = ref([])
+  const calendar = ref([]);
 
   function getMealsForWeek(startDate) {
     fetch(`http://localhost:8000/calendar?startDate=${startDate}`)
@@ -10,10 +10,10 @@ export const useCalendarStore = defineStore('calendar', () => {
       .then(data => calendar.value = data.calendar)
   }
 
-  function addMeal(meal) {
+  function addMeal(meal, startDate, endDate) {
     fetch('http://localhost:8000/calendar', {
       method: 'POST',
-      body: JSON.stringify(meal)
+      body: JSON.stringify({ meal, startDate, endDate })
     })
   }
 

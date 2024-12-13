@@ -19,7 +19,7 @@ if ($uri == '/calendar') {
         getMealsForWeek($startDate);
     } elseif ($request_method == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
-        addMealToDay($date, $data['meal']);
+        addMealToDay($data['meal'], $data['startDate'], $data['endDate']);
     }
 }
 
