@@ -13,6 +13,14 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 header('Content-Type: application/json');
 
 // Calendar routes
+
+if (preg_match('/^\/calendar\/(\d+)$/', $uri, $matches)) {
+    $item_id = (int)$matches[1];
+    if ($request_method == 'DELETE') {
+        deleteMeal($item_id);
+    }
+}
+
 if ($uri == '/calendar') {
     if ($request_method == 'GET') {
         $startDate = $_GET['startDate'];

@@ -10,7 +10,7 @@ export const useCalendarStore = defineStore('calendar', () => {
       .then(data => calendar.value = data.calendar)
   }
 
-  function addMeal(meal, startDate, endDate) {
+  function add(meal, startDate, endDate) {
     fetch('http://localhost:8000/calendar', {
       method: 'POST',
       body: JSON.stringify({ meal, startDate, endDate })
@@ -19,7 +19,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     .then(data => calendar.value = data.calendar)
   }
 
-  function removeMeal(id) {
+  function remove(id) {
     fetch(`http://localhost:8000/calendar/${id}`, {
       method: 'DELETE'
     })
@@ -27,5 +27,5 @@ export const useCalendarStore = defineStore('calendar', () => {
     .then(data => calendar.value = data.calendar)
   }
 
-  return { calendar, getMealsForWeek, addMeal, removeMeal }
+  return { calendar, getMealsForWeek, add, remove }
 })

@@ -54,7 +54,7 @@ onMounted(() => {
             :class="{ 'single-cell': start_date === end_date }"
             :style="{ gridColumn: `${day.getDay()} / span ${duration}` }"
             @click.stop="null">
-            <button @click="calendarStore.deleteMeal(id)">&times;</button>
+            <button @click="calendarStore.remove(id)">&times;</button>
             {{ meal }}
           </div>
         </template>
