@@ -15,6 +15,8 @@ export const useCalendarStore = defineStore('calendar', () => {
       method: 'POST',
       body: JSON.stringify({ meal, startDate, endDate })
     })
+    .then(response => response.json())
+    .then(data => calendar.value = data.calendar)
   }
 
   function removeMeal(id) {

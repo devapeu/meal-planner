@@ -4,8 +4,12 @@ require_once 'db.php';
 
 // Add a meal to a day in the calendar
 function addMealToDay($meal, $startDate, $endDate) {
+    if ($endDate == null) {
+      $endDate = $startDate;
+    }
     $sql = "INSERT INTO calendar (start_date, end_date, meal) VALUES (:startDate, :endDate, :meal)";
     queryDatabase($sql, ['startDate' => $startDate, 'endDate' => $endDate, 'meal' => $meal]);
+    getMealsForWeek($startDate);
 }
 
 function getMealsForWeek($startDate) {
@@ -14,7 +18,7 @@ function getMealsForWeek($startDate) {
 
     $sql = "SELECT id, meal, start_date, end_date FROM calendar 
             WHERE (start_date <= :sunday AND end_date >= :monday)
-            ORDER BY start_date";
+            ORDER BY start_date, DATEDIFF(end_date, start_date) DESC";
     $stmt = queryDatabase($sql, ['monday' => $monday, 'sunday' => $sunday]);
     $meals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
