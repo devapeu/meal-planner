@@ -9,6 +9,7 @@ const startDate = ref('')
 const endDate = ref('')
 
 const showPopup = ref(false)
+const isAdding = ref(false)
 
 const props = defineProps({
   daysOfWeek: {
@@ -18,11 +19,13 @@ const props = defineProps({
 })
 
 function onMouseDown(day) {
+  isAdding.value = true
   day.setHours(0, 0, 0, 0);
   startDate.value = day.toISOString().split('T')[0]
 }
 
 function onMouseUp(day) {
+  isAdding.value = false
   day.setHours(0, 0, 0, 0);
   endDate.value = day.toISOString().split('T')[0]
   showPopup.value = true
