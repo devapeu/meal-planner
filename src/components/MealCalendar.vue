@@ -72,22 +72,29 @@ onMounted(() => {
           {{ day.getDate() }}
         </span>
       </div>
-      <template v-for="day in daysOfWeek">
-        <template v-for="{id, meal, start_date, duration} in calendarStore.calendar">
-          <div 
-            v-if="start_date === grabDate(day)"
-            :key="`meal-${day}-${id}`"
-            class="meal-cell"
-            :style="{ 
-              gridColumn: `${day.getDay()} / span ${duration}`,
-              background: getColorFromId(id)
-            }">
-            {{ meal }}
-            <button 
-              class="meal-cell__remove-button"
-              @click="calendarStore.remove(id)">&times;</button>
-          </div>
+      <template v-if="calendarStore.calendar.length > 0">
+        <template v-for="day in daysOfWeek">
+          <template v-for="{id, meal, start_date, duration} in calendarStore.calendar">
+            <div 
+              v-if="start_date === grabDate(day)"
+              :key="`meal-${day}-${id}`"
+              class="meal-cell"
+              :style="{ 
+                gridColumn: `${day.getDay()} / span ${duration}`,
+                background: getColorFromId(id)
+              }">
+              {{ meal }}
+              <button 
+                class="meal-cell__remove-button"
+                @click="calendarStore.remove(id)">&times;</button>
+            </div>
+          </template>
         </template>
+      </template>
+      <template v-else>
+        <div class="no-meals-cell">
+          No meals for this week.
+        </div>
       </template>
       <NewMealRow :daysOfWeek="daysOfWeek" />
     </div>
@@ -105,22 +112,31 @@ onMounted(() => {
           {{ day.getDate() }}
         </span>
       </div>
-      <div 
-        v-for="day in daysOfWeek" 
-        :key="day"
-        class="day-cell-2"
-        :style="{ gridRowStart: `${day.getDay()}` }">
-        <template 
-          v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
-          <div 
-            v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
-            class="meal-cell"
-            :style="{ background: getColorFromId(id) }"
-            :key="`meal-${day}-${id}`">
-            {{ meal }}
-          </div>
-        </template>
-      </div>
+      <template v-if="calendarStore.calendar.length > 0">
+        <div
+          v-for="day in daysOfWeek"
+          :key="day"
+          class="day-cell-2"
+          :style="{ gridRowStart: `${day.getDay()}` }">
+          <template v-if="calendarStore.calendar.length > 0">
+            <template
+              v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
+              <div
+                v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
+                class="meal-cell"
+                :style="{ background: getColorFromId(id) }"
+                :key="`meal-${day}-${id}`">
+                {{ meal }}
+              </div>
+            </template>
+          </template>
+        </div>
+      </template>
+      <template v-else>
+        <div class="no-meals-cell">
+          No meals for this week.
+        </div>
+      </template>
       <NewMealRow :daysOfWeek="daysOfWeek" />
     </div>
   </div>
@@ -187,6 +203,11 @@ onMounted(() => {
     background: #FF9999
     color: white
 
+.no-meals-cell
+  text-align: center
+  padding: 20px
+  grid-column: 1 / span 7
+
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
@@ -197,6 +218,13 @@ onMounted(() => {
   border-radius: 8px
   @media (max-width: 768px)
     display: grid
+
+  .no-meals-cell
+    display: flex
+    align-items: center
+    justify-content: center
+    grid-column: 2
+    grid-row: 1 / span 7
 
 .calendar-responsive .day-cell 
   padding-top: 4px
