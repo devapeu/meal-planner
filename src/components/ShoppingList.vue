@@ -36,25 +36,37 @@ onMounted(() => {
   <div class="shopping-list-wrapper">
     <h2>Shopping List</h2>
     <ul class="shopping-list">
-      <li 
-        v-for="{id, item} in shoppingList"
-        :key="id">
-        <ShoppingListItem 
+      <template v-if="shoppingList.length > 0">
+        <li 
+          v-for="{id, item} in shoppingList"
+          :key="id">
+          <ShoppingListItem 
           :id="id"
-          :item="item" />
-      </li>
+            :item="item" />
+        </li>
+      </template>
+      <template v-else>
+        <li>No items on your list.</li>
+      </template>
       <li>
         <button 
           v-if="!isAddingAction"
           ref="addButton"
+          class="add-button"
           @click="showInput">
+          <span class="add-button__icon">+</span>
           Add new
         </button>
         <form v-else>
           <input 
             v-model="newItem"
             ref="input"
-            type="text"/><button type="submit" @click="addItem">Save</button>
+            type="text"/>
+          <button 
+            type="submit" 
+            @click="addItem">
+            Save
+          </button>
         </form>
       </li>
     </ul>
@@ -81,4 +93,29 @@ onMounted(() => {
   list-style: none
   margin: 0
   padding: 0
+
+.add-button
+  display: flex
+  align-items: center
+  gap: 8px
+  border: none
+  background: none
+  padding: 0
+  cursor: pointer
+  font-size: 16px
+  height: 32px
+  @media (pointer: fine)
+    &:hover
+      color: $accent
+  &__icon
+    background: $accent
+    color: #fff
+    line-height: 1
+    font-size: 24px
+    height: 24px
+    width: 24px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 50%
 </style>

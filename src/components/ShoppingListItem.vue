@@ -54,8 +54,8 @@ function toggleCheckbox() {
         color: $accent
   &__checkbox
     border-radius: 50%
-    width: 20px
-    height: 20px
+    width: 24px
+    height: 24px
     border: 1px solid $accent
     cursor: pointer
   &__item
