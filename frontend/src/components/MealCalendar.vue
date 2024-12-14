@@ -39,11 +39,15 @@ onMounted(() => {
 
 <template>
   <div>
-    <input 
-      v-model="selectedDate" 
-      type="date" 
-      @change="calendarStore.getMealsForWeek(selectedDate)"
-    />
+    <div class="calendar-header">
+      <button @click="calendarStore.getMealsForWeek(selectedDate - 7)">&lt;</button>
+      <input 
+        v-model="selectedDate" 
+        type="date" 
+        @change="calendarStore.getMealsForWeek(selectedDate)"
+      />
+      <button @click="calendarStore.getMealsForWeek(selectedDate + 7)">&gt;</button>
+    </div>
     <div class="calendar">
       <div 
         v-for="day in daysOfWeek" 
@@ -116,6 +120,9 @@ onMounted(() => {
   display: grid
   grid-template-columns: repeat(7, 1fr)
   grid-auto-rows: minmax(32px, auto)
+  padding: 8px
+  background: white
+  border-radius: 8px
   @media (max-width: 768px)
     display: none
 
@@ -144,7 +151,6 @@ onMounted(() => {
   margin: 2px
   padding: 4px 8px
   user-select: none
-  mix-blend-mode: multiply
   @media (pointer: fine)
     &:hover
       .meal-cell__remove-button
@@ -164,6 +170,9 @@ onMounted(() => {
   grid-auto-rows: minmax(72px, auto)
   grid-template-columns: 50px 1fr 50px
   gap: 12px 0 
+  padding: 8px
+  background: #ffffff
+  border-radius: 8px
   @media (max-width: 768px)
     display: grid
 
