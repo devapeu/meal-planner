@@ -69,10 +69,9 @@ onMounted(() => {
   display: flex
   flex-direction: column
   gap: 16px
-  padding: 24px
+  padding: 20px
   h2
     margin: 0
-    color: $accent
   
 .shopping-list
   display: flex

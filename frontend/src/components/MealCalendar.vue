@@ -134,10 +134,11 @@ onMounted(() => {
   align-items: center
   padding: 10px
   &__day-text
-    font-size: 14px
     line-height: 1
+    @media (max-width: 768px)
+      font-size: 14px
   &__date-text
-    font-size: 18px
+    font-size: 24px
     line-height: 1
     font-weight: 600
 
