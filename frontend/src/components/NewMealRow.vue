@@ -49,7 +49,8 @@ function onMouseDown(day) {
   startDate.value = day.toISOString().split('T')[0]
 }
 
-function onMouseUp(day) {
+function onMouseUp(day, event) {
+  console.log(event)
   isAdding.value = false
   day.setHours(0, 0, 0, 0);
   endDate.value = day.toISOString().split('T')[0]
@@ -116,7 +117,7 @@ watch(showPopup, (newVal) => {
       <button 
         class="add-button"
         @mousedown="onMouseDown(day)" 
-        @mouseup="onMouseUp(day)">&plus;</button>
+        @mouseup="onMouseUp(day, $event)">&plus;</button>
     </div>
   </div>
 </template>
@@ -145,8 +146,8 @@ watch(showPopup, (newVal) => {
   flex-direction: column
   gap: 8px
   padding: 8px
-  position: absolute
-  top: -100px
+  position: fixed
+  top: 0
   left: 0
   width: 300px
   background-color: white
@@ -164,5 +165,5 @@ watch(showPopup, (newVal) => {
     width: 100%
   @media (max-width: 768px)
     top: 0
-    left: -300px
+    left: 0
 </style>
