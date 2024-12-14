@@ -33,32 +33,47 @@ onMounted(() => {
 })
 </script>
 <template>
-  <ul class="shopping-list">
-    <li 
-      v-for="{id, item} in shoppingList"
-      :key="id">
-      <ShoppingListItem 
-        :id="id"
-        :item="item" />
-    </li>
-    <li>
-      <button 
-        v-if="!isAddingAction"
-        ref="addButton"
-        @click="showInput">
-        Add new
-      </button>
-      <form v-else>
-        <input 
-          v-model="newItem"
-          ref="input"
-          type="text"/><button type="submit" @click="addItem">Save</button>
-      </form>
-    </li>
-  </ul>
+  <div class="shopping-list-wrapper">
+    <h2>Shopping List</h2>
+    <ul class="shopping-list">
+      <li 
+        v-for="{id, item} in shoppingList"
+        :key="id">
+        <ShoppingListItem 
+          :id="id"
+          :item="item" />
+      </li>
+      <li>
+        <button 
+          v-if="!isAddingAction"
+          ref="addButton"
+          @click="showInput">
+          Add new
+        </button>
+        <form v-else>
+          <input 
+            v-model="newItem"
+            ref="input"
+            type="text"/><button type="submit" @click="addItem">Save</button>
+        </form>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style lang="sass" scoped>
+@import '@/assets/variables.sass'
+
+.shopping-list-wrapper
+  background: #fff
+  display: flex
+  flex-direction: column
+  gap: 16px
+  padding: 24px
+  h2
+    margin: 0
+    color: $accent
+  
 .shopping-list
   display: flex
   flex-direction: column

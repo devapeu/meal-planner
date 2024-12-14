@@ -11,10 +11,7 @@ import MealCalendar from '@/components/MealCalendar.vue'
       <MealCalendar />
     </div>
     <div class="home-grid__shopping-list">
-      <div class="shopping-list-wrapper">
-        <h2>Shopping List</h2>
-        <ShoppingList />
-      </div>
+      <ShoppingList />
     </div>
     <div class="home-grid__recipes">
       <h2>Recipes</h2>
@@ -35,13 +32,4 @@ import MealCalendar from '@/components/MealCalendar.vue'
       grid-column: auto
   &__meal-calendar
     grid-column: 1 / span 2
-
-.shopping-list-wrapper
-  background: #fff
-  display: flex
-  flex-direction: column
-  gap: 8px
-  padding: 20px
-  h2
-    margin: 0
 </style>
