@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useRecipesStore } from '@/stores/useRecipes'
 
 const router = useRouter();
+const recipesStore = useRecipesStore()
 
 const name = ref('');
 const ingredient = ref('');
@@ -10,13 +12,10 @@ const ingredients = ref([]);
 const instructions = ref('');
 
 function postRecipe() {
-  fetch('http://localhost:8000/recipes', {
-    method: 'POST',
-    body: JSON.stringify({ 
-      name: name.value,
-      ingredients: ingredients.value.join(','),
-      instructions: instructions.value,
-    })
+  recipesStore.add({
+    name: name.value,
+    ingredients: ingredients.value.join(','),
+    instructions: instructions.value,
   })
   router.push('/recipes')
 }

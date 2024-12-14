@@ -1,13 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useRecipesStore } from '@/stores/useRecipes'
 
-const recipes = ref([]);
+const recipesStore = useRecipesStore()
+
+const recipes = computed(() => recipesStore.recipes)
 
 onMounted(() => {
-  fetch('http://localhost:8000/recipes')
-    .then(response => response.json())
-    .then(data => recipes.value = data.recipes)
+  recipesStore.get()
 })
 </script>
 
