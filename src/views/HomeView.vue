@@ -1,7 +1,17 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { onMounted, computed } from 'vue'
 import ShoppingList from '@/components/ShoppingList.vue';
 import MealCalendar from '@/components/MealCalendar.vue'
+import { useRecipesStore } from '@/stores/useRecipes'
+
+const recipesStore = useRecipesStore()
+
+const recipes = computed(() => recipesStore.recipes)
+
+onMounted(() => {
+  recipesStore.get()
+})
 </script>
 
 <template>
@@ -15,6 +25,13 @@ import MealCalendar from '@/components/MealCalendar.vue'
     </div>
     <div class="home-grid__recipes">
       <h2>Recipes</h2>
+      <ul>
+        <li v-for="recipe in recipes" :key="recipe.id">
+          <RouterLink :to="`/recipes/${recipe.id}`">
+            <p>{{ recipe.name }}</p>
+          </RouterLink>
+        </li>
+      </ul>
       <RouterLink to="recipes/">See recipes</RouterLink>
     </div>
   </main>
