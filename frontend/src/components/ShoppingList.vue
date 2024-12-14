@@ -1,6 +1,7 @@
 <script setup>
 import { ref, nextTick, onMounted, computed } from "vue";
 import { useShoppingListStore } from '@/stores/useShoppingList';
+import ShoppingListItem from './ShoppingListItem.vue';
 
 const shoppingListStore = useShoppingListStore();
 const shoppingList = computed(() => shoppingListStore.shoppingList);
@@ -32,12 +33,13 @@ onMounted(() => {
 })
 </script>
 <template>
-  <ul>
+  <ul class="shopping-list">
     <li 
       v-for="{id, item} in shoppingList"
       :key="id">
-      {{ item }} 
-      <button @click="shoppingListStore.remove(id)">&times;</button>
+      <ShoppingListItem 
+        :id="id"
+        :item="item" />
     </li>
     <li>
       <button 
@@ -55,3 +57,13 @@ onMounted(() => {
     </li>
   </ul>
 </template>
+
+<style lang="sass" scoped>
+.shopping-list
+  display: flex
+  flex-direction: column
+  gap: 16px
+  list-style: none
+  margin: 0
+  padding: 0
+</style>
