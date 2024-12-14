@@ -31,6 +31,16 @@ function grabDate(day) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+function getAdjacentWeek(direction) {
+  const date = new Date(selectedDate.value);
+  date.setDate(date.getDate() + direction * 7);
+  selectedDate.value = date.toISOString().split('T')[0];
+}
+
+watch(selectedDate, () => {
+  calendarStore.getMealsForWeek(selectedDate.value);
+});
+
 onMounted(() => {
   calendarStore.getMealsForWeek(selectedDate.value);
 });
@@ -40,13 +50,11 @@ onMounted(() => {
 <template>
   <div>
     <div class="calendar-header">
-      <button @click="calendarStore.getMealsForWeek(selectedDate - 7)">&lt;</button>
+      <button @click="getAdjacentWeek(-1)">&lt;</button>
       <input 
         v-model="selectedDate" 
-        type="date" 
-        @change="calendarStore.getMealsForWeek(selectedDate)"
-      />
-      <button @click="calendarStore.getMealsForWeek(selectedDate + 7)">&gt;</button>
+        type="date" />
+      <button @click="getAdjacentWeek(1)">&gt;</button>
     </div>
     <div class="calendar">
       <div 
