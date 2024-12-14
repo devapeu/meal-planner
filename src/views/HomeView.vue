@@ -4,10 +4,17 @@ import { onMounted, computed } from 'vue'
 import ShoppingList from '@/components/ShoppingList.vue';
 import MealCalendar from '@/components/MealCalendar.vue'
 import { useRecipesStore } from '@/stores/useRecipes'
+import { useSlideoutStore } from '@/stores/useSlideout'
+import RecipeSingle from '@/components/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
+const slideoutStore = useSlideoutStore()
 
 const recipes = computed(() => recipesStore.recipes)
+
+function openRecipes(id) {
+  slideoutStore.open(RecipeSingle, { id })
+}
 
 onMounted(() => {
   recipesStore.get()
@@ -26,10 +33,11 @@ onMounted(() => {
       <div class="recipes-wrapper">
         <h2>Recipes</h2>
         <ul>
-          <li v-for="recipe in recipes" :key="recipe.id">
-            <RouterLink :to="`/recipes/${recipe.id}`">
-              {{ recipe.name }}
-            </RouterLink>
+          <li 
+            v-for="recipe in recipes" 
+            :key="recipe.id"
+            @click="openRecipes(recipe.id)">
+            {{ recipe.name }}
           </li>
         </ul>
         <RouterLink to="recipes/">See recipes</RouterLink>

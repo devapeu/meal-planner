@@ -2,9 +2,12 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRecipesStore } from '@/stores/useRecipes'
+import { useSlideoutStore } from '@/stores/useSlideout'
+import SlideOut from '@/components/SlideOut.vue'
 
 const route = useRoute()
 const recipesStore = useRecipesStore()
+const slideoutStore = useSlideoutStore()
 
 const location = computed(() => {
   const urls = {
@@ -33,6 +36,7 @@ const title = computed(() => {
       <h1>{{ title }}</h1>
     </header>
     <RouterView />
+    <SlideOut v-if="slideoutStore.isOpen" />
   </main>
 </template>
 

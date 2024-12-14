@@ -16,7 +16,7 @@ export const useRecipesStore = defineStore('recipes', () => {
   function getSingle(id) {
     fetch(`${VITE_API_URL}/recipes/${id}`)
       .then(response => response.json())
-      .then(data => currentRecipe.value = data.recipe)
+      .then(data => currentRecipe.value = {...data.recipe, ingredients: data.recipe.ingredients.split(',')})
   }
 
   function add(recipe) {
