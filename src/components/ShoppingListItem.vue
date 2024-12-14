@@ -35,7 +35,7 @@ function toggleCheckbox() {
   display: flex
   align-items: center
   gap: 8px
-  font-family: 'Architects Daughter'
+  font-family: 'Gochi Hand'
   font-size: 20px
   &--checked
     .shopping-list-item__item
