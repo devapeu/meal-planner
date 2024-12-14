@@ -28,7 +28,7 @@ const title = computed(() => {
         v-if="location"
         :to="location" 
         v-slot="{ navigate }">
-        <button @click="navigate">Back</button>
+        <button @click="navigate">&larr;</button>
       </RouterLink>
       <h1>{{ title }}</h1>
     </header>
@@ -40,6 +40,7 @@ const title = computed(() => {
 header
   display: flex
   align-items: center
+  gap: 8px
   h1
     margin: 0
 </style>

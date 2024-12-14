@@ -116,6 +116,8 @@ onMounted(() => {
   display: grid
   grid-template-columns: repeat(7, 1fr)
   grid-auto-rows: minmax(32px, auto)
+  @media (max-width: 768px)
+    display: none
 
 .day-cell
   display: flex

@@ -26,6 +26,8 @@ import MealCalendar from '@/components/MealCalendar.vue'
   display: grid
   grid-template-columns: 1fr 1fr
   gap: 1rem
+  @media (max-width: 768px)
+    display: block
   &__meal-calendar
     grid-column: 1 / span 2
 </style>
