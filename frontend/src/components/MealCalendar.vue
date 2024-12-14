@@ -65,6 +65,31 @@ onMounted(() => {
       </template>
       <NewMealRow :daysOfWeek="daysOfWeek" />
     </div>
+    <div class="calendar-responsive">
+      <div 
+        v-for="day in daysOfWeek" 
+        :key="day"
+        class="day-cell"
+        :class="{ 'today': day.toDateString() === new Date().toDateString() }">
+        {{ day.getDate() }}
+      </div>
+      <div 
+        v-for="day in daysOfWeek" 
+        :key="day"
+        class="day-cell-2"
+        :style="{ gridRowStart: `${day.getDay()}` }">
+        <template 
+          v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
+          <div 
+            v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
+            class="meal-cell"
+            :key="`meal-${day}-${id}`">
+            {{ meal }}
+          </div>
+        </template>
+      </div>
+      <NewMealRow :daysOfWeek="daysOfWeek" />
+    </div>
   </div>
 </template>
 
@@ -74,6 +99,35 @@ onMounted(() => {
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: minmax(20px, auto);
   border: 1px solid black;
+}
+
+.calendar-responsive {
+  display: grid;
+  grid-auto-rows: minmax(20px, auto);
+  grid-template-columns: 50px 1fr min-content;
+  border: 1px solid black;
+}
+
+.calendar-responsive .day-cell {
+  border: 1px solid black;
+  grid-column: 1 / span 1;
+}
+
+.calendar-responsive .day-cell-2 {
+  border: 1px solid black;
+  grid-column: 2 / span 1;
+}
+
+.calendar-responsive .new-row {
+  grid-column: 3 / span 1;
+  grid-row: 1 / span 7;
+  grid-template-rows: subgrid;
+}
+
+.calendar-responsive .meal-cell {
+  border: 1px solid black;
+  background: lightgray;
+  margin: 2px;
 }
 
 .cell {
