@@ -158,6 +158,7 @@ onMounted(() => {
   grid-template-columns: repeat(7, 1fr)
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
+  gap: 4px
   background: $cream
   border-radius: 8px
   @media (max-width: 768px)
@@ -211,7 +212,7 @@ onMounted(() => {
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
-  grid-template-columns: 48px 1fr 48px
+  grid-template-columns: 64px 1fr 48px
   gap: 8px
   padding: 8px
   background: $cream
