@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+const VITE_API_URL = import.meta.env.VITE_API_URL
+
 export const useCalendarStore = defineStore('calendar', () => {
   const calendar = ref([]);
 
   function getMealsForWeek(startDate) {
-    fetch(`http://localhost:8000/calendar?startDate=${startDate}`)
+    fetch(`${VITE_API_URL}/calendar?startDate=${startDate}`)
       .then(response => response.json())
       .then(data => calendar.value = data.calendar)
   }
 
   function add(meal, startDate, endDate) {
-    fetch('http://localhost:8000/calendar', {
+    fetch(`${VITE_API_URL}/calendar`, {
       method: 'POST',
       body: JSON.stringify({ meal, startDate, endDate })
     })
@@ -20,7 +22,7 @@ export const useCalendarStore = defineStore('calendar', () => {
   }
 
   function remove(id) {
-    fetch(`http://localhost:8000/calendar/${id}`, {
+    fetch(`${VITE_API_URL}/calendar/${id}`, {
       method: 'DELETE'
     })
     .then(response => response.json())
