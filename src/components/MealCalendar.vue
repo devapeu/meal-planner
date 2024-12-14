@@ -48,13 +48,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="calendar-wrapper">
     <div class="calendar-header">
-      <button @click="getAdjacentWeek(-1)">&lt;</button>
-      <input 
-        v-model="selectedDate" 
-        type="date" />
-      <button @click="getAdjacentWeek(1)">&gt;</button>
+      <h2>Weekly Meals</h2>
+      <div class="calendar-header__buttons">
+        <button @click="getAdjacentWeek(-1)">&lt;</button>
+        <input 
+          v-model="selectedDate" 
+          type="date" />
+        <button @click="getAdjacentWeek(1)">&gt;</button>
+      </div>
     </div>
     <div class="calendar">
       <div 
@@ -124,12 +127,22 @@ onMounted(() => {
 </template>
 
 <style lang="sass">
+@import '../assets/variables.sass'
+
+.calendar-wrapper
+  display: flex
+  flex-direction: column
+  gap: 12px
+  background: #fff
+  padding: 16px
+  border-radius: 8px
+
 .calendar 
   display: grid
   grid-template-columns: repeat(7, 1fr)
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
-  background: white
+  background: $cream
   border-radius: 8px
   @media (max-width: 768px)
     display: none
@@ -177,10 +190,10 @@ onMounted(() => {
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
-  grid-template-columns: 50px 1fr 50px
-  gap: 12px 0 
+  grid-template-columns: 48px 1fr 48px
+  gap: 8px
   padding: 8px
-  background: #ffffff
+  background: $cream
   border-radius: 8px
   @media (max-width: 768px)
     display: grid
@@ -196,6 +209,12 @@ onMounted(() => {
   grid-column: 3 / span 1
   grid-row: 1 / span 7
   grid-template-rows: subgrid
+
+.calendar-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  gap: 8px
 
 .cell 
   border: 1px solid black

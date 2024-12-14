@@ -17,7 +17,6 @@ onMounted(() => {
 <template>
   <main class="home-grid">
     <div class="home-grid__meal-calendar">
-      <h2>Weekly Meals</h2>
       <MealCalendar />
     </div>
     <div class="home-grid__shopping-list">

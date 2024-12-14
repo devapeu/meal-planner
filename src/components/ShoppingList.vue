@@ -70,6 +70,7 @@ onMounted(() => {
   flex-direction: column
   gap: 16px
   padding: 20px
+  border-radius: 8px
   h2
     margin: 0
   
