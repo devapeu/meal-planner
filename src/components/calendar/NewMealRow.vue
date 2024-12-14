@@ -128,8 +128,6 @@ watch(showPopup, (newVal) => {
   display: grid
   grid-column: 1 / -1
   grid-template-columns: subgrid
-  &__cell
-    padding: 2px
 
 .add-button 
   height: 100%
@@ -138,6 +136,7 @@ watch(showPopup, (newVal) => {
   cursor: pointer
   background: white
   font-weight: 600
+  border-radius: 4px
   &:hover
     background: #f3f4f6
 

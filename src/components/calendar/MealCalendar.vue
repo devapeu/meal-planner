@@ -187,7 +187,6 @@ onMounted(() => {
   gap: 4px
   background: lightgray
   border-radius: 5px
-  margin: 2px
   padding: 4px 8px
   user-select: none
   @media (pointer: fine)
@@ -213,7 +212,7 @@ onMounted(() => {
   display: none
   grid-auto-rows: minmax(72px, auto)
   grid-template-columns: 64px 1fr 48px
-  gap: 8px
+  gap: 12px 4px
   padding: 8px
   background: v.$cream
   border-radius: 8px
@@ -232,6 +231,9 @@ onMounted(() => {
   grid-column: 1 / span 1
 
 .calendar-responsive .day-cell-2 
+  display: flex
+  flex-direction: column
+  gap: 4px
   grid-column: 2 / span 1
 
 .calendar-responsive .new-row 
