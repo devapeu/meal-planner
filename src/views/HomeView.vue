@@ -23,15 +23,17 @@ onMounted(() => {
       <ShoppingList />
     </div>
     <div class="home-grid__recipes">
-      <h2>Recipes</h2>
-      <ul>
-        <li v-for="recipe in recipes" :key="recipe.id">
-          <RouterLink :to="`/recipes/${recipe.id}`">
-            <p>{{ recipe.name }}</p>
-          </RouterLink>
-        </li>
-      </ul>
-      <RouterLink to="recipes/">See recipes</RouterLink>
+      <div class="recipes-wrapper">
+        <h2>Recipes</h2>
+        <ul>
+          <li v-for="recipe in recipes" :key="recipe.id">
+            <RouterLink :to="`/recipes/${recipe.id}`">
+              {{ recipe.name }}
+            </RouterLink>
+          </li>
+        </ul>
+        <RouterLink to="recipes/">See recipes</RouterLink>
+      </div>
     </div>
   </main>
 </template>
@@ -50,4 +52,14 @@ onMounted(() => {
       grid-column: auto
   &__meal-calendar
     grid-column: 1 / span 2
+
+.recipes-wrapper
+  display: flex
+  flex-direction: column
+  gap: 12px
+  padding: 16px
+  border-radius: 8px
+  background: white
+  ul
+    margin: 0
 </style>
