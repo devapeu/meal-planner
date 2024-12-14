@@ -7,6 +7,13 @@ export const useRecipesStore = defineStore('recipes', () => {
   const recipes = ref([])
   const currentRecipe = ref({});
 
+  function transformRecipe(recipe) {
+    return {
+      ...recipe,
+      ingredients: recipe.ingredients.split(',')
+    }
+  }
+
   function get() {
     fetch(`${VITE_API_URL}/recipes`)
       .then(response => response.json())
@@ -16,13 +23,18 @@ export const useRecipesStore = defineStore('recipes', () => {
   function getSingle(id) {
     fetch(`${VITE_API_URL}/recipes/${id}`)
       .then(response => response.json())
-      .then(data => currentRecipe.value = {...data.recipe, ingredients: data.recipe.ingredients.split(',')})
+      .then(data => currentRecipe.value = transformRecipe(data.recipe))
   }
 
   function add(recipe) {
+    const formattedRecipe = {
+      ...recipe,
+      ingredients: recipe.ingredients.join(',')
+    }
+
     fetch(`${VITE_API_URL}/recipes`, {
       method: 'POST',
-      body: JSON.stringify(recipe)
+      body: JSON.stringify(formattedRecipe)
     })
     .then(response => response.json())
     .then(data => recipes.value = data.recipes)
@@ -36,5 +48,22 @@ export const useRecipesStore = defineStore('recipes', () => {
     .then(data => recipes.value = data.recipes)
   }
 
-  return { recipes, currentRecipe, get, getSingle, add, remove }
+  function update(id, recipe) {
+    const formattedRecipe = {
+      ...recipe,
+      ingredients: recipe.ingredients.join(',')
+    }
+
+    fetch(`${VITE_API_URL}/recipes/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(formattedRecipe)
+    })
+    .then(response => response.json())
+    .then(data => {
+      recipes.value = data.recipes
+      currentRecipe.value = transformRecipe(data.recipes.find(recipe => recipe.id === id))
+    })
+  }
+
+  return { recipes, currentRecipe, get, getSingle, add, remove, update }
 })

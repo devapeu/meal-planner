@@ -65,6 +65,9 @@ elseif (preg_match('/^\/recipes\/(\d+)$/', $uri, $matches)) {
     $recipe_id = (int)$matches[1];
     if ($request_method == 'GET') {
         getRecipe($recipe_id);
+    } elseif ($request_method == 'PUT') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        updateRecipe($recipe_id, $data['name'], $data['ingredients'], $data['instructions']);
     }
 }
 

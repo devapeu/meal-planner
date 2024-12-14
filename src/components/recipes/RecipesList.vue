@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
+import RecipesForm from '@/components/recipes/RecipesForm.vue'
 import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
@@ -11,6 +12,10 @@ const slideoutStore = useSlideoutStore()
 
 function openRecipes(id) {
   slideoutStore.open(RecipeSingle, { id })
+}
+
+function addRecipe() {
+  slideoutStore.open(RecipesForm)
 }
 
 onMounted(() => {
@@ -30,6 +35,7 @@ onMounted(() => {
         {{ recipe.name }}
       </li>
     </ul>
+    <button @click="addRecipe()">Add Recipe</button>
   </div>
 </template>
 

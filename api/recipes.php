@@ -24,6 +24,12 @@ function addRecipe($name, $ingredients, $instructions) {
     getRecipes();
 }
 
+function updateRecipe($id, $name, $ingredients, $instructions) {
+    $sql = "UPDATE recipes SET name = :name, ingredients = :ingredients, instructions = :instructions WHERE id = :id";
+    queryDatabase($sql, ['id' => $id, 'name' => $name, 'ingredients' => $ingredients, 'instructions' => $instructions]);
+    getRecipes();
+}
+
 function deleteRecipe($id) {
   $sql = "DELETE FROM recipes WHERE id = :id";
   queryDatabase($sql, ['id' => $id]);
