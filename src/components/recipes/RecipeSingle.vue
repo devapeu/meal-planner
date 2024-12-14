@@ -35,6 +35,7 @@ watch(() => props.id, () => {
 <template>
   <div class="recipe-single">
     <h3>{{ recipe.name }}</h3>
+    <h4>Ingredients</h4>
     <ul>
       <li v-for="ingredient in recipe.ingredients" :key="ingredient">
         {{ ingredient }}
@@ -45,10 +46,17 @@ watch(() => props.id, () => {
         </button>
       </li>
     </ul>
+    <h4>Instructions</h4>
     <p>{{ recipe.instructions }}</p>
     <h4>Add to calendar</h4>
-    <input type="date" v-model="startDate" />
-    <input type="date" v-model="endDate" />
+    <label for="startDate">
+      <span>From</span>
+      <input type="date" id="startDate" v-model="startDate" />
+    </label>
+    <label for="endDate">
+      <span>To</span>
+      <input type="date" id="endDate" v-model="endDate" />
+    </label>
     <button 
       @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
     <button 
