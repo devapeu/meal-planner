@@ -49,6 +49,7 @@ onMounted(() => {
         :key="day"
         class="day-cell"
         :class="{ 'today': day.toDateString() === new Date().toDateString() }">
+        {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
         {{ day.getDate() }}
       </div>
       <template v-for="day in daysOfWeek">
@@ -71,6 +72,7 @@ onMounted(() => {
         :key="day"
         class="day-cell"
         :class="{ 'today': day.toDateString() === new Date().toDateString() }">
+        {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
         {{ day.getDate() }}
       </div>
       <div 
