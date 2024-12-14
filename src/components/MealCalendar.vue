@@ -143,7 +143,7 @@ onMounted(() => {
 </template>
 
 <style lang="sass">
-@import '../assets/variables.sass'
+@use '@/assets/variables' as v
 
 .calendar-wrapper
   display: flex
@@ -159,7 +159,7 @@ onMounted(() => {
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
   gap: 4px
-  background: $cream
+  background: v.$cream
   border-radius: 8px
   @media (max-width: 768px)
     display: none
@@ -215,7 +215,7 @@ onMounted(() => {
   grid-template-columns: 64px 1fr 48px
   gap: 8px
   padding: 8px
-  background: $cream
+  background: v.$cream
   border-radius: 8px
   @media (max-width: 768px)
     display: grid

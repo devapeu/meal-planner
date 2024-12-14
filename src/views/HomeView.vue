@@ -32,10 +32,11 @@ onMounted(() => {
     <div class="home-grid__recipes">
       <div class="recipes-wrapper">
         <h2>Recipes</h2>
-        <ul>
+        <ul class="recipes-list">
           <li 
             v-for="recipe in recipes" 
             :key="recipe.id"
+            class="recipes-list__item"
             @click="openRecipes(recipe.id)">
             {{ recipe.name }}
           </li>
@@ -47,6 +48,8 @@ onMounted(() => {
 </template>
 
 <style lang="sass" scoped>
+@use '@/assets/variables' as v
+
 .home-grid
   display: grid
   grid-template-columns: 1fr 1fr
@@ -70,4 +73,11 @@ onMounted(() => {
   background: white
   ul
     margin: 0
+
+.recipes-list
+  &__item
+    cursor: pointer
+    @media (pointer: fine)
+      &:hover
+        color: v.$accent
 </style>

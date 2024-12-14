@@ -29,7 +29,7 @@ function toggleCheckbox() {
 </template>
 
 <style lang="sass" scoped>
-@import '@/assets/variables.sass'
+@use '@/assets/variables.sass' as v
 
 .shopping-list-item
   display: flex
@@ -43,20 +43,20 @@ function toggleCheckbox() {
       text-decoration: line-through
     .shopping-list-item__checkbox
       opacity: 0.5
-      background: $background
+      background: v.$background
       &::after
         content: '✓'
-        color: $accent
+        color: v.$accent
   &__item
     cursor: pointer
     @media (pointer: fine)
       &:hover
-        color: $accent
+        color: v.$accent
   &__checkbox
     border-radius: 50%
     width: 24px
     height: 24px
-    border: 1px solid $accent
+    border: 1px solid v.$accent
     cursor: pointer
   &__item
     flex: 1

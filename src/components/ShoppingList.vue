@@ -74,7 +74,7 @@ onMounted(() => {
 </template>
 
 <style lang="sass" scoped>
-@import '@/assets/variables.sass'
+@use '@/assets/variables' as v
 
 .shopping-list-wrapper
   background: #fff
@@ -106,9 +106,9 @@ onMounted(() => {
   height: 32px
   @media (pointer: fine)
     &:hover
-      color: $accent
+      color: v.$accent
   &__icon
-    background: $accent
+    background: v.$accent
     color: #fff
     line-height: 1
     font-size: 24px
