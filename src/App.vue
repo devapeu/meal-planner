@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import SlideOut from '@/components/SlideOut.vue'
+import SlideOut from '@/components/interface/SlideOut.vue'
 
 const route = useRoute()
 const recipesStore = useRecipesStore()

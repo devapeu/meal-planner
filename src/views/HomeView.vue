@@ -1,11 +1,11 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { onMounted, computed } from 'vue'
-import ShoppingList from '@/components/ShoppingList.vue';
-import MealCalendar from '@/components/MealCalendar.vue'
+import ShoppingList from '@/components/shoppingList/ShoppingList.vue';
+import MealCalendar from '@/components/calendar/MealCalendar.vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import RecipeSingle from '@/components/RecipeSingle.vue'
+import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()

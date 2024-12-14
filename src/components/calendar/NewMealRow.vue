@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { useCalendarStore } from '../stores/useCalendar'
-import { useRecipesStore } from '../stores/useRecipes'
+import { useCalendarStore } from '@/stores/useCalendar'
+import { useRecipesStore } from '@/stores/useRecipes'
 
 const calendarStore = useCalendarStore()
 const recipesStore = useRecipesStore()

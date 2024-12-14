@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue'
-import { useCalendarStore } from '../stores/useCalendar'
-import { getColorFromId } from '../components/getColorFromId'
+import { useCalendarStore } from '@/stores/useCalendar'
+import { getColorFromId } from './getColorFromId'
 import NewMealRow from './NewMealRow.vue'
 
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
