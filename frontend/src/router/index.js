@@ -5,10 +5,10 @@ import RecipesSingleView from '@/views/RecipesSingleView.vue';
 import RecipesNewView from '@/views/RecipesNewView.vue';
 
 const routes = [
-  { path: '/', component: HomeView },
-  { path: '/recipes', component: RecipesListView },
-  { path: '/recipes/:id', component: RecipesSingleView },
-  { path: '/recipes/new', component: RecipesNewView },
+  { path: '/', component: HomeView, name: 'home', meta: { title: 'Home' } },
+  { path: '/recipes', component: RecipesListView, name: 'recipes', meta: { title: 'Recipes' } },
+  { path: '/recipes/:id', component: RecipesSingleView, name: 'recipes-single' },
+  { path: '/recipes/new', component: RecipesNewView, name: 'recipes-new', meta: { title: 'New Recipe' } },
 ];
 
 const router = createRouter({

@@ -33,7 +33,6 @@ function removeIngredient(ingredient) {
 
 <template>
   <main>
-    <h1>New Recipe</h1>
     <form>
       <input type="text" v-model="name" placeholder="Name" />
       <ul>

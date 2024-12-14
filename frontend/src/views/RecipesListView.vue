@@ -13,7 +13,6 @@ onMounted(() => {
 
 <template>
   <main>
-    <h1>Recipes</h1>
     <ul>
       <li v-for="recipe in recipes" :key="recipe.id">
         <RouterLink :to="`/recipes/${recipe.id}`">

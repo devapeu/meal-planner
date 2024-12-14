@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 export const useRecipesStore = defineStore('recipes', () => {
   const recipes = ref([])
+  const currentRecipe = ref({});
 
   function get() {
     fetch('http://localhost:8000/recipes')
@@ -13,7 +14,7 @@ export const useRecipesStore = defineStore('recipes', () => {
   function getSingle(id) {
     fetch(`http://localhost:8000/recipes/${id}`)
       .then(response => response.json())
-      .then(data => recipes.value = data.recipes)
+      .then(data => currentRecipe.value = data.recipe)
   }
 
   function add(recipe) {
@@ -33,5 +34,5 @@ export const useRecipesStore = defineStore('recipes', () => {
     .then(data => recipes.value = data.recipes)
   }
 
-  return { recipes, get, getSingle, add, remove }
+  return { recipes, currentRecipe, get, getSingle, add, remove }
 })

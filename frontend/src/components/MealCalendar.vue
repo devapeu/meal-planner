@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '../stores/useCalendar'
+import { getColorFromId } from '../components/getColorFromId'
 import NewMealRow from './NewMealRow.vue'
 
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
@@ -48,32 +49,46 @@ onMounted(() => {
         v-for="day in daysOfWeek" 
         :key="day"
         class="day-cell"
-        :class="{ 'today': day.toDateString() === new Date().toDateString() }">
-        {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
-        {{ day.getDate() }}
+        :class="{ 'day-cell--today': day.toDateString() === new Date().toDateString() }">
+        <span class="day-cell__day-text">
+          {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
+        </span>
+        <span class="day-cell__date-text">
+          {{ day.getDate() }}
+        </span>
       </div>
       <template v-for="day in daysOfWeek">
         <template v-for="{id, meal, start_date, duration} in calendarStore.calendar">
           <div 
             v-if="start_date === grabDate(day)"
             :key="`meal-${day}-${id}`"
-            class="cell"
-            :style="{ gridColumn: `${day.getDay()} / span ${duration}` }">
-            <button @click="calendarStore.remove(id)">&times;</button>
+            class="meal-cell"
+            :style="{ 
+              gridColumn: `${day.getDay()} / span ${duration}`,
+              background: getColorFromId(id)
+            }">
             {{ meal }}
+            <button 
+              class="meal-cell__remove-button"
+              @click="calendarStore.remove(id)">&times;</button>
           </div>
         </template>
       </template>
       <NewMealRow :daysOfWeek="daysOfWeek" />
     </div>
+    <!-- Responsive -->
     <div class="calendar-responsive">
       <div 
         v-for="day in daysOfWeek" 
         :key="day"
         class="day-cell"
-        :class="{ 'today': day.toDateString() === new Date().toDateString() }">
-        {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
-        {{ day.getDate() }}
+        :class="{ 'day-cell--today': day.toDateString() === new Date().toDateString() }">
+        <span class="day-cell__day-text">
+          {{ day.toLocaleDateString('en-US', { weekday: 'short' }) }}
+        </span>
+        <span class="day-cell__date-text">
+          {{ day.getDate() }}
+        </span>
       </div>
       <div 
         v-for="day in daysOfWeek" 
@@ -85,6 +100,7 @@ onMounted(() => {
           <div 
             v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
             class="meal-cell"
+            :style="{ background: getColorFromId(id) }"
             :key="`meal-${day}-${id}`">
             {{ meal }}
           </div>
@@ -95,45 +111,73 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(20px, auto);
-  border: 1px solid black;
-}
+<style lang="sass">
+.calendar 
+  display: grid
+  grid-template-columns: repeat(7, 1fr)
+  grid-auto-rows: minmax(32px, auto)
 
-.calendar-responsive {
-  display: grid;
-  grid-auto-rows: minmax(20px, auto);
-  grid-template-columns: 50px 1fr min-content;
-  border: 1px solid black;
-}
+.day-cell
+  display: flex
+  gap: 4px
+  flex-direction: column
+  justify-content: flex-start
+  align-items: center
+  padding: 10px
+  &__day-text
+    font-size: 14px
+    line-height: 1
+  &__date-text
+    font-size: 18px
+    line-height: 1
+    font-weight: 600
 
-.calendar-responsive .day-cell {
-  border: 1px solid black;
-  grid-column: 1 / span 1;
-}
+.meal-cell
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 4px
+  background: lightgray
+  border-radius: 5px
+  margin: 2px
+  padding: 4px 8px
+  user-select: none
+  mix-blend-mode: multiply
+  @media (pointer: fine)
+    &:hover
+      .meal-cell__remove-button
+        display: block
+  &__remove-button
+    cursor: pointer
+    display: none
+    height: 20px
+    width: 20px
+    border: none
+    border-radius: 5px
+    background: #FF9999
+    color: white
 
-.calendar-responsive .day-cell-2 {
-  border: 1px solid black;
-  grid-column: 2 / span 1;
-}
+.calendar-responsive 
+  display: none
+  grid-auto-rows: minmax(72px, auto)
+  grid-template-columns: 50px 1fr 50px
+  gap: 12px 0 
+  @media (max-width: 768px)
+    display: grid
 
-.calendar-responsive .new-row {
-  grid-column: 3 / span 1;
-  grid-row: 1 / span 7;
-  grid-template-rows: subgrid;
-}
+.calendar-responsive .day-cell 
+  padding-top: 4px
+  grid-column: 1 / span 1
 
-.calendar-responsive .meal-cell {
-  border: 1px solid black;
-  background: lightgray;
-  margin: 2px;
-}
+.calendar-responsive .day-cell-2 
+  grid-column: 2 / span 1
 
-.cell {
-  border: 1px solid black;
-  background: lightgray;
-}
+.calendar-responsive .new-row 
+  grid-column: 3 / span 1
+  grid-row: 1 / span 7
+  grid-template-rows: subgrid
+
+.cell 
+  border: 1px solid black
+  background: lightgray
 </style>

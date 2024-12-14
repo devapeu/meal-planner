@@ -37,7 +37,7 @@ onMounted(() => {
       v-for="{id, item} in shoppingList"
       :key="id">
       {{ item }} 
-      <button @click="shoppingListStore.remove(id)">Delete</button>
+      <button @click="shoppingListStore.remove(id)">&times;</button>
     </li>
     <li>
       <button 
