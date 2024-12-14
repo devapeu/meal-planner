@@ -1,12 +1,14 @@
 <script setup>
-import { onMounted, computed, watch } from 'vue'
+import { onMounted, computed, watch, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { useShoppingListStore } from '@/stores/useShoppingList'
+import { useCalendarStore } from '@/stores/useCalendar'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
 const shoppingListStore = useShoppingListStore()
+const calendarStore = useCalendarStore()
 
 const props = defineProps({
   id: Number
@@ -14,6 +16,8 @@ const props = defineProps({
 
 const recipe = computed(() => recipesStore.currentRecipe)
 const shoppingList = computed(() => shoppingListStore.shoppingList)
+const startDate = ref('')
+const endDate = ref('')
 
 function ingredientIsInShoppingList(ingredient) {
   return shoppingList.value.some(item => item.item === ingredient)
@@ -42,6 +46,11 @@ watch(() => props.id, () => {
       </li>
     </ul>
     <p>{{ recipe.instructions }}</p>
+    <h4>Add to calendar</h4>
+    <input type="date" v-model="startDate" />
+    <input type="date" v-model="endDate" />
+    <button 
+      @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
     <button 
       class="recipe-single__close"
       @click="slideoutStore.close">Close</button>

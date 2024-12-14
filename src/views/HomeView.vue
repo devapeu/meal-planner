@@ -1,24 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router'
-import { onMounted, computed } from 'vue'
 import ShoppingList from '@/components/shoppingList/ShoppingList.vue';
 import MealCalendar from '@/components/calendar/MealCalendar.vue'
-import { useRecipesStore } from '@/stores/useRecipes'
-import { useSlideoutStore } from '@/stores/useSlideout'
-import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
-
-const recipesStore = useRecipesStore()
-const slideoutStore = useSlideoutStore()
-
-const recipes = computed(() => recipesStore.recipes)
-
-function openRecipes(id) {
-  slideoutStore.open(RecipeSingle, { id })
-}
-
-onMounted(() => {
-  recipesStore.get()
-})
+import RecipesList from '@/components/recipes/RecipesList.vue'
 </script>
 
 <template>
@@ -30,26 +13,12 @@ onMounted(() => {
       <ShoppingList />
     </div>
     <div class="home-grid__recipes">
-      <div class="recipes-wrapper">
-        <h2>Recipes</h2>
-        <ul class="recipes-list">
-          <li 
-            v-for="recipe in recipes" 
-            :key="recipe.id"
-            class="recipes-list__item"
-            @click="openRecipes(recipe.id)">
-            {{ recipe.name }}
-          </li>
-        </ul>
-        <RouterLink to="recipes/">See recipes</RouterLink>
-      </div>
+      <RecipesList />
     </div>
   </main>
 </template>
 
 <style lang="sass" scoped>
-@use '@/assets/variables' as v
-
 .home-grid
   display: grid
   grid-template-columns: 1fr 1fr
@@ -63,21 +32,4 @@ onMounted(() => {
       grid-column: auto
   &__meal-calendar
     grid-column: 1 / span 2
-
-.recipes-wrapper
-  display: flex
-  flex-direction: column
-  gap: 12px
-  padding: 20px
-  border-radius: 8px
-  background: white
-  ul
-    margin: 0
-
-.recipes-list
-  &__item
-    cursor: pointer
-    @media (pointer: fine)
-      &:hover
-        color: v.$accent
 </style>
