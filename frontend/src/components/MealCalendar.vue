@@ -52,14 +52,12 @@ onMounted(() => {
         {{ day.getDate() }}
       </div>
       <template v-for="day in daysOfWeek">
-        <template v-for="{id, meal, start_date, end_date, duration} in calendarStore.calendar">
+        <template v-for="{id, meal, start_date, duration} in calendarStore.calendar">
           <div 
             v-if="start_date === grabDate(day)"
             :key="`meal-${day}-${id}`"
             class="cell"
-            :class="{ 'single-cell': start_date === end_date }"
-            :style="{ gridColumn: `${day.getDay()} / span ${duration}` }"
-            @click.stop="null">
+            :style="{ gridColumn: `${day.getDay()} / span ${duration}` }">
             <button @click="calendarStore.remove(id)">&times;</button>
             {{ meal }}
           </div>
