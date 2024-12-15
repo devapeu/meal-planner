@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
 
@@ -26,13 +26,14 @@ const props = defineProps({
 })
 
 const recipesStore = useRecipesStore();
-const recipe = ref(null);
 
 const id = ref(null)
 const name = ref('')
 const newIngredient = ref('')
 const ingredients = ref([])
 const instructions = ref('')
+
+const newIngredientInput = ref(null)
 
 function submitRecipe() {
   const contents = {
@@ -54,6 +55,7 @@ function submitRecipe() {
 function addIngredient() {
   ingredients.value.push(newIngredient.value);
   newIngredient.value = '';
+  newIngredientInput.value.focus();
 }
 
 function removeIngredient(ingredient) {
@@ -72,23 +74,65 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <form>
-      <input type="text" v-model="name" placeholder="Name" />
+  <form class="recipes-form">
+    <label for="name">
+      Name
+      <input 
+        class="recipes-form__input-name"
+        type="text" 
+        v-model="name" 
+        placeholder="Name" />
+    </label>
+    <label for="ingredients">
+      Ingredients
       <ul>
         <li v-for="ingredient in ingredients" :key="ingredient">
           {{ ingredient }}
-          <button @click="removeIngredient(ingredient)">Remove</button>
+          <button type="button" @click="removeIngredient(ingredient)">&times;</button>
         </li>
         <li>
-          <form @submit.prevent="addIngredient">
-            <input type="text" v-model="newIngredient" placeholder="Ingredients" />
-            <button type="submit">Add Ingredient</button>
-          </form>
+          <input 
+          ref="newIngredientInput" 
+          type="text" 
+          v-model="newIngredient" 
+          placeholder="Add new ingredient"
+          @keyup.enter="addIngredient" />
+          <button type="button" @click="addIngredient">+</button>
         </li>
       </ul>
-      <textarea type="text" v-model="instructions" placeholder="Instructions" /> 
-      <button type="submit" @click.prevent="submitRecipe">Create</button>
-    </form>
-  </main>
+    </label>
+    <label for="instructions">
+      Instructions
+      <textarea 
+        class="recipes-form__textarea"
+        type="text" 
+        v-model="instructions" 
+        placeholder="Instructions" /> 
+    </label>
+    <button type="button" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
+  </form>
 </template>
+
+<style lang="sass">
+@use '@/assets/variables' as v
+.recipes-form
+  display: flex
+  flex-direction: column
+  gap: 16px
+  label
+    display: flex
+    flex-direction: column
+    gap: 4px
+  input, textarea
+    border: 1px solid v.$background
+    &:focus-visible
+      outline: 1px solid v.$accent
+  ul
+    margin: 0
+  &__input-name
+    font-size: 20px
+  &__textarea
+    font-size: 16px
+    height: 150px
+    width: 100%
+</style>

@@ -36,9 +36,11 @@ watch(() => props.id, () => {
 
 <template>
   <div class="recipe-single">
+    <button 
+      class="recipe-single__edit"
+      @click="isEditing = !isEditing">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
     <template v-if="!isEditing">
       <h3>{{ recipe.name }}</h3>
-      <button @click="isEditing = true">Edit</button>
       <h4>Ingredients</h4>
       <ul>
         <li v-for="ingredient in recipe.ingredients" :key="ingredient">
@@ -85,4 +87,8 @@ watch(() => props.id, () => {
     bottom: 64px
     left: 50%
     transform: translateX(-50%)
+  &__edit
+    position: absolute
+    top: 24px
+    right: 24px
 </style>

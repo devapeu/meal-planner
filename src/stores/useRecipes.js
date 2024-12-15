@@ -49,6 +49,7 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function update(id, recipe) {
+    console.log(recipe)
     const formattedRecipe = {
       ...recipe,
       ingredients: recipe.ingredients.join(',')

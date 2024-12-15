@@ -16,6 +16,7 @@ const slideoutStore = useSlideoutStore()
 </template>
 
 <style lang="sass">
+@use '@/assets/variables' as v
 .slide-out
   position: fixed
   top: 0
@@ -27,7 +28,7 @@ const slideoutStore = useSlideoutStore()
 
 .slide-out-inner
   position: absolute
-  background: #fff
+  background: v.$cream
   top: 0
   right: 0
   width: 480px
