@@ -27,6 +27,12 @@ function removeItemFromShoppingList($item_id) {
     getShoppingList();
 }
 
+function removeAllItemsFromShoppingList() {
+    $sql = "DELETE FROM shopping_list";
+    queryDatabase($sql);
+    getShoppingList();
+}
+
 // Move an item up in the list
 function moveItemUpInList($item_id) {
     // Get the current position of the item

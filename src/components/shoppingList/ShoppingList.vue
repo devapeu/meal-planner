@@ -34,7 +34,10 @@ onMounted(() => {
 </script>
 <template>
   <div class="shopping-list-wrapper">
-    <h2>Shopping List</h2>
+    <div class="shopping-list-header">
+      <h2>Shopping List</h2>
+      <button @click="shoppingListStore.clear">Clear list</button>
+    </div>
     <ul class="shopping-list">
       <template v-if="shoppingList.length > 0">
         <li 
@@ -85,6 +88,20 @@ onMounted(() => {
   border-radius: 8px
   h2
     margin: 0
+
+.shopping-list-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  button
+    color: v.$accent
+    background: none
+    border: none
+    padding: 4px 8px
+    border-radius: 4px
+    @media (pointer: fine)
+      &:hover
+        background: v.$cream
   
 .shopping-list
   display: flex
