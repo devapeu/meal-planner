@@ -160,6 +160,7 @@ onMounted(() => {
   padding: 8px
   gap: 4px
   background: v.$cream
+  border: 1px solid v.$wine
   border-radius: 8px
   @media (max-width: 768px)
     display: none
@@ -186,22 +187,26 @@ onMounted(() => {
   justify-content: space-between
   gap: 4px
   background: lightgray
+  border: 1px solid v.$wine
   border-radius: 5px
   padding: 4px 8px
   user-select: none
   @media (pointer: fine)
     &:hover
       .meal-cell__remove-button
-        display: block
+        display: flex
   &__remove-button
     cursor: pointer
     display: none
+    align-items: center
+    justify-content: center
     height: 20px
     width: 20px
     border: none
     border-radius: 5px
     background: #FF9999
     color: white
+    border: 1px solid v.$wine
 
 .no-meals-cell
   text-align: center
@@ -246,6 +251,20 @@ onMounted(() => {
   justify-content: space-between
   align-items: center
   gap: 8px
+  &__buttons
+    display: flex
+    gap: 4px
+  button
+    width: 32px
+    background: v.$background
+    cursor: pointer
+    &:hover
+      background: v.$cream-200
+  input
+    background: v.$cream
+  button, input
+    border: 1px solid v.$wine
+    height: 32px
 
 .cell 
   border: 1px solid black
