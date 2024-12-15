@@ -63,9 +63,6 @@ function removeIngredient(ingredient) {
 }
 
 onMounted(() => {
-  if (props.id) {
-    recipesStore.getSingle(props.id);
-  }
   id.value = props.id || null
   name.value = props.name || ''
   ingredients.value = props.ingredients || []

@@ -40,31 +40,40 @@ watch(() => props.id, () => {
       class="recipe-single__edit"
       @click="isEditing = !isEditing">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
     <template v-if="!isEditing">
-      <h3>{{ recipe.name }}</h3>
-      <h4>Ingredients</h4>
-      <ul>
-        <li v-for="ingredient in recipe.ingredients" :key="ingredient">
-          {{ ingredient }}
-          <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
-          <button 
-            v-else
-            @click="shoppingListStore.add(ingredient)">🛒
-          </button>
-        </li>
-      </ul>
-      <h4>Instructions</h4>
-      <p>{{ recipe.instructions }}</p>
-      <h4>Add to calendar</h4>
-      <label for="startDate">
-        <span>From</span>
-        <input type="date" id="startDate" v-model="startDate" />
-      </label>
-      <label for="endDate">
-        <span>To</span>
-        <input type="date" id="endDate" v-model="endDate" />
-      </label>
-      <button 
-        @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
+      <h3 class="recipe-single__name">{{ recipe.name }}</h3>
+      <div class="recipe-single__section">
+        <h4>Ingredients</h4>
+        <ul>
+          <li v-for="ingredient in recipe.ingredients" :key="ingredient">
+            {{ ingredient }}
+            <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
+            <button 
+              v-else
+              @click="shoppingListStore.add(ingredient)">🛒
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="recipe-single__section">
+        <h4>Instructions</h4>
+        <div>{{ recipe.instructions }}</div>
+      </div>
+      <div class="recipe-single__section">
+        <h4>Add to calendar</h4>
+        <label 
+          class="recipe-single__input"
+          for="startDate">
+          <span>From</span>
+          <input type="date" id="startDate" v-model="startDate" />
+        </label>
+        <label 
+          class="recipe-single__input"
+          for="endDate">
+          <span>To</span>
+          <input type="date" id="endDate" v-model="endDate" />
+        </label>
+      <button @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
+      </div>
       <button 
         class="recipe-single__close"
         @click="slideoutStore.close">Close</button>
@@ -82,6 +91,20 @@ watch(() => props.id, () => {
 
 <style lang="sass">
 .recipe-single
+  display: flex
+  flex-direction: column
+  gap: 16px
+  &__name
+    font-size: 28px
+    font-weight: 500
+  &__section
+    display: flex
+    flex-direction: column
+    gap: 8px
+  &__input
+    span
+      display: block
+      margin-bottom: 4px
   &__close
     position: absolute
     bottom: 64px
