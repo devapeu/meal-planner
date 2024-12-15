@@ -132,8 +132,6 @@ watch(() => props.id, () => {
     right: 24px
   input
     border: 1px solid v.$background
-    &:focus-visible
-      outline: 1px solid v.$accent
   h4
     font-size: 18px
 </style>

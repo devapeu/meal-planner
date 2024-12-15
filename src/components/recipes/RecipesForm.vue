@@ -122,8 +122,6 @@ onMounted(() => {
     gap: 4px
   input, textarea
     border: 1px solid v.$background
-    &:focus-visible
-      outline: 1px solid v.$accent
   ul
     margin: 0
   &__input-name
