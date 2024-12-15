@@ -60,19 +60,21 @@ watch(() => props.id, () => {
       </div>
       <div class="recipe-single__section">
         <h4>Add to calendar</h4>
-        <label 
-          class="recipe-single__input"
-          for="startDate">
-          <span>From</span>
-          <input type="date" id="startDate" v-model="startDate" />
-        </label>
-        <label 
-          class="recipe-single__input"
-          for="endDate">
-          <span>To</span>
-          <input type="date" id="endDate" v-model="endDate" />
-        </label>
-      <button @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
+        <div class="recipe-single__calendar">
+          <label 
+            class="recipe-single__input"
+            for="startDate">
+            <span>From</span>
+            <input type="date" id="startDate" v-model="startDate" />
+          </label>
+          <label 
+            class="recipe-single__input"
+            for="endDate">
+            <span>To</span>
+            <input type="date" id="endDate" v-model="endDate" />
+          </label>
+          <button @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
+        </div>
       </div>
       <button 
         class="recipe-single__close"
@@ -90,17 +92,31 @@ watch(() => props.id, () => {
 </template>
 
 <style lang="sass">
+@use '@/assets/variables' as v
+
 .recipe-single
   display: flex
   flex-direction: column
   gap: 16px
   &__name
     font-size: 28px
-    font-weight: 500
   &__section
     display: flex
     flex-direction: column
     gap: 8px
+  &__calendar
+    display: flex
+    gap: 8px
+    align-items: flex-end
+    button
+      width: 100%
+      height: 32px
+      border: 1px solid v.$accent
+      color: v.$accent
+      background: v.$cream
+      cursor: pointer
+      &:hover
+        background: v.$cream-200
   &__input
     span
       display: block
@@ -114,4 +130,10 @@ watch(() => props.id, () => {
     position: absolute
     top: 24px
     right: 24px
+  input
+    border: 1px solid v.$background
+    &:focus-visible
+      outline: 1px solid v.$accent
+  h4
+    font-size: 18px
 </style>
