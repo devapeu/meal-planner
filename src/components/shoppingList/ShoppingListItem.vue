@@ -37,27 +37,38 @@ function toggleCheckbox() {
   gap: 8px
   font-family: 'Gochi Hand'
   font-size: 20px
+  @media (pointer: fine)
+    &:hover
+      color: v.$accent
+      .shopping-list-item__checkbox
+        border-color: v.$accent
   &--checked
     .shopping-list-item__item
       opacity: 0.5
       text-decoration: line-through
     .shopping-list-item__checkbox
+      border-color: v.$wine
       opacity: 0.5
-      background: v.$background
       &::after
-        content: '✓'
-        color: v.$accent
+        content: '✔'
+        font-size: 14px
+        height: 24px
+        width: 24px
+        display: flex
+        align-items: center
+        justify-content: center
   &__item
     cursor: pointer
-    @media (pointer: fine)
-      &:hover
-        color: v.$accent
+    color: inherit
   &__checkbox
     border-radius: 50%
     width: 24px
     height: 24px
     border: 1px solid v.$accent
     cursor: pointer
+    color: inherit
+    &::after
+      color: inherit
   &__item
     flex: 1
 </style>

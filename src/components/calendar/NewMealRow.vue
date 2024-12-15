@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { useRecipesStore } from '@/stores/useRecipes'
 
@@ -69,10 +69,6 @@ function reset() {
   endDate.value = ''
   showPopup.value = false
 }
-
-onMounted(() => {
-  recipesStore.get()
-})
 
 watch(showPopup, (newVal) => {
   if (!newVal) {
