@@ -24,7 +24,6 @@ const slideoutStore = useSlideoutStore()
   width: 100%
   height: 100%
   z-index: 1000
-  overflow: scroll
 
 .slide-out-inner
   position: absolute
@@ -35,7 +34,9 @@ const slideoutStore = useSlideoutStore()
   height: 100%
   z-index: 1000
   padding: 20px
+  padding-bottom: 72px
   box-shadow: -10px -10px 50px 10px transparentize(v.$wine, 0.9), 0 0 10px 0 transparentize(v.$wine, 0.5)
+  overflow: scroll
   @media (max-width: 768px)
     height: 75vh
     top: initial
