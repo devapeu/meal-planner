@@ -252,6 +252,13 @@ onMounted(() => {
   justify-content: space-between
   align-items: center
   gap: 8px
+  @media (max-width: 768px)
+    flex-direction: column
+    align-items: flex-start
+    .calendar-header__buttons
+      width: 100%
+      input
+        flex: 1
   &__buttons
     display: flex
     gap: 4px
