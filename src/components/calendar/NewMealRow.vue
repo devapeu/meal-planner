@@ -119,6 +119,8 @@ watch(showPopup, (newVal) => {
 </template>
 
 <style lang="sass" scoped>
+@use '@/assets/variables' as v
+
 .new-row 
   position: relative
   display: grid
@@ -133,8 +135,10 @@ watch(showPopup, (newVal) => {
   background: white
   font-weight: 600
   border-radius: 4px
+  border: 1px solid v.$background
   &:hover
-    background: #f3f4f6
+    color: v.$accent
+    border-color: v.$accent
 
 .popup 
   display: flex

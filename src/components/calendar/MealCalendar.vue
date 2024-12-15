@@ -221,6 +221,7 @@ onMounted(() => {
   padding: 8px
   background: v.$cream
   border-radius: 8px
+  border: 1px solid v.$wine
   @media (max-width: 768px)
     display: grid
 
@@ -231,20 +232,20 @@ onMounted(() => {
     grid-column: 2
     grid-row: 1 / span 7
 
-.calendar-responsive .day-cell 
-  padding-top: 4px
-  grid-column: 1 / span 1
+  .day-cell 
+    padding-top: 4px
+    grid-column: 1 / span 1
 
-.calendar-responsive .day-cell-2 
-  display: flex
-  flex-direction: column
-  gap: 4px
-  grid-column: 2 / span 1
+  .day-cell-2 
+    display: flex
+    flex-direction: column
+    gap: 4px
+    grid-column: 2 / span 1
 
-.calendar-responsive .new-row 
-  grid-column: 3 / span 1
-  grid-row: 1 / span 7
-  grid-template-rows: subgrid
+  .new-row 
+    grid-column: 3 / span 1
+    grid-row: 1 / span 7
+    grid-template-rows: subgrid
 
 .calendar-header
   display: flex

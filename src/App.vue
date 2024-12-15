@@ -27,13 +27,7 @@ const title = computed(() => {
 <template>
   <main>
     <header>
-      <RouterLink 
-        v-if="location"
-        :to="location" 
-        v-slot="{ navigate }">
-        <button @click="navigate">&larr;</button>
-      </RouterLink>
-      <h1>{{ title }}</h1>
+      <h1 style="display: none">{{ title }}</h1>
     </header>
     <RouterView />
     <SlideOut v-if="slideoutStore.isOpen" />
