@@ -35,7 +35,7 @@ const slideoutStore = useSlideoutStore()
   z-index: 1000
   padding: 20px
   padding-bottom: 72px
-  box-shadow: -10px -10px 50px 10px transparentize(v.$wine, 0.9), 0 0 10px 0 transparentize(v.$wine, 0.5)
+  box-shadow: -10px -10px 50px 10px rgba(0, 0, 0, 0.1), 0 0 10px 0 rgba(0, 0, 0, 0.5)
   overflow: scroll
   @media (max-width: 768px)
     height: 75vh
