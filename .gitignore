@@ -15,7 +15,7 @@ dist-ssr
 coverage
 *.local
 
-/api/config.php
+api/config.php
 
 /cypress/videos/
 /cypress/screenshots/
