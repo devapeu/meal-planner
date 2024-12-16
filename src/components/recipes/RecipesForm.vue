@@ -73,7 +73,7 @@ onMounted(() => {
 <template>
   <form class="recipes-form">
     <label for="name">
-      Name
+      <span>Name</span>
       <input 
         class="recipes-form__input-name"
         type="text" 
@@ -81,7 +81,7 @@ onMounted(() => {
         placeholder="Name" />
     </label>
     <label for="ingredients">
-      Ingredients
+      <span>Ingredients</span>
       <ul>
         <li v-for="ingredient in ingredients" :key="ingredient">
           {{ ingredient }}
@@ -99,7 +99,7 @@ onMounted(() => {
       </ul>
     </label>
     <label for="instructions">
-      Instructions
+      <span>Instructions</span>
       <textarea 
         class="recipes-form__textarea"
         type="text" 
@@ -120,6 +120,8 @@ onMounted(() => {
     display: flex
     flex-direction: column
     gap: 4px
+    span
+      font-weight: 600
   input, textarea
     border: 1px solid v.$background
   ul
