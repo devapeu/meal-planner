@@ -4,7 +4,7 @@ Weekly meal planner with a shopping list and recipes to add from made with Vue 3
 
 ## Backend
 
-Run SQL from `/api/database.sql`
+Rename `config.sample.php` with your database credentials and frontend URL. Run SQL from `/api/database.sql`
 
 ## Frontend
 
