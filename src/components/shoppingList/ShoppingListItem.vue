@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useShoppingListStore } from '@/stores/useShoppingList';
+import RemoveButton from '@/components/interface/RemoveButton.vue';
 
 const props = defineProps({
   id: Number,
@@ -24,9 +25,7 @@ function toggleCheckbox() {
       class="shopping-list-item__checkbox" 
       @click="toggleCheckbox"></span>
     <span class="shopping-list-item__item" @click="toggleCheckbox">{{ item }}</span>
-    <button 
-      class="shopping-list-item__remove-button"
-      @click="shoppingListStore.remove(id)">&times;</button>
+    <RemoveButton @click="shoppingListStore.remove(id)" />
   </div>
 </template>
 
@@ -73,18 +72,4 @@ function toggleCheckbox() {
       color: inherit
   &__item
     flex: 1
-  &__remove-button
-    cursor: pointer
-    color: v.$accent
-    background: none
-    height: 24px
-    width: 24px
-    border: none
-    font-size: 20px
-    display: flex
-    align-items: center
-    justify-content: center
-    @media (pointer: fine)
-      &:hover
-        background: v.$cream
 </style>

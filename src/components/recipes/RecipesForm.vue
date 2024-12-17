@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
+import RemoveButton from '@/components/interface/RemoveButton.vue'
 
 const emit = defineEmits(['close'])
 const slideoutStore = useSlideoutStore()
@@ -85,7 +86,7 @@ onMounted(() => {
       <ul>
         <li v-for="ingredient in ingredients" :key="ingredient">
           {{ ingredient }}
-          <button type="button" @click="removeIngredient(ingredient)">&times;</button>
+          <RemoveButton @click="removeIngredient(ingredient)" />
         </li>
         <li>
           <input 
