@@ -9,9 +9,19 @@ const recipesStore = useRecipesStore()
 const recipes = computed(() => recipesStore.recipes)
 const search = ref('')
 const slideoutStore = useSlideoutStore()
+const sortBy = ref('name')
+
+const sortedRecipes = computed(() => {
+  return recipes.value.sort((a, b) => {
+    if (sortBy.value === 'name') {
+      return a.name.localeCompare(b.name)
+    }
+    return a.id - b.id
+  })
+})
 
 const filteredRecipes = computed(() => {
-  return recipes.value.filter(recipe => recipe.name.toLowerCase().includes(search.value.toLowerCase()))
+  return sortedRecipes.value.filter(recipe => recipe.name.toLowerCase().includes(search.value.toLowerCase()))
 })
 
 function openRecipes(id) {
@@ -31,7 +41,13 @@ onMounted(() => {
   <div class="recipes-wrapper">
     <div class="recipes-header">
       <h2>Recipes</h2>
-      <input type="text" v-model="search" placeholder="Search" />
+      <div class="recipes-header__actions">
+        <select v-model="sortBy">
+          <option value="name">Sort by Name</option>
+          <option value="created_at">Sort by Date Added</option>
+        </select>
+        <input type="text" v-model="search" placeholder="Search" />
+      </div>
     </div>
     <ul class="recipes-list">
       <li 
@@ -63,6 +79,15 @@ onMounted(() => {
   display: flex
   justify-content: space-between
   align-items: center
+  flex-wrap: wrap
+  gap: 12px
+  &__actions
+    display: flex
+    gap: 12px
+    @media (max-width: 768px)
+      width: 100%
+  select
+    border: 1px solid v.$background
   input
     width: 100%
     max-width: 200px
