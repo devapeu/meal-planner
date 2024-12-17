@@ -3,6 +3,7 @@ import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { getColorFromId } from './getColorFromId'
 import NewMealRow from './NewMealRow.vue'
+import RemoveButton from '@/components/interface/RemoveButton.vue'
 
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
@@ -112,32 +113,26 @@ onMounted(() => {
           {{ day.getDate() }}
         </span>
       </div>
-      <template v-if="calendarStore.calendar.length > 0">
-        <div
-          v-for="day in daysOfWeek"
-          :key="day"
-          class="day-cell-2"
-          :style="{ gridRowStart: `${day.getDay()}` }">
-          <template v-if="calendarStore.calendar.length > 0">
-            <template
-              v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
-              <div
-                v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
-                class="meal-cell"
-                :style="{ background: getColorFromId(id) }"
-                :key="`meal-${day}-${id}`">
-                {{ meal }}
-              </div>
-            </template>
+      <div
+        v-for="day in daysOfWeek"
+        :key="day"
+        class="day-cell-2"
+        :style="{ gridRowStart: `${day.getDay()}` }">
+        <template v-if="calendarStore.calendar.length > 0">
+          <template
+            v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
+            <div
+              v-if="grabDate(day) >= start_date && grabDate(day) <= end_date"
+              class="meal-cell"
+              :style="{ background: getColorFromId(id) }"
+              :key="`meal-${day}-${id}`">
+              {{ meal }}
+              <RemoveButton @click="calendarStore.remove(id, start_date)" />
+            </div>
           </template>
-        </div>
-      </template>
-      <template v-else>
-        <div class="no-meals-cell">
-          No meals for this week.
-        </div>
-      </template>
-      <NewMealRow :daysOfWeek="daysOfWeek" />
+        </template>
+        <button class="add-button">&plus;</button>
+      </div>
     </div>
   </div>
 </template>
@@ -216,7 +211,7 @@ onMounted(() => {
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
-  grid-template-columns: 64px 1fr 48px
+  grid-template-columns: 64px 1fr
   gap: 12px 4px
   padding: 8px
   background: v.$cream
@@ -242,10 +237,13 @@ onMounted(() => {
     gap: 4px
     grid-column: 2 / span 1
 
-  .new-row 
-    grid-column: 3 / span 1
-    grid-row: 1 / span 7
-    grid-template-rows: subgrid
+  .add-button
+    background: transparent
+    height: 32px
+    border: 1px solid v.$background
+    &:hover
+      color: v.$accent
+      border-color: v.$accent
 
 .calendar-header
   display: flex

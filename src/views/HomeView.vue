@@ -30,6 +30,8 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
     grid-template-columns: 1fr
     .home-grid__meal-calendar
       grid-column: auto
+    .home-grid__shopping-list
+      order: -1
   &__meal-calendar
     grid-column: 1 / span 2
 </style>
