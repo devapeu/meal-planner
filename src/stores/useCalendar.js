@@ -21,8 +21,8 @@ export const useCalendarStore = defineStore('calendar', () => {
     .then(data => calendar.value = data.calendar)
   }
 
-  function remove(id) {
-    fetch(`${VITE_API_URL}/calendar/${id}`, {
+  function remove(id, startDate) {
+    fetch(`${VITE_API_URL}/calendar/${id}?startDate=${startDate}`, {
       method: 'DELETE'
     })
     .then(response => response.json())

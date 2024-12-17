@@ -16,8 +16,9 @@ header('Content-Type: application/json');
 
 if (preg_match('/^\/calendar\/(\d+)$/', $uri, $matches)) {
     $item_id = (int)$matches[1];
+    $startDate = $_GET['startDate'];
     if ($request_method == 'DELETE') {
-        deleteMeal($item_id);
+        deleteMeal($item_id, $startDate);
     }
 }
 

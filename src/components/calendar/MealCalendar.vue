@@ -86,7 +86,7 @@ onMounted(() => {
               {{ meal }}
               <button 
                 class="meal-cell__remove-button"
-                @click="calendarStore.remove(id)">&times;</button>
+                @click="calendarStore.remove(id, start_date)">&times;</button>
             </div>
           </template>
         </template>
