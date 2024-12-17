@@ -28,6 +28,12 @@ function addItem() {
   })
 }
 
+function clearList() {
+  if (confirm('Are you sure you want to clear the list?')) {
+    shoppingListStore.clear();
+  }
+}
+
 onMounted(() => {
   shoppingListStore.get();
 })
@@ -36,7 +42,7 @@ onMounted(() => {
   <div class="shopping-list-wrapper">
     <div class="shopping-list-header">
       <h2>Shopping List</h2>
-      <button @click="shoppingListStore.clear">Clear list</button>
+      <button @click="clearList">Clear list</button>
     </div>
     <ul class="shopping-list">
       <template v-if="shoppingList.length > 0">
