@@ -37,8 +37,15 @@ button
   border: 1px solid v.$accent
   background: v.$cream
   color: v.$accent
+  padding-left: 12px
+  padding-right: 12px
+  min-width: 32px
   height: 32px
   font-size: 16px
+  transition: 100ms linear all
+  @media (pointer: fine)
+    &:hover
+      background: v.$cream-200
 
 input
   padding: 4px 8px
