@@ -81,7 +81,7 @@ onMounted(() => {
               :key="`meal-${day}-${id}`"
               class="meal-cell"
               :style="{ 
-                gridColumn: `${day.getDay()} / span ${duration}`,
+                gridColumn: `${day.getDay() || 7} / span ${duration}`,
                 background: getColorFromId(id)
               }">
               {{ meal }}
@@ -117,7 +117,7 @@ onMounted(() => {
         v-for="day in daysOfWeek"
         :key="day"
         class="day-cell-2"
-        :style="{ gridRowStart: `${day.getDay()}` }">
+        :style="{ gridRowStart: `${day.getDay() || 7}` }">
         <template v-if="calendarStore.calendar.length > 0">
           <template
             v-for="{id, meal, start_date, end_date} in calendarStore.calendar">
