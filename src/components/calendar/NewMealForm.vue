@@ -67,8 +67,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="new-meal">
+  <div class="new-meal-form">
     <select v-model="meal">
+      <option value="" disabled selected>Select your option</option>
       <option 
         v-for="recipe in recipesStore.recipes" 
         :key="recipe.id" 
@@ -80,14 +81,14 @@ onMounted(() => {
       type="text" 
       v-model="customMeal" 
       placeholder="What will you have?" />
-    <div class="new-meal__input">
+    <div class="new-meal-form__input">
       <input type="date" v-model="startDate" placeholder="Start Date" />
       <input type="date" v-model="endDate" :min="startDate" placeholder="End Date" />
     </div>
     <div 
       v-if="showDuration"
-      class="new-meal__duration">{{ durationText }}</div>
-    <div class="new-meal__buttons">
+      class="new-meal-form__duration">{{ durationText }}</div>
+    <div class="new-meal-form__buttons">
       <button @click="$emit('close')">Cancel</button>
       <button @click="addMeal">Add</button>
     </div>
@@ -95,21 +96,40 @@ onMounted(() => {
 </template>
 
 <style lang="sass" scoped>
+@use '@/assets/variables' as v
+
 .new-meal-form 
   display: flex
   flex-direction: column
   gap: 8px
+  &__input
+    display: flex
+    gap: 4px
   &__input, &__buttons
     display: flex
     gap: 8px
   &__buttons
     justify-content: flex-end
+    button
+      font-size: 16px
+      height: 32px
+      padding: 2px 16px
+      border: none
+    button:first-child
+      background: white
+    button:last-child
+      background-color: v.$background
   &__duration
-    font-size: 12px
+    font-size: 14px
     font-style: italic
-    color: #6b7280
+    color: v.$burgundy
   input
+    display: block
+  select, input
     width: 100%
+    height: 36px
+    padding: 0 12px
+    border: 1px solid v.$accent
   @media (max-width: 768px)
     top: 0
     left: 0

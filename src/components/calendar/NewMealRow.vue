@@ -71,12 +71,11 @@ function onMouseUp(day, event) {
     border-color: v.$accent
 
 .popup 
-  padding: 8px
+  padding: 12px
   position: fixed
   top: 0
   left: 0
-  width: 300px
-  background-color: white
+  background-color: v.$cream
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5)
   @media (max-width: 768px)
     top: 0
