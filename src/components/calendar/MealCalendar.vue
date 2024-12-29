@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
+import { useSlideoutStore } from '@/stores/useSlideout'
 import { getColorFromId } from './getColorFromId'
+import NewMealForm from './NewMealForm.vue'
 import NewMealRow from './NewMealRow.vue'
 import RemoveButton from '@/components/interface/RemoveButton.vue'
 
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
 const calendarStore = useCalendarStore();
+const slideoutStore = useSlideoutStore();
 
 const weekStart = computed(() => {
   const date = new Date(selectedDate.value);
@@ -36,6 +39,14 @@ function getAdjacentWeek(direction) {
   const date = new Date(selectedDate.value);
   date.setDate(date.getDate() + direction * 7);
   selectedDate.value = date.toISOString().split('T')[0];
+}
+
+function responsiveAddMeal(day) {
+  day.setHours(0, 0, 0, 0);
+  slideoutStore.open(NewMealForm, { 
+    startDate: day.toISOString().split('T')[0], 
+    endDate: day.toISOString().split('T')[0],
+  })
 }
 
 watch(selectedDate, () => {
@@ -131,7 +142,9 @@ onMounted(() => {
             </div>
           </template>
         </template>
-        <button class="add-button">&plus;</button>
+        <button 
+          class="add-button"
+          @click="responsiveAddMeal(day)">&plus;</button>
       </div>
     </div>
   </div>

@@ -20,8 +20,7 @@ function onMouseDown(day) {
   startDate.value = day.toISOString().split('T')[0]
 }
 
-function onMouseUp(day, event) {
-  console.log(event)
+function onMouseUp(day) {
   isAdding.value = false
   day.setHours(0, 0, 0, 0);
   endDate.value = day.toISOString().split('T')[0]

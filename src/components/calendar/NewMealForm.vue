@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { useRecipesStore } from '@/stores/useRecipes'
 
+const emit = defineEmits(['close'])
 const props = defineProps({
   startDate: {
     type: String,
@@ -47,15 +48,7 @@ const chosenMeal = computed(() => {
 
 function addMeal() {
   calendarStore.add(chosenMeal.value, startDate.value, endDate.value)
-  reset()
-}
-
-function reset() {
-  meal.value = ''
-  customMeal.value = ''
-  startDate.value = ''
-  endDate.value = ''
-  showPopup.value = false
+  emit('close');
 }
 
 onMounted(() => {
@@ -89,7 +82,7 @@ onMounted(() => {
       v-if="showDuration"
       class="new-meal-form__duration">{{ durationText }}</div>
     <div class="new-meal-form__buttons">
-      <button @click="$emit('close')">Cancel</button>
+      <button @click="emit('close')">Cancel</button>
       <button @click="addMeal">Add</button>
     </div>
   </div>

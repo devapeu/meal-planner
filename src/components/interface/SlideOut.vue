@@ -10,7 +10,8 @@ const slideoutStore = useSlideoutStore()
     <div class="slide-out-inner" @click.stop>
       <component 
         :is="slideoutStore.component" 
-        v-bind="slideoutStore.props" />
+        v-bind="slideoutStore.props"
+        @close="slideoutStore.close"/>
     </div>
   </div>
 </template>
