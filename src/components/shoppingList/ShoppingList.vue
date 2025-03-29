@@ -66,7 +66,9 @@ onMounted(() => {
           <span class="add-button__icon">+</span>
           Add new
         </button>
-        <form v-else>
+        <form 
+          v-else
+          class="add-shopping-list-item">
           <input 
             v-model="newItem"
             ref="input"
@@ -76,6 +78,9 @@ onMounted(() => {
             @click="addItem">
             Save
           </button>
+          <button @click="isAddingAction = false">
+            &times;
+          </button>
         </form>
       </li>
     </ul>
@@ -84,6 +89,29 @@ onMounted(() => {
 
 <style lang="sass" scoped>
 @use '@/assets/variables' as v
+
+.add-shopping-list-item
+  display: flex
+  input
+    border-top-right-radius: 0
+    border-bottom-right-radius: 0
+    border-right: none
+  button
+    border-top-left-radius: 0
+    border-bottom-left-radius: 0
+  button:not([type="submit"])
+    text-align: center
+    border: none
+    background: none
+    width: 32px
+    height: 32px
+    padding: 0
+    color: v.$accent
+    border-radius: 4px
+    cursor: pointer
+    @media (pointer: fine)
+      &:hover
+        background: v.$cream
 
 .shopping-list-wrapper
   background: #fff
@@ -103,7 +131,7 @@ onMounted(() => {
     color: v.$accent
     background: none
     border: none
-    padding: 4px 8px
+    padding: 4px 12px
     border-radius: 4px
     @media (pointer: fine)
       &:hover
