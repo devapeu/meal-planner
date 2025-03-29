@@ -209,7 +209,9 @@ onMounted(() => {
     align-items: center
     justify-content: center
     height: 20px
-    width: 20px
+    min-width: unset!important
+    padding: 0!important
+    width: 20px!important
     border: none
     border-radius: 5px
     background: #FF9999
