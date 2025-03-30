@@ -155,6 +155,8 @@ onMounted(() => {
   padding: 0
   cursor: pointer
   height: 32px
+  &:focus-visible, &:focus
+    color: v.$accent
   @media (pointer: fine)
     &:hover
       color: v.$accent
