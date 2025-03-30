@@ -10,7 +10,8 @@ body
   font-family: 'Poppins', sans-serif
   background-color: v.$background
   color: v.$wine
-  overflow: hidden
+  @media (min-width: 1280px)
+    overflow: hidden
 
 *:focus-visible
   outline: 1px solid v.$accent
