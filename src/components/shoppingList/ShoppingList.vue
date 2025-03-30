@@ -109,6 +109,7 @@ onMounted(() => {
     color: v.$accent
     border-radius: 4px
     cursor: pointer
+    order: -1
     @media (pointer: fine)
       &:hover
         background: v.$cream
@@ -153,7 +154,6 @@ onMounted(() => {
   background: none
   padding: 0
   cursor: pointer
-  font-size: 16px
   height: 32px
   @media (pointer: fine)
     &:hover
@@ -162,9 +162,9 @@ onMounted(() => {
     background: v.$accent
     color: #fff
     line-height: 1
-    font-size: 24px
-    height: 24px
-    width: 24px
+    font-size: 16px
+    height: 20px
+    width: 20px
     display: flex
     align-items: center
     justify-content: center
