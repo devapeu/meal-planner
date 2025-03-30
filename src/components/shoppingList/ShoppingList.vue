@@ -93,6 +93,7 @@ onMounted(() => {
 .add-shopping-list-item
   display: flex
   input
+    max-width: 192px
     border-top-right-radius: 0
     border-bottom-right-radius: 0
     border-right: none
