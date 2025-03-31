@@ -160,6 +160,7 @@ onMounted(() => {
   background: #fff
   padding: 16px
   border-radius: 8px
+  border: 1px solid v.$background-200
 
 .calendar 
   display: grid

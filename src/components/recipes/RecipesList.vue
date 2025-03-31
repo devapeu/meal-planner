@@ -72,6 +72,7 @@ onMounted(() => {
   padding: 20px
   border-radius: 8px
   background: white
+  border: 1px solid v.$background-200
   ul
     margin: 0
 

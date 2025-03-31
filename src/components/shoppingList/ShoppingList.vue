@@ -117,6 +117,7 @@ onMounted(() => {
 
 .shopping-list-wrapper
   background: #fff
+  border: 1px solid v.$background-200
   display: flex
   flex-direction: column
   gap: 16px
