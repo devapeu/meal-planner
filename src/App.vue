@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import SlideOut from '@/components/interface/SlideOut.vue'
+import { NDrawer } from 'naive-ui'
 
 const route = useRoute()
 const recipesStore = useRecipesStore()
@@ -30,7 +30,18 @@ const title = computed(() => {
       <h1 style="display: none">{{ title }}</h1>
     </header>
     <RouterView />
-    <SlideOut v-if="slideoutStore.isOpen" />
+    <n-drawer
+      v-model:show="slideoutStore.isOpen"
+      placement="right"
+      :width="'480px'"
+      class="slideout"
+      :mask-closable="true">
+      <component
+        v-if="slideoutStore.component"
+        :is="slideoutStore.component"
+        v-bind="slideoutStore.props"
+        @close="slideoutStore.close" />
+    </n-drawer>
   </main>
 </template>
 
@@ -41,4 +52,6 @@ header
   gap: 8px
   h1
     margin: 0
+.slideout
+  padding: 36px
 </style>
