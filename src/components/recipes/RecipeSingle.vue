@@ -55,7 +55,7 @@ watch(() => props.id, () => {
       </div>
       <div class="recipe-single__section">
         <h4>Instructions</h4>
-        <div class="reicpe-single__instructions">{{ recipe.instructions }}</div>
+        <div class="recipe-single__instructions">{{ recipe.instructions }}</div>
       </div>
       <div class="recipe-single__section">
         <h4>Add to calendar</h4>
