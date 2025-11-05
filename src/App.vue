@@ -33,7 +33,7 @@ const title = computed(() => {
     <n-drawer
       v-model:show="slideoutStore.isOpen"
       placement="right"
-      width="480px"
+      width="clamp(auto, 100%, 480px)"
       class="slideout"
       :mask-closable="true">
       <n-drawer-content>
