@@ -218,6 +218,9 @@ onMounted(() => {
     background: #FF9999
     color: white
     border: 1px solid v.$wine
+    @media (pointer: fine)
+      &:hover
+        background: v.$background-300
 
 .no-meals-cell
   text-align: center
