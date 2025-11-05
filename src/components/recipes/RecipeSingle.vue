@@ -55,7 +55,7 @@ watch(() => props.id, () => {
       </div>
       <div class="recipe-single__section">
         <h4>Instructions</h4>
-        <div>{{ recipe.instructions }}</div>
+        <div class="reicpe-single__instructions">{{ recipe.instructions }}</div>
       </div>
       <div class="recipe-single__section">
         <h4>Add to calendar</h4>
@@ -103,6 +103,8 @@ watch(() => props.id, () => {
     display: flex
     flex-direction: column
     gap: 8px
+  &__instructions
+    max-width: 480px
   &__calendar
     display: flex
     gap: 8px
