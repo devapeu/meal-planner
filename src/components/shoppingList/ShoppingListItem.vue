@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useShoppingListStore } from '@/stores/useShoppingList';
 import RemoveButton from '@/components/interface/RemoveButton.vue';
+import { EditPencil, Xmark } from '@iconoir/vue';
 
 const props = defineProps({
   id: Number,
@@ -42,8 +43,16 @@ function updateItem(id, item) {
         @click="toggleCheckbox"></span>
       <span class="shopping-list-item__item" @click="toggleCheckbox">{{ item }}</span>
     </template>
-    <button @click="isEditing = true">Edit</button>
-    <RemoveButton @click="shoppingListStore.remove(id)" />
+    <button 
+      class="action-item-button action-item-button--edit" 
+      @click="isEditing = true">
+      <EditPencil width="20"/>
+    </button>
+    <button 
+      class="action-item-button action-item-button--delete" 
+      @click="shoppingListStore.remove(id)">
+      <Xmark width="20"/>
+    </button>
   </div>
 </template>
 
@@ -90,4 +99,25 @@ function updateItem(id, item) {
       color: inherit
   &__item
     flex: 1
+
+.action-item-button
+  cursor: pointer
+  color: v.$accent
+  background: none
+  padding: 0
+  border: none
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  transition: all 100ms ease-in-out
+  border: 1px solid transparent
+  @media (pointer: fine)
+    &:hover
+      background: v.$cream
+      border: 1px solid v.$accent
+  &--delete
+    @media (pointer:fine)
+      &:hover
+        background: v.$background-300
+        color: v.$cream
 </style>
