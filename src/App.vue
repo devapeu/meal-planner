@@ -68,6 +68,7 @@ header
   h1
     margin: 0
 .slideout
+  max-width: 480px
   background: $cream
   &__header
     font-size: 24px

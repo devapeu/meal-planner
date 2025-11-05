@@ -75,9 +75,6 @@ watch(() => props.id, () => {
           <button @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
         </div>
       </div>
-      <button 
-        class="recipe-single__close"
-        @click="slideoutStore.close">Close</button>
     </template>
     <template v-else>
       <RecipesForm 
