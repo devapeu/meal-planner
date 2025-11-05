@@ -9,10 +9,20 @@ const props = defineProps({
 })
 
 const isChecked = ref(false);
+
+const itemValue = ref(props.item);
+const isEditing = ref(false);
+
 const shoppingListStore = useShoppingListStore();
 
 function toggleCheckbox() {
   isChecked.value = !isChecked.value;
+}
+
+function updateItem(id, item) {
+  console.log(id, item);
+  shoppingListStore.update(id, item);
+  isEditing.value = false;
 }
 
 </script>
@@ -21,10 +31,18 @@ function toggleCheckbox() {
   <div 
     class="shopping-list-item"
     :class="{ 'shopping-list-item--checked': isChecked }">
-    <span 
-      class="shopping-list-item__checkbox" 
-      @click="toggleCheckbox"></span>
-    <span class="shopping-list-item__item" @click="toggleCheckbox">{{ item }}</span>
+    <form
+      v-if="isEditing"
+      @submit.prevent="updateItem(id, itemValue)">
+      <input v-model="itemValue" type="text"/>
+    </form>
+    <template v-else>
+      <span 
+        class="shopping-list-item__checkbox" 
+        @click="toggleCheckbox"></span>
+      <span class="shopping-list-item__item" @click="toggleCheckbox">{{ item }}</span>
+    </template>
+    <button @click="isEditing = true">Edit</button>
     <RemoveButton @click="shoppingListStore.remove(id)" />
   </div>
 </template>
