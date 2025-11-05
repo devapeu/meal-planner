@@ -114,6 +114,7 @@ onMounted(() => {
 <style lang="sass">
 @use '@/assets/variables' as v
 .recipes-form
+  margin: 4px
   display: flex
   flex-direction: column
   gap: 16px

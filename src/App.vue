@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { NDrawer } from 'naive-ui'
+import { NDrawer, NDrawerContent } from 'naive-ui'
 
 const route = useRoute()
 const recipesStore = useRecipesStore()
@@ -33,14 +33,21 @@ const title = computed(() => {
     <n-drawer
       v-model:show="slideoutStore.isOpen"
       placement="right"
-      :width="'480px'"
+      width="480px"
       class="slideout"
       :mask-closable="true">
-      <component
-        v-if="slideoutStore.component"
-        :is="slideoutStore.component"
-        v-bind="slideoutStore.props"
-        @close="slideoutStore.close" />
+      <n-drawer-content>
+        <template #header>
+          <div class="slideout__header">
+            {{ slideoutStore.header }}
+          </div>
+        </template>
+        <component
+          v-if="slideoutStore.component"
+          :is="slideoutStore.component"
+          v-bind="slideoutStore.props"
+          @close="slideoutStore.close" />
+      </n-drawer-content>
     </n-drawer>
   </main>
 </template>
@@ -53,5 +60,6 @@ header
   h1
     margin: 0
 .slideout
-  padding: 36px
+  &__header
+    font-size: 24px
 </style>
