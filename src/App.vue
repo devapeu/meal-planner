@@ -53,6 +53,10 @@ const title = computed(() => {
 </template>
 
 <style lang="sass">
+#app
+  padding: 0.5rem
+  @media (min-width: 768px)
+    padding: 1rem
 header
   display: flex
   align-items: center

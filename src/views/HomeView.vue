@@ -27,6 +27,7 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
   margin: 0 auto
   @media (max-width: 768px)
     display: grid
+    gap: 0.5rem
     grid-template-columns: 1fr
     .home-grid__meal-calendar
       grid-column: auto
