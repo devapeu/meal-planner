@@ -37,22 +37,24 @@ function updateItem(id, item) {
       @submit.prevent="updateItem(id, itemValue)">
       <input v-model="itemValue" type="text"/>
     </form>
-    <template v-else>
+    <div v-else class="row">
       <span 
         class="shopping-list-item__checkbox" 
         @click="toggleCheckbox"></span>
       <span class="shopping-list-item__item" @click="toggleCheckbox">{{ item }}</span>
-    </template>
-    <button 
-      class="action-item-button action-item-button--edit" 
-      @click="isEditing = true">
-      <EditPencil width="20"/>
-    </button>
-    <button 
-      class="action-item-button action-item-button--delete" 
-      @click="shoppingListStore.remove(id)">
-      <Xmark width="20"/>
-    </button>
+    </div>
+    <div class="row">
+      <button 
+        class="action-item-button action-item-button--edit" 
+        @click="isEditing = true">
+        <EditPencil width="18"/>
+      </button>
+      <button 
+        class="action-item-button action-item-button--delete" 
+        @click="shoppingListStore.remove(id)">
+        <Xmark width="18"/>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -62,6 +64,7 @@ function updateItem(id, item) {
 .shopping-list-item
   display: flex
   align-items: center
+  justify-content: space-between
   gap: 8px
   font-family: 'Gochi Hand'
   font-size: 20px
@@ -88,6 +91,10 @@ function updateItem(id, item) {
   &__item
     cursor: pointer
     color: inherit
+  .row
+    display: flex
+    align-items: center
+    gap: 8px
   &__checkbox
     border-radius: 50%
     width: 24px
