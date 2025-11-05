@@ -106,6 +106,7 @@ watch(() => props.id, () => {
     display: flex
     gap: 8px
     align-items: flex-end
+    flex-wrap: wrap
     button
       width: 100%
       height: 32px
