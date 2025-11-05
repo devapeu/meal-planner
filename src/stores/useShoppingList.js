@@ -34,7 +34,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function update(id, ingredient) {
     fetch(`${VITE_API_URL}/shopping-list`, {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify({ id, item: ingredient })
     })
     .then(response => response.json())
