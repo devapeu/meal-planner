@@ -40,7 +40,6 @@ watch(() => props.id, () => {
       class="recipe-single__edit"
       @click="isEditing = !isEditing">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
     <template v-if="!isEditing">
-      <h3 class="recipe-single__name">{{ recipe.name }}</h3>
       <div class="recipe-single__section">
         <h4>Ingredients</h4>
         <ul>
