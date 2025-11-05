@@ -126,6 +126,7 @@ onMounted(() => {
       font-weight: 600
   input, textarea
     border: 1px solid v.$background
+    background: white
   ul
     margin: 0
   &__input-name

@@ -56,6 +56,7 @@ const title = computed(() => {
 </template>
 
 <style lang="sass">
+@use '@/assets/variables' as *
 #app
   padding: 0.5rem
   @media (min-width: 768px)
@@ -67,6 +68,7 @@ header
   h1
     margin: 0
 .slideout
+  background: $cream
   &__header
     font-size: 24px
 </style>
