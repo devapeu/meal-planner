@@ -12,16 +12,11 @@ export const useSlideoutStore = defineStore('slideout', () => {
   const isOpen = ref(false)
   const header = ref("");
 
-  function open(component, propsArr, slideoutHeader) {
+  function open(c, p, h = null) {
     isOpen.value = true
-    const componentName = component.__name;
-    if (slideoutHeader) {
-      header.value = slideoutHeader
-    } else {
-      header.value = HEADER_LIST[componentName];
-    }
-    component.value = markRaw(component)
-    props.value = propsArr
+    header.value = h ?? HEADER_LIST[c.__name];
+    component.value = markRaw(c)
+    props.value = p
   }
 
   function close() {
