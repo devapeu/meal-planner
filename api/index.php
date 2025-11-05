@@ -39,6 +39,9 @@ elseif ($uri == '/shopping-list') {
     } elseif ($request_method == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         addItemToShoppingList($data['item']);
+    } elseif($request_method = 'PUT') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        updateItemInShoppingList($data['id'], $data['item']);
     } elseif ($request_method == 'DELETE') {
         removeAllItemsFromShoppingList();
     }

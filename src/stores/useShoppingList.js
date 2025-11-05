@@ -32,6 +32,16 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
     .catch(error => console.error('Error:', error));
   }
 
+  function update(id, ingredient) {
+    fetch(`${VITE_API_URL}/shopping-list`, {
+      method: 'POST',
+      body: JSON.stringify({ id, item: ingredient })
+    })
+    .then(response => response.json())
+    .then(data => shoppingList.value = data.shopping_list)
+    .catch(error => console.error('Error: ', error));
+  }
+
   function clear() {
     fetch(`${VITE_API_URL}/shopping-list`, {
       method: 'DELETE'
@@ -41,5 +51,5 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
     .catch(error => console.error('Error:', error));
   }
 
-  return { shoppingList, get, add, remove, clear }
+  return { shoppingList, get, add, remove, update, clear }
 })

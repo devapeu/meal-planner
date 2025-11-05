@@ -20,6 +20,12 @@ function addItemToShoppingList($item) {
     getShoppingList();
 }
 
+function updateItemInShoppingList($id, $item) {
+    $sql = "UPDATE shopping_list SET item = :item WHERE id = :id";
+    queryDatabase($sql, ['item' => $item, 'id' => $id]);
+    getShoppingList();
+}
+
 // Remove an item from the shopping list
 function removeItemFromShoppingList($item_id) {
     $sql = "DELETE FROM shopping_list WHERE id = :id";
