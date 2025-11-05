@@ -47,6 +47,9 @@ const title = computed(() => {
           :is="slideoutStore.component"
           v-bind="slideoutStore.props"
           @close="slideoutStore.close" />
+        <template #footer>
+          <button @click="slideoutStore.close">Close</button>
+        </template>
       </n-drawer-content>
     </n-drawer>
   </main>
