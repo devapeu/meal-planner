@@ -58,7 +58,11 @@ onMounted(() => {
 
       <div class="detail-body">
           <template v-if="selectedId">
-            <RecipeSingle :id="selectedId" :showTitle="true" />
+            <RecipeSingle 
+              :id="selectedId" 
+              :showTitle="true" 
+              class="detail-recipe"
+              :class="{ expanded: expand }"/>
           </template>
           <template v-else>
             <div class="detail-empty">Select a recipe to view details</div>
@@ -171,18 +175,26 @@ onMounted(() => {
   display: flex
   flex-direction: column
 
-  .detail-header
-    display: flex
-    justify-content: space-between
-    align-items: center
-    margin-bottom: 16px
+.detail-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 16px
 
-    .detail-title
-      font-size: 22px
-      font-weight: 700
+.detail-title
+  font-size: 22px
+  font-weight: 700
 
-  .detail-body
-    flex: 1
+.detail-body
+  flex: 1
+  
+.detail-recipe
+  &.expanded
+    display: grid
+    grid-template-columns: 1fr 2fr
+    font-size: 20px
+    max-width: 1280px
+    margin: 0 auto
 
 .toggle-expand-button
   min-width: unset
