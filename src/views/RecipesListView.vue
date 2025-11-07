@@ -1,10 +1,13 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
+import { useSlideoutStore } from '@/stores/useSlideout'
 import { Expand, Collapse, Minus } from '@iconoir/vue'
 import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
+const slideoutStore = useSlideoutStore()
+
 
 const expand = ref(false)
 const recipes = computed(() => recipesStore.recipes)
@@ -12,6 +15,14 @@ const selectedId = ref(null);
 
 function toggleExpand() {
   expand.value = !expand.value
+}
+
+function handleSelectRecipe(id, name) {
+  if (window.innerWidth < 768) {
+    slideoutStore.open(RecipeSingle, { id }, name);
+  } else {
+    selectedId.value = id
+  }
 }
 
 onMounted(() => {
@@ -33,7 +44,7 @@ onMounted(() => {
             :key="recipe.id" 
             class="recipe-item"
             :class="{ 'recipe-item--active': selectedId === recipe.id }"
-            @click="selectedId = recipe.id">
+            @click="handleSelectRecipe(recipe.id, recipe.name)">
             <div class="recipe-thumb">{{ recipe.name.charAt(0) }}</div>
             <div class="recipe-meta">
               <div class="recipe-name">{{ recipe.name }}</div>
@@ -81,6 +92,9 @@ onMounted(() => {
   overflow: hidden
   transition: grid-template-columns 0.2s ease
 
+  @media (max-width: 768px)
+    grid-template-columns: auto
+
   &.expanded
     grid-template-columns: 0 1fr
     .recipes-panel
@@ -92,7 +106,7 @@ onMounted(() => {
   border-right: 1px solid $background-200
   display: flex
   flex-direction: column
-  max-height: 100vh
+  overflow: scroll
   transition: width 100ms linear
 
   &__top
@@ -174,6 +188,9 @@ onMounted(() => {
   background: white
   display: flex
   flex-direction: column
+
+  @media (max-width: 768px)
+    display: none
 
 .detail-header
   display: flex
