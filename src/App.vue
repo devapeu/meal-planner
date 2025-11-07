@@ -17,20 +17,26 @@ const slideoutStore = useSlideoutStore()
     
     <ul class="navigation__menu">
       <li>
-        <n-tooltip placement="right" trigger="hover">
+        <n-tooltip placement="right" trigger="hover" display-directive="show">
           <template #trigger>
             <router-link to="/" :class="{ active: route.path === '/' }">
               <Calendar width="24" height="24"/>
+              <div class="navigation__menu__label">
+                Meal Planner
+              </div>
             </router-link>
           </template>
           Meal Planner
         </n-tooltip>
       </li>
       <li>
-        <n-tooltip placement="right" trigger="hover">
+        <n-tooltip placement="right" trigger="hover" display-directive="show">
           <template #trigger>
             <router-link to="/recipes" :class="{ active: route.path.includes('/recipes') }">
               <Bbq width="24" height="24"/>
+              <div class="navigation__menu__label">
+                Recipes
+              </div>
             </router-link>
           </template>
           Recipes
@@ -66,10 +72,11 @@ const slideoutStore = useSlideoutStore()
 <style lang="sass">
 @use '@/assets/variables' as *
 #app
-  min-height: 100svh
+  height: 100svh
+  display: grid
   @media (min-width: 768px)
-    display: grid
     grid-template-columns: auto 1fr
+    
 
 .navigation
   background: $background
@@ -97,6 +104,9 @@ const slideoutStore = useSlideoutStore()
     flex-direction: column
     gap: 8px
     flex: 1
+    &__label
+      display: none
+      font-weight: 500
 
     a
       height: 54px
@@ -105,17 +115,36 @@ const slideoutStore = useSlideoutStore()
       display: flex
       align-items: center
       justify-content: center
-      color: inherit
+      color: $wine
       transition: all 0.2s ease
+      text-decoration: none
       
       @media (pointer: fine)
-        &:hover,&.active
-          background-color: $background-200
+        &:hover
           color: $accent
 
       &.active
-        background-color: $background-300
-        color: white
+        background-color: $background-200
+
+  @media (max-width: 768px)
+    order: 2
+    padding: 8px
+    &__brand
+      display: none
+    &__menu
+      flex-direction: row
+      li
+        flex: 1
+      a
+        height: auto
+        width: auto
+        padding: 8px 4px
+        flex-direction: column
+        svg
+          width: 28px!important
+          height: 28px!important
+      &__label
+        display: inline
 
 .router-view
   overflow-y: scroll
@@ -132,4 +161,8 @@ header
   background: $cream
   &__header
     font-size: 24px
+
+@media (pointer: coarse)
+  .n-popover
+    display: none
 </style>

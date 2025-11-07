@@ -74,7 +74,6 @@ onMounted(() => {
 .recipes-page
   display: grid
   grid-template-columns: 360px 1fr
-  height: 100vh
   overflow: hidden
   transition: grid-template-columns 0.2s ease
 
