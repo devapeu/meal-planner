@@ -12,27 +12,24 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
     <div class="home-grid__shopping-list">
       <ShoppingList />
     </div>
-    <div class="home-grid__recipes">
-      <RecipesList />
-    </div>
   </main>
 </template>
 
 <style lang="sass" scoped>
 .home-grid
   display: grid
-  grid-template-columns: 1fr 1fr
+  grid-template-columns: 2fr 1fr
   gap: 1rem
-  max-width: 1140px
+  max-width: 1280px
   margin: 0 auto
+  padding: 1rem
   @media (max-width: 768px)
     display: grid
     gap: 0.5rem
+    padding: 0.5rem
     grid-template-columns: 1fr
     .home-grid__meal-calendar
       grid-column: auto
     .home-grid__shopping-list
       order: -1
-  &__meal-calendar
-    grid-column: 1 / span 2
 </style>
