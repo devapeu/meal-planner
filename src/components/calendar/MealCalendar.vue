@@ -200,6 +200,7 @@ onMounted(() => {
   border-radius: 5px
   padding: 4px 8px
   user-select: none
+  white-space: nowrap
   @media (pointer: fine)
     &:hover
       .meal-cell__remove-button
