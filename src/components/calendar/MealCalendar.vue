@@ -181,6 +181,8 @@ onMounted(() => {
   justify-content: flex-start
   align-items: center
   padding: 10px
+  border: 1px solid transparent
+  border-radius: 5px
   &__day-text
     line-height: 1
     @media (max-width: 768px)
@@ -189,6 +191,9 @@ onMounted(() => {
     font-size: 24px
     line-height: 1
     font-weight: 600
+  &--today
+    background: #ffebeb
+    border-color: v.$accent
 
 .meal-cell
   display: flex
