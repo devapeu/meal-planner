@@ -1,19 +1,18 @@
 <script setup>
 import { onMounted, computed, watch, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
-import { useSlideoutStore } from '@/stores/useSlideout'
 import { useShoppingListStore } from '@/stores/useShoppingList'
 import { useCalendarStore } from '@/stores/useCalendar'
 import RecipesForm from './RecipesForm.vue'
 import { Cart, Check } from '@iconoir/vue'
 
 const recipesStore = useRecipesStore()
-const slideoutStore = useSlideoutStore()
 const shoppingListStore = useShoppingListStore()
 const calendarStore = useCalendarStore()
 
 const props = defineProps({
-  id: Number
+  id: Number,
+  showTitle: Boolean,
 })
 
 const recipe = computed(() => recipesStore.currentRecipe)
@@ -42,6 +41,11 @@ watch(() => props.id, () => {
       @click="isEditing = !isEditing">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
     <template v-if="!isEditing">
       <div class="recipe-single__section">
+        <h3 
+          v-if="showTitle"
+          class="recipe-single__name">
+          {{ recipe.name }}
+        </h3>
         <h4>Ingredients</h4>
         <ul>
           <li v-for="ingredient in recipe.ingredients" :key="ingredient">

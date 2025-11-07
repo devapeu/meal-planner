@@ -1,9 +1,8 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { NButton, NIcon } from 'naive-ui'
-import { Maximize, Minus, Plus } from '@iconoir/vue'
+import { Expand, Collapse, Minus } from '@iconoir/vue'
 import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
@@ -49,19 +48,17 @@ onMounted(() => {
     <section class="detail-panel" :class="{ full: expand }">
       <div class="detail-header">
         <div class="detail-actions">
-          <n-button circle @click="toggleExpand">
-            <template #icon>
-              <NIcon>
-                <component :is="expand ? Minus : Maximize" />
-              </NIcon>
-            </template>
-          </n-button>
+          <button 
+            class="toggle-expand-button"
+            @click="toggleExpand">
+            <component :is="expand ? Collapse : Expand" />
+          </button>
         </div>
       </div>
 
       <div class="detail-body">
           <template v-if="selectedId">
-            <RecipeSingle :id="selectedId" />
+            <RecipeSingle :id="selectedId" :showTitle="true" />
           </template>
           <template v-else>
             <div class="detail-empty">Select a recipe to view details</div>
@@ -83,6 +80,9 @@ onMounted(() => {
 
   &.expanded
     grid-template-columns: 0 1fr
+    .recipes-panel
+      width: 0
+      overflow: hidden
 
 .recipes-panel
   background: $cream
@@ -90,6 +90,7 @@ onMounted(() => {
   display: flex
   flex-direction: column
   max-height: 100vh
+  transition: width 100ms linear
 
   &__top
     padding: 16px
@@ -170,11 +171,6 @@ onMounted(() => {
   display: flex
   flex-direction: column
 
-  &.full
-    max-width: 1024px
-    margin-left: auto
-    margin-right: auto
-
   .detail-header
     display: flex
     justify-content: space-between
@@ -187,5 +183,15 @@ onMounted(() => {
 
   .detail-body
     flex: 1
+
+.toggle-expand-button
+  min-width: unset
+  width: 42px
+  height: 42px
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 99px
+  padding: 0
 
 </style>
