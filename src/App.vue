@@ -149,6 +149,7 @@ const slideoutStore = useSlideoutStore()
 .router-view
   overflow-y: scroll
   max-height: 100vh
+  width: 100%
 
 header
   display: flex
