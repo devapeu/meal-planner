@@ -5,24 +5,39 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
 </script>
 
 <template>
-  <main class="home-grid">
-    <div class="home-grid__meal-calendar">
-      <MealCalendar />
-    </div>
-    <div class="home-grid__shopping-list">
-      <ShoppingList />
-    </div>
-  </main>
+  <div class="home">
+    <header class="home-header">
+      <h1>Meal Planner</h1>
+      <p>What will I cook today?</p>
+    </header>
+    <main class="home-grid">
+      <div class="home-grid__meal-calendar">
+        <MealCalendar />
+      </div>
+      <div class="home-grid__shopping-list">
+        <ShoppingList />
+      </div>
+    </main>
+  </div>
 </template>
 
 <style lang="sass" scoped>
+.home
+  max-width: 1280px
+  margin: 0 auto
+  padding: 1rem
+  @media (max-width: 768px)
+    padding: 0.5rem
+
+.home-header
+  display: grid
+  gap: 4px
+  h1, p
+    margin: 0
 .home-grid
   display: grid
   grid-template-columns: 2fr 1fr
   gap: 1rem
-  max-width: 1280px
-  margin: 0 auto
-  padding: 1rem
   @media (max-width: 768px)
     display: grid
     gap: 0.5rem
