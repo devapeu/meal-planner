@@ -74,7 +74,9 @@ const slideoutStore = useSlideoutStore()
 #app
   height: 100svh
   display: grid
+  grid-template-rows: 1fr auto
   @media (min-width: 768px)
+    grid-template-rows: auto
     grid-template-columns: auto 1fr
     
 
