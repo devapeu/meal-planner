@@ -52,6 +52,7 @@ function handleRightButton() {
     :class="{ 'shopping-list-item--checked': isChecked }">
     <form
       v-if="isEditing"
+      class="shopping-list-item__edit"
       @submit.prevent="updateItem(id, itemValue)">
       <input v-model="itemValue" type="text"/>
     </form>
@@ -108,6 +109,10 @@ function handleRightButton() {
         display: flex
         align-items: center
         justify-content: center
+  &__edit
+    width: 100%
+    input
+      width: 100%
   &__item
     cursor: pointer
     color: inherit
