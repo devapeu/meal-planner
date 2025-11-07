@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
-import { NButton, NIcon } from 'naive-ui'
 import { Expand, Collapse, Minus } from '@iconoir/vue'
 import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
@@ -135,6 +134,7 @@ onMounted(() => {
         color: inherit
         align-items: center
         transition: background 0.12s ease, transform 0.12s ease
+        cursor: pointer
 
         &:hover
           background: $background-200
