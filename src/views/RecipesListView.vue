@@ -48,6 +48,7 @@ onMounted(() => {
       <div class="detail-header">
         <div class="detail-actions">
           <button 
+            v-if="selectedId"
             class="toggle-expand-button"
             @click="toggleExpand">
             <component :is="expand ? Collapse : Expand" />
