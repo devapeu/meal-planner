@@ -5,6 +5,7 @@ import { useSlideoutStore } from '@/stores/useSlideout'
 import { useShoppingListStore } from '@/stores/useShoppingList'
 import { useCalendarStore } from '@/stores/useCalendar'
 import RecipesForm from './RecipesForm.vue'
+import { Cart, Check } from '@iconoir/vue'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
@@ -44,12 +45,20 @@ watch(() => props.id, () => {
         <h4>Ingredients</h4>
         <ul>
           <li v-for="ingredient in recipe.ingredients" :key="ingredient">
-            {{ ingredient }}
-            <span v-if="ingredientIsInShoppingList(ingredient)">🛒</span>
-            <button 
-              v-else
-              @click="shoppingListStore.add(ingredient)">🛒
-            </button>
+            <div class="recipe-single__ingredient-wrapper">
+              {{ ingredient }}
+              <span 
+                class="shopping-list-marker"
+                v-if="ingredientIsInShoppingList(ingredient)">
+                <Check width="14" /><Cart width="14" />
+              </span>
+              <button 
+                v-else
+                class="add-to-list-button"
+                @click="shoppingListStore.add(ingredient)">
+                <Cart width="14" />
+              </button>
+            </div>
           </li>
         </ul>
       </div>
@@ -102,6 +111,11 @@ watch(() => props.id, () => {
     gap: 8px
   &__instructions
     max-width: 480px
+  &__ingredient-wrapper
+    display: flex
+    gap: 4px
+    align-items: center
+    margin: 4px 0
   &__calendar
     display: flex
     gap: 8px
@@ -133,4 +147,20 @@ watch(() => props.id, () => {
     border: 1px solid v.$background
   h4
     font-size: 18px
+
+.shopping-list-marker
+  margin-left: auto
+  display: inline-flex
+  align-items: center
+  gap: 4px
+
+.add-to-list-button
+  min-width: unset
+  width: 28px
+  height: 28px
+  padding: 4px
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  box-sizing: border-box
 </style>
