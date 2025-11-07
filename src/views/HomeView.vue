@@ -26,8 +26,6 @@ import RecipesList from '@/components/recipes/RecipesList.vue'
   max-width: 1280px
   margin: 0 auto
   padding: 1rem
-  @media (max-width: 768px)
-    padding: 0.5rem
 
 .home-header
   display: grid
