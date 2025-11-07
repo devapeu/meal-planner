@@ -111,6 +111,7 @@ function handleRightButton() {
   &__item
     cursor: pointer
     color: inherit
+    line-height: 1
   .row
     display: flex
     align-items: center
