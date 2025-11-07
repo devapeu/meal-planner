@@ -143,7 +143,7 @@ onMounted(() => {
 .shopping-list
   display: flex
   flex-direction: column
-  gap: 16px
+  gap: 12px
   list-style: none
   margin: 0
   padding: 0
