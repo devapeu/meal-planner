@@ -53,19 +53,19 @@ watch(shoppingList, (newList) => {
 }, { immediate: true })
 </script>
 <template>
-  <div class="shopping-list-wrapper">
-    <div class="shopping-list-header">
+  <section class="shopping-list-wrapper">
+    <header class="shopping-list-header">
       <h2>Shopping List</h2>
       <button @click="clearList">Clear list</button>
-    </div>
-    <ul class="shopping-list">
+    </header>
+    <div class="shopping-list">
       <template v-if="draggableList.length > 0">
         <draggable 
           v-model="draggableList"
           :animation="200"
           item-key="id"
           @end="handleDragEnd"
-          tag="div"
+          tag="ul"
           class="draggable-container">
           <template #item="{element}">
             <li class="draggable-item">
@@ -77,9 +77,9 @@ watch(shoppingList, (newList) => {
         </draggable>
       </template>
       <template v-else>
-        <li>No items on your list.</li>
+        No items on your list.
       </template>
-      <li>
+      <div>
         <button 
           v-if="!isAddingAction"
           ref="addButton"
@@ -104,9 +104,9 @@ watch(shoppingList, (newList) => {
             &times;
           </button>
         </form>
-      </li>
-    </ul>
-  </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style lang="sass" scoped>
@@ -174,6 +174,8 @@ watch(shoppingList, (newList) => {
     display: flex
     flex-direction: column
     gap: 12px
+    list-style: none
+    padding: 0
 
   .draggable-item
     cursor: grab
