@@ -4,7 +4,7 @@ require_once 'db.php';
 
 // Get the shopping list
 function getShoppingList() {
-    $sql = "SELECT * FROM shopping_list ORDER BY id ASC";
+    $sql = "SELECT * FROM shopping_list ORDER BY position ASC";
     $stmt = queryDatabase($sql);
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['shopping_list' => array_map(fn($item) => [
@@ -15,8 +15,13 @@ function getShoppingList() {
 
 // Add an item to the shopping list
 function addItemToShoppingList($item) {
-    $sql = "INSERT INTO shopping_list (item) VALUES (:item)";
-    queryDatabase($sql, ['item' => $item]);
+    // Get max position
+    $sql = "SELECT COALESCE(MAX(position), 0) + 1 as next_pos FROM shopping_list";
+    $stmt = queryDatabase($sql);
+    $nextPos = $stmt->fetch(PDO::FETCH_ASSOC)['next_pos'];
+    
+    $sql = "INSERT INTO shopping_list (item, position) VALUES (:item, :position)";
+    queryDatabase($sql, ['item' => $item, 'position' => $nextPos]);
     getShoppingList();
 }
 
@@ -39,20 +44,30 @@ function removeAllItemsFromShoppingList() {
     getShoppingList();
 }
 
-// Move an item up in the list
-function moveItemUpInList($item_id) {
-    // Get the current position of the item
-    $sql = "SELECT id FROM shopping_list WHERE id = :id";
-    $stmt = queryDatabase($sql, ['id' => $item_id]);
-    $item = $stmt->fetch(PDO::FETCH_ASSOC);
+function reorderShoppingList($items) {
+    try {
+        $pdo = getPDO();        
+        $pdo->beginTransaction();
 
-    if ($item) {
-        // Swap with the previous item if not already at the top
-        $sql = "UPDATE shopping_list
-                SET id = (SELECT id FROM shopping_list WHERE id = :prev_id)
-                WHERE id = :id";
-        queryDatabase($sql, ['id' => $item_id, 'prev_id' => $item_id - 1]);
+        foreach ($items as $index => $item) {
+            $sql = "UPDATE shopping_list SET position = :position WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'position' => $index + 1,
+                'id' => $item['id']
+            ]);
+        }
+
+        $pdo->commit();
+        getShoppingList();
+    } catch (Exception $e) {
+        if ($pdo && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to reorder items: ' . $e->getMessage()]);
+        exit;
     }
-    getShoppingList();
 }
+
 ?>
