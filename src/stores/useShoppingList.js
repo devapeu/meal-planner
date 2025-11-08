@@ -51,5 +51,15 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
     .catch(error => console.error('Error:', error));
   }
 
-  return { shoppingList, get, add, remove, update, clear }
+  function reorder(newOrder) {
+    fetch(`${VITE_API_URL}/shopping-list/reorder`, {
+      method: 'PUT',
+      body: JSON.stringify({ items: newOrder })
+    })
+    .then(response => response.json())
+    .then(data => shoppingList.value = data.shopping_list)
+    .catch(error => console.error('Error:', error));
+  }
+
+  return { shoppingList, get, add, remove, update, clear, reorder }
 })
