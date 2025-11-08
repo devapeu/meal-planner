@@ -45,29 +45,43 @@ function removeAllItemsFromShoppingList() {
 }
 
 function reorderShoppingList($items) {
-    try {
-        $pdo = getPDO();        
-        $pdo->beginTransaction();
-
-        foreach ($items as $index => $item) {
-            $sql = "UPDATE shopping_list SET position = :position WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                'position' => $index + 1,
-                'id' => $item['id']
-            ]);
-        }
-
-        $pdo->commit();
-        getShoppingList();
-    } catch (Exception $e) {
-        if ($pdo && $pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        http_response_code(500);
-        echo json_encode(['error' => 'Failed to reorder items: ' . $e->getMessage()]);
+    if (!is_array($items)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid payload']);
         exit;
     }
+
+    $ids = [];
+    $caseParts = [];
+    $params = [];
+
+    foreach ($items as $index => $it) {
+        $id = (int)($it['id'] ?? 0);
+        if ($id <= 0) continue;
+        $ids[] = $id;
+        $caseParts[] = "WHEN id = ? THEN ?";
+        $params[] = $id;
+        $params[] = $index + 1;
+    }
+
+    if (empty($ids)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'No valid item ids provided']);
+        exit;
+    }
+
+    $caseSql = implode(' ', $caseParts);
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $params = array_merge($params, $ids);
+
+    $sql = "UPDATE shopping_list
+            SET position = CASE $caseSql END
+            WHERE id IN ($placeholders)";
+
+    queryDatabase($sql, $params);
+
+    getShoppingList();
 }
 
 ?>
