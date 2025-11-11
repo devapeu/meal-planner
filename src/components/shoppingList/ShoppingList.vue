@@ -1,10 +1,12 @@
 <script setup>
-import { ref, nextTick, onMounted, computed } from "vue";
+import { ref, nextTick, onMounted, computed, watch } from "vue";
 import { useShoppingListStore } from '@/stores/useShoppingList';
 import ShoppingListItem from './ShoppingListItem.vue';
+import Draggable from 'vuedraggable';
 
 const shoppingListStore = useShoppingListStore();
 const shoppingList = computed(() => shoppingListStore.shoppingList);
+const draggableList = ref([]);
 
 const input = ref(null);
 const addButton = ref(null);
@@ -34,30 +36,50 @@ function clearList() {
   }
 }
 
+function handleDragEnd() {
+  const newOrder = draggableList.value.map(item => ({
+    id: item.id,
+    item: item.item
+  }));
+  shoppingListStore.reorder(newOrder);
+}
+
 onMounted(() => {
   shoppingListStore.get();
 })
+
+watch(shoppingList, (newList) => {
+  draggableList.value = Array.isArray(newList) ? newList.map(i => ({ ...i })) : [];
+}, { immediate: true })
 </script>
 <template>
-  <div class="shopping-list-wrapper">
-    <div class="shopping-list-header">
+  <section class="shopping-list-wrapper">
+    <header class="shopping-list-header">
       <h2>Shopping List</h2>
       <button @click="clearList">Clear list</button>
-    </div>
-    <ul class="shopping-list">
-      <template v-if="shoppingList.length > 0">
-        <li 
-          v-for="{id, item} in shoppingList"
-          :key="id">
-          <ShoppingListItem 
-          :id="id"
-            :item="item" />
-        </li>
+    </header>
+    <div class="shopping-list">
+      <template v-if="draggableList.length > 0">
+        <draggable 
+          v-model="draggableList"
+          :animation="200"
+          item-key="id"
+          @end="handleDragEnd"
+          tag="ul"
+          class="draggable-container">
+          <template #item="{element}">
+            <li class="draggable-item">
+              <ShoppingListItem 
+                :id="element.id"
+                :item="element.item" />
+            </li>
+          </template>
+        </draggable>
       </template>
       <template v-else>
-        <li>No items on your list.</li>
+        No items on your list.
       </template>
-      <li>
+      <div>
         <button 
           v-if="!isAddingAction"
           ref="addButton"
@@ -75,16 +97,16 @@ onMounted(() => {
             type="text"/>
           <button 
             type="submit" 
-            @click="addItem">
+            @click.prevent="addItem">
             Save
           </button>
-          <button @click="isAddingAction = false">
+          <button type="button" @click="isAddingAction = false">
             &times;
           </button>
         </form>
-      </li>
-    </ul>
-  </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style lang="sass" scoped>
@@ -147,6 +169,22 @@ onMounted(() => {
   list-style: none
   margin: 0
   padding: 0
+
+  .draggable-container
+    display: flex
+    flex-direction: column
+    gap: 12px
+    list-style: none
+    padding: 0
+
+  .draggable-item
+    cursor: grab
+    transition: background-color 0.2s ease
+    border-radius: 8px
+    
+    &:active
+      cursor: grabbing
+      background: v.$background 
 
 .add-button
   display: flex

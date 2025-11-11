@@ -48,12 +48,17 @@ elseif ($uri == '/shopping-list') {
 }
 
 // Remove or reorder items in the shopping list
+elseif ($uri == '/shopping-list/reorder') {
+    if ($request_method == 'PUT') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        reorderShoppingList($data['items']);
+    }
+}
+
 elseif (preg_match('/^\/shopping-list\/(\d+)$/', $uri, $matches)) {
     $item_id = (int)$matches[1];
     if ($request_method == 'DELETE') {
         removeItemFromShoppingList($item_id);
-    } elseif ($request_method == 'PUT') {
-        moveItemUpInList($item_id);
     }
 }
 
