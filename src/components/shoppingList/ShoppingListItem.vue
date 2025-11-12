@@ -20,7 +20,6 @@ function toggleCheckbox() {
 }
 
 function updateItem(id, item) {
-  console.log(id, item);
   shoppingListStore.update(id, item);
   isEditing.value = false;
 }
@@ -29,7 +28,6 @@ function handleLeftButton() {
   if (isEditing.value === true) {
     updateItem(props.id, itemValue.value)
   } else {
-    console.log("should enable edit")
     isEditing.value = true;
   }
 }
@@ -39,7 +37,6 @@ function handleRightButton() {
     isEditing.value = false;
     itemValue.value = props.item;
   } else {
-    console.log("should deelte")
     shoppingListStore.remove(props.id);
   }
 }
