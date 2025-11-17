@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { NDrawer, NTooltip } from 'naive-ui'
-import { Bbq, Calendar, OrganicFood } from '@iconoir/vue'
+import { Bbq, Calendar, IconoirProvider, OrganicFood } from '@iconoir/vue'
 
 const route = useRoute()
 const slideoutStore = useSlideoutStore()  
@@ -11,7 +11,9 @@ const slideoutStore = useSlideoutStore()
 <template>
   <nav class="navigation">
     <div class="navigation__brand">
-      <OrganicFood width="32" height="32" />
+      <IconoirProvider>
+        <OrganicFood width="32" height="32" />
+      </IconoirProvider>
       <h1>Meal Planner</h1>
     </div>
     
@@ -20,7 +22,9 @@ const slideoutStore = useSlideoutStore()
         <n-tooltip placement="right" trigger="hover" display-directive="show">
           <template #trigger>
             <router-link to="/" :class="{ active: route.path === '/' }">
-              <Calendar width="24" height="24"/>
+              <IconoirProvider>
+                <Calendar width="24" height="24"/>
+              </IconoirProvider>
               <div class="navigation__menu__label">
                 Meal Planner
               </div>
@@ -33,7 +37,9 @@ const slideoutStore = useSlideoutStore()
         <n-tooltip placement="right" trigger="hover" display-directive="show">
           <template #trigger>
             <router-link to="/recipes" :class="{ active: route.path.includes('/recipes') }">
-              <Bbq width="24" height="24"/>
+              <IconoirProvider>
+                <Bbq width="24" height="24"/>
+              </IconoirProvider>
               <div class="navigation__menu__label">
                 Recipes
               </div>
