@@ -43,6 +43,7 @@ function submitRecipe() {
     });
   } else {  
     recipesStore.add(data)
+    slideoutStore.close();
   }
 }
 
