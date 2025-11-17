@@ -11,7 +11,8 @@ import RecipesForm from './RecipesForm.vue'
 //// Props
 
 const props = defineProps({
-  id: Number
+  id: Number,
+  showTitle: Boolean,
 })
 
 //// Pinia
@@ -19,11 +20,6 @@ const props = defineProps({
 const recipesStore = useRecipesStore()
 const shoppingListStore = useShoppingListStore()
 const calendarStore = useCalendarStore()
-
-const props = defineProps({
-  id: Number,
-  showTitle: Boolean,
-})
 
 const recipe = computed(() => recipesStore.currentRecipe)
 const shoppingList = computed(() => shoppingListStore.shoppingList)

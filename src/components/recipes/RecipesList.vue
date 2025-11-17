@@ -2,8 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import RecipesForm from '@/components/recipes/RecipesForm.vue'
-import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
+import RecipeSingle from '@/components/slideout/RecipeSingle.vue'
 
 const recipesStore = useRecipesStore()
 const recipes = computed(() => recipesStore.recipes)
