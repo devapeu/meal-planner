@@ -1,22 +1,18 @@
 <script setup>
 import { computed } from 'vue'
-import { useRecipesStore } from '@/stores/useRecipes'
 import { useShoppingListStore } from '@/stores/useShoppingList'
 import { Cart, Check, IconoirProvider } from '@iconoir/vue'
 
 //// Props
 
 const props = defineProps({
-  id: Number,
+  recipe: Object,
   showTitle: Boolean,
 })
 
 //// Pinia
 
-const recipesStore = useRecipesStore()
 const shoppingListStore = useShoppingListStore()
-
-const recipe = computed(() => recipesStore.currentRecipe)
 const shoppingList = computed(() => shoppingListStore.shoppingList)
 
 function ingredientIsInShoppingList(ingredient) { 
