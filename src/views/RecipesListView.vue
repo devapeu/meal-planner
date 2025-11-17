@@ -210,6 +210,7 @@ onMounted(() => {
   &.expanded
     display: grid
     grid-template-columns: 1fr 2fr
+    gap: 48px
     font-size: 20px
     max-width: 1280px
     margin: 0 auto
