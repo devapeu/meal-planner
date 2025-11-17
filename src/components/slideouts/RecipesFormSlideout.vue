@@ -1,26 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { NDrawerContent } from 'naive-ui'
 import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
+import { Recipe } from '@/types/recipe'
 
 const slideoutStore = useSlideoutStore()
 
-const props = defineProps({
-  id: {
-    type: Number,
-    required: false
-  },
-  name: {
-    type: String,
-    required: false
-  },
-  content: {
-    type: String,
-    required: false,
-  }
-})
+const props = defineProps<{
+  id?: number,
+  name?: string,
+  content?: string,
+}>();
 
 const recipesStore = useRecipesStore();
 
@@ -29,7 +21,8 @@ const name = ref('')
 const content = ref('');
 
 function submitRecipe() {
-  let data = {
+  let data: Recipe = {
+    id: null,
     name: name.value,
     content: content.value
   };

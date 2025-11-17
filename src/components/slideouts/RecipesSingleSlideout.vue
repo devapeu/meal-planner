@@ -1,6 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { computed, watch, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
+import { useSlideoutStore } from '@/stores/useSlideout'
 
 import { NDrawerContent } from 'naive-ui'
 import RecipesFormSlideout from './RecipesFormSlideout.vue'
@@ -8,14 +9,15 @@ import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 
 //// Props
 
-const props = defineProps({
-  id: Number,
-  showTitle: Boolean,
-})
+const props = defineProps<{
+  id: number,
+  showTitle: boolean
+}>();
 
 //// Pinia
 
 const recipesStore = useRecipesStore()
+const slideoutStore = useSlideoutStore()
 const recipe = computed(() => recipesStore.currentRecipe)
 
 watch(
