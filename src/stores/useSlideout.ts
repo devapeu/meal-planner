@@ -7,7 +7,7 @@ export const useSlideoutStore = defineStore('slideout', () => {
   const props = ref<Record<string, any>>({})
   const isOpen = ref(false)
 
-  function open<T extends Component>(c: T, p: T extends { props?: infer P } ? ExtractPropTypes<P> : Record<string, any>) {
+  function open<T extends Component>(c: T, p?: T extends { props?: infer P } ? ExtractPropTypes<P> : Record<string, any>) {
     isOpen.value = true
     component.value = markRaw(c)
     props.value = p
