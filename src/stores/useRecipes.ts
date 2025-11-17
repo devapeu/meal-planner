@@ -2,11 +2,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Parser } from '@devapeu/cooklang-parser'
 
+import { Recipe, FullRecipe } from '@/types/recipe'
+
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
 export const useRecipesStore = defineStore('recipes', () => {
-  const recipes = ref([])
-  const currentRecipe = ref({});
+  const recipes = ref<Recipe[]>([]);
+  const currentRecipe = ref<FullRecipe | null>(null);
 
   function get() {
     fetch(`${VITE_API_URL}/recipes`)
@@ -20,6 +22,7 @@ export const useRecipesStore = defineStore('recipes', () => {
       .then(data => {
         let parsedContent = Parser(data.recipe.content);
         currentRecipe.value = {
+          id: data.recipe.id,
           name: data.recipe.name, 
           content: data.recipe.content, 
           ...parsedContent
@@ -56,6 +59,7 @@ export const useRecipesStore = defineStore('recipes', () => {
       let updatedRecipe = data.recipes.find(r => r.id === id);
 
       currentRecipe.value = {
+        id: updatedRecipe.id,
         name: updatedRecipe.name,
         content: updatedRecipe.content,
         ...(Parser(updatedRecipe.content))

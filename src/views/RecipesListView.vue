@@ -1,17 +1,18 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRecipesStore } from '@/stores/useRecipes'
-import { useSlideoutStore } from '@/stores/useSlideout'
+import { useRecipesStore } from '../stores/useRecipes'
+import { useSlideoutStore } from '../stores/useSlideout'
 import { Expand, Collapse, IconoirProvider } from '@iconoir/vue'
 import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
+import { FullRecipe } from '@/types/recipe'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
 
-const expand = ref(false)
+const expand = ref<Boolean>(false)
 const recipes = computed(() => recipesStore.recipes);
-const currentRecipe = computed(() => recipesStore.currentRecipe);
+const currentRecipe = computed<FullRecipe | null>(() => recipesStore.currentRecipe);
 
 function toggleExpand() {
   expand.value = !expand.value
@@ -47,7 +48,6 @@ onMounted(() => {
             <div class="recipe-thumb">{{ recipe.name.charAt(0) }}</div>
             <div class="recipe-meta">
               <div class="recipe-name">{{ recipe.name }}</div>
-              <div class="recipe-sub">{{ (recipe.ingredients || '').split(',').slice(0,3).join(', ') }}</div>
             </div>
           </li>
         </ul>
