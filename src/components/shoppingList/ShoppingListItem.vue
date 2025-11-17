@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useShoppingListStore } from '@/stores/useShoppingList';
-import { EditPencil, Xmark, Check, Undo } from '@iconoir/vue';
+import { EditPencil, Xmark, Check, Undo, IconoirProvider } from '@iconoir/vue';
 
 const props = defineProps({
   id: Number,
@@ -63,14 +63,18 @@ function handleRightButton() {
       <button 
         class="action-item-button action-item-button--edit" 
         @click="handleLeftButton">
-        <Check v-if="isEditing" width="18"/>
-        <EditPencil v-else width="18"/>
+        <IconoirProvider>
+          <Check v-if="isEditing" width="18"/>
+          <EditPencil v-else width="18"/>
+        </IconoirProvider>
       </button>
       <button 
         class="action-item-button action-item-button--delete" 
         @click="handleRightButton">
-        <Undo v-if="isEditing" width="18"/>
-        <Xmark v-else width="18"/>
+        <IconoirProvider>
+          <Undo v-if="isEditing" width="18"/>
+          <Xmark v-else width="18"/>
+        </IconoirProvider>
       </button>
     </div>
   </div>
