@@ -220,7 +220,7 @@ onMounted(() => {
     align-items: center
     justify-content: center
     height: 20px
-    min-width: unset!important
+    min-width: 20px!important
     padding: 0!important
     width: 20px!important
     border: none
@@ -228,8 +228,6 @@ onMounted(() => {
     background: #FF9999
     color: white
     border: 1px solid v.$wine
-    position: absolute
-    right: 4px
     @media (pointer: fine)
       &:hover
         background: v.$background-300
