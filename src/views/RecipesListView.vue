@@ -2,8 +2,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { Expand, Collapse, Minus } from '@iconoir/vue'
-import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
+import { Expand, Collapse } from '@iconoir/vue'
+import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
+import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
@@ -19,7 +20,7 @@ function toggleExpand() {
 
 function handleSelectRecipe(id, name) {
   if (window.innerWidth < 768) {
-    slideoutStore.open(RecipeSingle, { id }, name);
+    slideoutStore.open(RecipesSingleSlideout, { id }, name);
   } else {
     selectedId.value = id
   }
@@ -69,7 +70,7 @@ onMounted(() => {
 
       <div class="detail-body">
           <template v-if="selectedId">
-            <RecipeSingle 
+            <RecipesSingle 
               :id="selectedId" 
               :showTitle="true" 
               class="detail-recipe"
