@@ -2,7 +2,7 @@
 import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { getColorFromId } from './getColorFromId'
+import { getColorFromId } from './getColorFromId.ts'
 import NewMealForm from './NewMealForm.vue'
 import NewMealRow from './NewMealRow.vue'
 import RemoveButton from '@/components/interface/RemoveButton.vue'
