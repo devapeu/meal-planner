@@ -1,7 +1,6 @@
 <script setup>
 import ShoppingList from '@/components/shoppingList/ShoppingList.vue';
 import MealCalendar from '@/components/calendar/MealCalendar.vue'
-import RecipesList from '@/components/recipes/RecipesList.vue'
 </script>
 
 <template>
