@@ -29,25 +29,33 @@ const name = ref('')
 const content = ref('');
 
 function submitRecipe() {
-  let data = {};
-
-  data.name = name.value;
-  data.content = content.value;
+  let data = {
+    name: name.value,
+    content: content.value
+  };
 
   if (props.id) {
     recipesStore.update(props.id, data)
+    openRecipeSlideout({
+      id: props.id,
+      name: data.name,
+      content: data.content
+    });
   } else {  
     recipesStore.add(data)
-    openRecipeSlideout()
   }
 }
 
-function openRecipeSlideout() {
-  slideoutStore.open(RecipeSingle, {
+function cancelSlideout(){
+  openRecipeSlideout({
     id: props.id,
     name: props.name,
     content: props.content,
-  });
+  })
+}
+
+function openRecipeSlideout(payload) {
+  slideoutStore.open(RecipeSingle, payload);
 }
 
 onMounted(() => {
@@ -77,7 +85,7 @@ onMounted(() => {
       </label>
     </form>
     <template #footer>
-      <button @click="openRecipeSlideout">Cancel</button>
+      <button @click="cancelSlideout">Cancel</button>
       <button type="button" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
     </template>
   </n-drawer-content>
