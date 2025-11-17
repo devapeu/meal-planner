@@ -1,99 +1,155 @@
 <script setup>
-import { onMounted, computed, watch, ref } from 'vue'
+import { computed, watch, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { useShoppingListStore } from '@/stores/useShoppingList'
 import { useCalendarStore } from '@/stores/useCalendar'
+
+import { Cart, Check, IconoirProvider } from '@iconoir/vue'
+import { NDrawerContent } from 'naive-ui'
 import RecipesForm from './RecipesForm.vue'
-import { Cart, Check } from '@iconoir/vue'
+
+//// Props
+
+const props = defineProps({
+  id: Number
+})
+
+//// Pinia
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
 const shoppingListStore = useShoppingListStore()
 const calendarStore = useCalendarStore()
 
-const props = defineProps({
-  id: Number
-})
-
 const recipe = computed(() => recipesStore.currentRecipe)
 const shoppingList = computed(() => shoppingListStore.shoppingList)
-const startDate = ref('')
-const endDate = ref('')
-const isEditing = ref(false)
 
-function ingredientIsInShoppingList(ingredient) {
+function ingredientIsInShoppingList(ingredient) { 
   return shoppingList.value.some(item => item.item === ingredient)
 }
 
-onMounted(() => {
-  recipesStore.getSingle(props.id)
-})
+watch(
+  () => props.id, (id) => {
+    recipesStore.getSingle(id)
+  },
+  { immediate: true }
+)
 
-watch(() => props.id, () => {
-  recipesStore.getSingle(props.id)
-})
+//// Calendar Properties
+
+const startDate = ref('')
+const endDate = ref('')
+
+//// Slideout
+
+function openRecipeFormSlideout() {
+  slideoutStore.open(RecipesForm, {
+    id: props.id,
+    name: recipe.value.name,
+    content: recipe.value.content,
+  });
+}
 </script>
 
 <template>
-  <div class="recipe-single">
-    <button 
-      class="recipe-single__edit"
-      @click="isEditing = !isEditing">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
-    <template v-if="!isEditing">
+  <n-drawer-content>
+    <template #header>
+      <div class="slideout__header">{{ recipe.name }}</div>
+    </template>
+    <div class="recipe-single">
       <div class="recipe-single__section">
         <h4>Ingredients</h4>
-        <ul>
+        <ul v-if="recipe.sections?.length === 0">
           <li v-for="ingredient in recipe.ingredients" :key="ingredient">
             <div class="recipe-single__ingredient-wrapper">
-              {{ ingredient }}
-              <span 
-                class="shopping-list-marker"
-                v-if="ingredientIsInShoppingList(ingredient)">
-                <Check width="14" /><Cart width="14" />
+              {{ ingredient.quantity ?? "" }}
+              {{ ingredient.measure ?? "" }}
+              {{ ingredient.name }}
+              <span class="shopping-list-marker" v-if="ingredientIsInShoppingList(ingredient.name)">
+                <IconoirProvider>
+                  <Check width="14" />
+                  <Cart width="14" />
+                </IconoirProvider>
               </span>
-              <button 
-                v-else
-                class="add-to-list-button"
-                @click="shoppingListStore.add(ingredient)">
-                <Cart width="14" />
+              <button v-else class="add-to-list-button" @click="shoppingListStore.add(ingredient.name)">
+                <IconoirProvider>
+                  <Cart width="14" />
+                </IconoirProvider>
               </button>
             </div>
           </li>
         </ul>
+        <template v-else>
+          <template v-for="section in recipe.sections">
+            <h5>{{ section.name }}</h5>
+            <ul>
+              <li v-for="ingredient in section.ingredients" :key="ingredient">
+                <div class="recipe-single__ingredient-wrapper">
+                  {{ ingredient.quantity ?? "" }}
+                  {{ ingredient.measure ?? "" }}
+                  {{ ingredient.name }}
+                  <template v-if="ingredient.note">
+                    ({{ ingredient.note }})
+                  </template>
+                  <span class="shopping-list-marker" v-if="ingredientIsInShoppingList(ingredient.name)">
+                    <IconoirProvider>
+                      <Check width="14" />
+                      <Cart width="14" />
+                    </IconoirProvider>
+                  </span>
+                  <button v-else class="add-to-list-button" @click="shoppingListStore.add(ingredient.name)">
+                    <IconoirProvider>
+                      <Cart width="14" />
+                    </IconoirProvider>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </template>
+        </template>
       </div>
       <div class="recipe-single__section">
         <h4>Instructions</h4>
-        <div class="recipe-single__instructions">{{ recipe.instructions }}</div>
+        <div v-if="recipe.sections?.length === 0" class="recipe-single__instructions">
+          <p v-for="instruction in recipe.instructions">
+            {{ instruction }}
+          </p>
+        </div>
+        <template v-else>
+          <template v-for="section in recipe.sections">
+            <h5>{{ section.name }}</h5>
+            <div class="recipe-single__instructions">
+              <p v-for="instruction in section.instructions">
+                {{ instruction }}
+              </p>
+            </div>
+          </template>
+        </template>
       </div>
       <div class="recipe-single__section">
         <h4>Add to calendar</h4>
         <div class="recipe-single__calendar">
-          <label 
-            class="recipe-single__input"
-            for="startDate">
+          <label class="recipe-single__input" for="startDate">
             <span>From</span>
             <input type="date" id="startDate" v-model="startDate" />
           </label>
-          <label 
-            class="recipe-single__input"
-            for="endDate">
+          <label class="recipe-single__input" for="endDate">
             <span>To</span>
             <input type="date" id="endDate" v-model="endDate" />
           </label>
           <button @click="calendarStore.add(recipe.name, startDate, endDate)">Save</button>
         </div>
       </div>
+    </div>
+    <template #footer>
+      <button @click="slideoutStore.close">Close</button>
+      <button 
+        @click="openRecipeFormSlideout">
+        Edit Recipe
+      </button>
     </template>
-    <template v-else>
-      <RecipesForm 
-        :id="props.id"
-        :name="recipe.name"
-        :ingredients="recipe.ingredients"
-        :instructions="recipe.instructions" 
-        @close="isEditing = false" />
-    </template>
-  </div>
+  </n-drawer-content>
 </template>
 
 <style lang="sass">
