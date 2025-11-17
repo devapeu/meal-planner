@@ -2,7 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import RecipeSingle from '@/components/slideout/RecipeSingle.vue'
+import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
+import RecipesFormSlideout from '@/components/slideouts/RecipesFormSlideout.vue'
 
 const recipesStore = useRecipesStore()
 const recipes = computed(() => recipesStore.recipes)
@@ -24,11 +25,11 @@ const filteredRecipes = computed(() => {
 })
 
 function openRecipes(id) {
-  slideoutStore.open(RecipeSingle, { id });
+  slideoutStore.open(RecipesSingleSlideout, { id });
 }
 
 function addRecipe() {
-  slideoutStore.open(RecipesForm)
+  slideoutStore.open(RecipesFormSlideout)
 }
 
 onMounted(() => {

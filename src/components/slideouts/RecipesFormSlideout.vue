@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { NDrawerContent } from 'naive-ui'
-import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
+import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 
 const slideoutStore = useSlideoutStore()
 
@@ -56,7 +56,7 @@ function cancelSlideout(){
 }
 
 function openRecipeSlideout(payload) {
-  slideoutStore.open(RecipeSingle, payload);
+  slideoutStore.open(RecipesSingle, payload);
 }
 
 onMounted(() => {
