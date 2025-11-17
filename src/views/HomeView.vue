@@ -24,7 +24,7 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
 .home
   margin: 0 auto
   padding: 1rem
-  @media (min-width: 768px)
+  @media (min-width: 1280px)
     padding: 1rem 3rem
 
 .home-header
