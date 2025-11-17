@@ -23,14 +23,16 @@ function ingredientIsInShoppingList(ingredient: string) {
 
 <template>
   <div class="recipe-single">
+    <h3 
+      v-if="showTitle"
+      class="recipe-single__name">
+      {{ recipe.name }}
+    </h3>
     <div class="recipe-single__section">
-      <h3 
-        v-if="showTitle"
-        class="recipe-single__name">
-        {{ recipe.name }}
-      </h3>
-      <h4>Ingredients</h4>
-      <ul v-if="recipe.sections?.length === 0">
+      <h4 style="display: none;">Ingredients</h4>
+      <ul
+        v-if="recipe.sections?.length === 0"
+        class="recipe-single__ingredients">
         <li v-for="ingredient in recipe.ingredients" :key="`ingredient-${ingredient}`">
           <div class="recipe-single__ingredient-wrapper">
             {{ ingredient.quantity ?? "" }}
@@ -52,8 +54,8 @@ function ingredientIsInShoppingList(ingredient: string) {
       </ul>
       <template v-else>
         <template v-for="section in recipe.sections">
-          <h5>{{ section.name }}</h5>
-          <ul>
+          <h5 class="recipe-single__heading">{{ section.name }}</h5>
+          <ul class="recipe-single__ingredients">
             <li v-for="ingredient in section.ingredients" :key="`ingredient-${ingredient}`">
               <div class="recipe-single__ingredient-wrapper">
                 {{ ingredient.quantity ?? "" }}
@@ -80,7 +82,7 @@ function ingredientIsInShoppingList(ingredient: string) {
       </template>
     </div>
     <div class="recipe-single__section">
-      <h4>Instructions</h4>
+      <h4 style="display: none;">Instructions</h4>
       <div v-if="recipe.sections?.length === 0" class="recipe-single__instructions">
         <p v-for="instruction in recipe.instructions">
           {{ instruction }}
@@ -88,7 +90,7 @@ function ingredientIsInShoppingList(ingredient: string) {
       </div>
       <template v-else>
         <template v-for="section in recipe.sections">
-          <h5>{{ section.name }}</h5>
+          <h5 style="display: none;" class="recipe-single__heading">{{ section.name }}</h5>
           <div class="recipe-single__instructions">
             <p v-for="instruction in section.instructions">
               {{ instruction }}
@@ -107,13 +109,31 @@ function ingredientIsInShoppingList(ingredient: string) {
 .recipe-single
   display: flex
   flex-direction: column
-  gap: 16px
+  font-size: 16px
   &__name
-    font-size: 28px
+    font-size: 1.75em
+    font-weight: 600
+    margin-bottom: 0.5em
+  &__heading
+    font-size: 1em
+    font-weight: 600
+    text-transform: uppercase
+    line-height: 1.15
+    margin-bottom: 0.25em
   &__section
     display: flex
     flex-direction: column
-    gap: 8px
+  &__ingredients
+    font-size: clamp(16px, 0.85em, 20px)
+    margin-bottom: 2em
+  &__instructions
+    margin-bottom: 1.33em
+    p
+      margin-top: 0
+      margin-bottom: 1.33em
+      line-height: 1.66  
+      &:last-child
+        margin-bottom: 0
   &__ingredient-wrapper
     display: flex
     gap: 4px

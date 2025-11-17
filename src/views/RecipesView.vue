@@ -210,10 +210,15 @@ onMounted(() => {
   &.expanded
     display: grid
     grid-template-columns: 1fr 2fr
-    gap: 48px
+    gap: 0 48px
     font-size: 20px
+    font-weight: 400
     max-width: 1280px
     margin: 0 auto
+    :deep(.recipe-single__name)
+      grid-column: span 2
+    :deep(.recipe-single__heading)
+      font-size: 0.85em
 
 .toggle-expand-button
   min-width: unset
