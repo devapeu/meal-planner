@@ -22,9 +22,10 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
 
 <style lang="sass" scoped>
 .home
-  max-width: 1280px
   margin: 0 auto
   padding: 1rem
+  @media (min-width: 768px)
+    padding: 1rem 3rem
 
 .home-header
   display: grid

@@ -95,7 +95,7 @@ onMounted(() => {
                 gridColumn: `${day.getDay() || 7} / span ${duration}`,
                 background: getColorFromId(id)
               }">
-              {{ meal }}
+              <span class="meal-cell__label">{{ meal }}</span>
               <button 
                 class="meal-cell__remove-button"
                 @click="calendarStore.remove(id, start_date)">&times;</button>
@@ -164,7 +164,7 @@ onMounted(() => {
 
 .calendar 
   display: grid
-  grid-template-columns: repeat(7, 1fr)
+  grid-template-columns: repeat(7, calc(100% / 7))
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
   gap: 4px
@@ -206,10 +206,14 @@ onMounted(() => {
   padding: 4px 8px
   user-select: none
   white-space: nowrap
+  position: relative
   @media (pointer: fine)
     &:hover
       .meal-cell__remove-button
         display: flex
+  &__label
+    overflow: hidden
+    text-overflow: ellipsis
   &__remove-button
     cursor: pointer
     display: none
@@ -224,6 +228,8 @@ onMounted(() => {
     background: #FF9999
     color: white
     border: 1px solid v.$wine
+    position: absolute
+    right: 4px
     @media (pointer: fine)
       &:hover
         background: v.$background-300
