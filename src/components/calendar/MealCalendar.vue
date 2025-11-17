@@ -164,7 +164,7 @@ onMounted(() => {
 
 .calendar 
   display: grid
-  grid-template-columns: repeat(7, calc(100% / 7))
+  grid-template-columns: repeat(7, minmax(0, 1fr))
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
   gap: 4px
