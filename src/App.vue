@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { NDrawer, NDrawerContent, NTooltip } from 'naive-ui'
+import { NDrawer, NTooltip } from 'naive-ui'
 import { Bbq, Calendar, OrganicFood } from '@iconoir/vue'
 
 const route = useRoute()
@@ -51,21 +51,11 @@ const slideoutStore = useSlideoutStore()
     width="clamp(auto, 100%, 480px)"
     class="slideout"
     :mask-closable="true">
-    <n-drawer-content>
-      <template #header>
-        <div class="slideout__header">
-          {{ slideoutStore.header }}
-        </div>
-      </template>
-      <component
-        v-if="slideoutStore.component"
-        :is="slideoutStore.component"
-        v-bind="slideoutStore.props"
-        @close="slideoutStore.close" />
-      <template #footer>
-        <button @click="slideoutStore.close">Close</button>
-      </template>
-    </n-drawer-content>
+    <component
+      v-if="slideoutStore.component"
+      :is="slideoutStore.component"
+      v-bind="slideoutStore.props"
+      @close="slideoutStore.close" />
   </n-drawer>
 </template>
 
