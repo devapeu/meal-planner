@@ -1,21 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useShoppingListStore } from '@/stores/useShoppingList'
 import { Cart, Check, IconoirProvider } from '@iconoir/vue'
+import { FullRecipe } from '@/types/recipe';
 
 //// Props
 
-const props = defineProps({
-  recipe: Object,
-  showTitle: Boolean,
-})
+const props = defineProps<{
+  recipe: FullRecipe,
+  showTitle: boolean,
+}>();
 
 //// Pinia
 
 const shoppingListStore = useShoppingListStore()
 const shoppingList = computed(() => shoppingListStore.shoppingList)
 
-function ingredientIsInShoppingList(ingredient) { 
+function ingredientIsInShoppingList(ingredient: string) { 
   return shoppingList.value.some(item => item.item === ingredient)
 }
 </script>
@@ -30,7 +31,7 @@ function ingredientIsInShoppingList(ingredient) {
       </h3>
       <h4>Ingredients</h4>
       <ul v-if="recipe.sections?.length === 0">
-        <li v-for="ingredient in recipe.ingredients" :key="ingredient">
+        <li v-for="ingredient in recipe.ingredients" :key="`ingredient-${ingredient}`">
           <div class="recipe-single__ingredient-wrapper">
             {{ ingredient.quantity ?? "" }}
             {{ ingredient.measure ?? "" }}
@@ -53,7 +54,7 @@ function ingredientIsInShoppingList(ingredient) {
         <template v-for="section in recipe.sections">
           <h5>{{ section.name }}</h5>
           <ul>
-            <li v-for="ingredient in section.ingredients" :key="ingredient">
+            <li v-for="ingredient in section.ingredients" :key="`ingredient-${ingredient}`">
               <div class="recipe-single__ingredient-wrapper">
                 {{ ingredient.quantity ?? "" }}
                 {{ ingredient.measure ?? "" }}

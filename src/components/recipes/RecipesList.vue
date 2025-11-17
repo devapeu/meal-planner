@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
@@ -6,11 +6,12 @@ import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.
 import RecipesFormSlideout from '@/components/slideouts/RecipesFormSlideout.vue'
 
 const recipesStore = useRecipesStore()
-const recipes = computed(() => recipesStore.recipes)
-const search = ref('')
 const slideoutStore = useSlideoutStore()
-const sortBy = ref('name')
 
+const recipes = computed(() => recipesStore.recipes)
+
+const sortBy = ref<string>('name')
+const search = ref<string>('')
 const sortedRecipes = computed(() => {
   return recipes.value.sort((a, b) => {
     if (sortBy.value === 'name') {
