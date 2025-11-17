@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Parser } from '@devapeu/cooklang-parser'
-
-import { Recipe, FullRecipe } from '@/types/recipe'
+import { Recipe, FullRecipe, ListRecipesResponse, SingleRecipeResponse } from '@/types/recipe'
 
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
@@ -16,47 +15,51 @@ export const useRecipesStore = defineStore('recipes', () => {
       .then(data => recipes.value = data.recipes)
   }
 
-  function getSingle(id) {
+  function getSingle(id: number) {
     fetch(`${VITE_API_URL}/recipes/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        let parsedContent = Parser(data.recipe.content);
+      .then(async response => {
+        const data: SingleRecipeResponse = await response.json()
+        const parsed = Parser(data.recipe.content)
         currentRecipe.value = {
           id: data.recipe.id,
-          name: data.recipe.name, 
-          content: data.recipe.content, 
-          ...parsedContent
-        };
+          name: data.recipe.name,
+          content: data.recipe.content,
+          ...parsed
+        }
       })
   }
 
-  function add(recipe) {
+  function add(recipe: Recipe) {
     fetch(`${VITE_API_URL}/recipes`, {
       method: 'POST',
       body: JSON.stringify({...recipe})
     })
-    .then(response => response.json())
-    .then(data => recipes.value = data.recipes)
+    .then(async response => {
+      const data: ListRecipesResponse = await response.json();
+      recipes.value = data.recipes;
+    });
   }
 
-  function remove(id) {
+  function remove(id: number) {
     fetch(`${VITE_API_URL}/recipes/${id}`, {
       method: 'DELETE'
     })
-    .then(response => response.json())
-    .then(data => recipes.value = data.recipes)
+    .then(async response => {
+      const data: ListRecipesResponse = await response.json();
+      recipes.value = data.recipes;
+    });
   }
 
-  function update(id, recipe) {
+  function update(id: number, recipe: Recipe) {
     fetch(`${VITE_API_URL}/recipes/${id}`, {
       method: 'PUT',
       body: JSON.stringify({...recipe})
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(async response => {
+      const data: ListRecipesResponse = await response.json();
       recipes.value = data.recipes
 
-      let updatedRecipe = data.recipes.find(r => r.id === id);
+      let updatedRecipe: Recipe = data.recipes.find(r => r.id === id);
 
       currentRecipe.value = {
         id: updatedRecipe.id,

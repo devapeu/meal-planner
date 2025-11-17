@@ -5,20 +5,20 @@ import { useSlideoutStore } from '../stores/useSlideout'
 import { Expand, Collapse, IconoirProvider } from '@iconoir/vue'
 import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
-import { FullRecipe } from '@/types/recipe'
+import { Recipe, FullRecipe } from '@/types/recipe'
 
-const recipesStore = useRecipesStore()
+const recipesStore = useRecipesStore()  
 const slideoutStore = useSlideoutStore()
 
-const expand = ref<Boolean>(false)
-const recipes = computed(() => recipesStore.recipes);
+const expand = ref<boolean>(false)
+const recipes = computed<Recipe[]>(() => recipesStore.recipes);
 const currentRecipe = computed<FullRecipe | null>(() => recipesStore.currentRecipe);
 
 function toggleExpand() {
   expand.value = !expand.value
 }
 
-function handleSelectRecipe(id) {
+function handleSelectRecipe(id: number) {
   if (window.innerWidth < 768) {
     slideoutStore.open(RecipesSingleSlideout, { id });
   }

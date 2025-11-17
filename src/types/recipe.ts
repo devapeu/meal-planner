@@ -15,3 +15,10 @@ export interface FullRecipe extends Recipe {
   utensils: string[]
 }
 
+export interface ListRecipesResponse {
+  recipes: Recipe[],
+}
+
+export interface SingleRecipeResponse {
+  recipe: Recipe,
+}
