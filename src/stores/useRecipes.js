@@ -28,7 +28,6 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function add(recipe) {
-    let payload = {...recipe}
     fetch(`${VITE_API_URL}/recipes`, {
       method: 'POST',
       body: JSON.stringify({...recipe})
@@ -46,15 +45,21 @@ export const useRecipesStore = defineStore('recipes', () => {
   }
 
   function update(id, recipe) {
-    let payload = {...recipe}
     fetch(`${VITE_API_URL}/recipes/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(payload)
+      body: JSON.stringify({...recipe})
     })
     .then(response => response.json())
     .then(data => {
       recipes.value = data.recipes
-      currentRecipe.value = data.recipes.find(r => r.id === id);
+
+      let updatedRecipe = data.recipes.find(r => r.id === id);
+
+      currentRecipe.value = {
+        name: updatedRecipe.name,
+        content: updatedRecipe.content,
+        ...(Parser(updatedRecipe.content))
+      };
     })
   }
 
