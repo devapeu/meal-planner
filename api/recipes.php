@@ -18,15 +18,15 @@ function getRecipe($recipe_id) {
 }
 
 // Add a new recipe
-function addRecipe($name, $ingredients, $instructions) {
-    $sql = "INSERT INTO recipes (name, ingredients, instructions) VALUES (:name, :ingredients, :instructions)";
-    queryDatabase($sql, ['name' => $name, 'ingredients' => $ingredients, 'instructions' => $instructions]);
+function addRecipe($name, $content) {
+    $sql = "INSERT INTO recipes (name, content) VALUES (:name, :content)";
+    queryDatabase($sql, ['name' => $name, 'content' => $content]);
     getRecipes();
 }
 
-function updateRecipe($id, $name, $ingredients, $instructions) {
-    $sql = "UPDATE recipes SET name = :name, ingredients = :ingredients, instructions = :instructions WHERE id = :id";
-    queryDatabase($sql, ['id' => $id, 'name' => $name, 'ingredients' => $ingredients, 'instructions' => $instructions]);
+function updateRecipe($id, $name, $content) {
+    $sql = "UPDATE recipes SET name = :name, content = :content WHERE id = :id";
+    queryDatabase($sql, ['id' => $id, 'name' => $name, 'content' => $content]);
     getRecipes();
 }
 

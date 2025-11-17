@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@devapeu/cooklang-parser": "^0.1.1",
     "@iconoir/vue": "^7.11.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.13",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

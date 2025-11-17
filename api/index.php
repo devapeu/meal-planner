@@ -48,12 +48,17 @@ elseif ($uri == '/shopping-list') {
 }
 
 // Remove or reorder items in the shopping list
+elseif ($uri == '/shopping-list/reorder') {
+    if ($request_method == 'PUT') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        reorderShoppingList($data['items']);
+    }
+}
+
 elseif (preg_match('/^\/shopping-list\/(\d+)$/', $uri, $matches)) {
     $item_id = (int)$matches[1];
     if ($request_method == 'DELETE') {
         removeItemFromShoppingList($item_id);
-    } elseif ($request_method == 'PUT') {
-        moveItemUpInList($item_id);
     }
 }
 
@@ -63,7 +68,7 @@ elseif ($uri == '/recipes') {
         getRecipes();
     } elseif ($request_method == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
-        addRecipe($data['name'], $data['ingredients'], $data['instructions']);
+        addRecipe($data['name'], $data['content']);
     }
 }
 
@@ -73,7 +78,7 @@ elseif (preg_match('/^\/recipes\/(\d+)$/', $uri, $matches)) {
         getRecipe($recipe_id);
     } elseif ($request_method == 'PUT') {
         $data = json_decode(file_get_contents('php://input'), true);
-        updateRecipe($recipe_id, $data['name'], $data['ingredients'], $data['instructions']);
+        updateRecipe($recipe_id, $data['name'], $data['content']);
     }
 }
 

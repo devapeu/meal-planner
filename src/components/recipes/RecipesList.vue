@@ -24,8 +24,8 @@ const filteredRecipes = computed(() => {
   return sortedRecipes.value.filter(recipe => recipe.name.toLowerCase().includes(search.value.toLowerCase()))
 })
 
-function openRecipes(id, name) {
-  slideoutStore.open(RecipeSingle, { id }, name);
+function openRecipes(id) {
+  slideoutStore.open(RecipeSingle, { id });
 }
 
 function addRecipe() {
@@ -54,7 +54,7 @@ onMounted(() => {
         v-for="recipe in filteredRecipes" 
         :key="recipe.id"
         class="recipes-list__item"
-        @click="openRecipes(recipe.id, recipe.name)">
+        @click="openRecipes(recipe.id)">
         {{ recipe.name }}
       </li>
     </ul>

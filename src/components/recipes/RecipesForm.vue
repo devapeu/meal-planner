@@ -2,9 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import RemoveButton from '@/components/interface/RemoveButton.vue'
+import { NDrawerContent } from 'naive-ui'
+import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
 
-const emit = defineEmits(['close'])
 const slideoutStore = useSlideoutStore()
 
 const props = defineProps({
@@ -16,13 +16,9 @@ const props = defineProps({
     type: String,
     required: false
   },
-  ingredients: {
-    type: Array,
-    required: false
-  },
-  instructions: {
+  content: {
     type: String,
-    required: false
+    required: false,
   }
 })
 
@@ -30,85 +26,70 @@ const recipesStore = useRecipesStore();
 
 const id = ref(null)
 const name = ref('')
-const newIngredient = ref('')
-const ingredients = ref([])
-const instructions = ref('')
-
-const newIngredientInput = ref(null)
+const content = ref('');
 
 function submitRecipe() {
-  const contents = {
+  let data = {
     name: name.value,
-    ingredients: ingredients.value,
-    instructions: instructions.value,
-  }
+    content: content.value
+  };
 
   if (props.id) {
-    recipesStore.update(props.id, contents)
+    recipesStore.update(props.id, data)
+    openRecipeSlideout({
+      id: props.id,
+      name: data.name,
+      content: data.content
+    });
   } else {  
-    recipesStore.add(contents)
-    slideoutStore.close()
+    recipesStore.add(data)
+    slideoutStore.close();
   }
-
-  emit('close')
 }
 
-function addIngredient() {
-  ingredients.value.push(newIngredient.value);
-  newIngredient.value = '';
-  newIngredientInput.value.focus();
+function cancelSlideout(){
+  openRecipeSlideout({
+    id: props.id,
+    name: props.name,
+    content: props.content,
+  })
 }
 
-function removeIngredient(ingredient) {
-  ingredients.value = ingredients.value.filter(i => i !== ingredient);
+function openRecipeSlideout(payload) {
+  slideoutStore.open(RecipeSingle, payload);
 }
 
 onMounted(() => {
-  id.value = props.id || null
-  name.value = props.name || ''
-  ingredients.value = props.ingredients || []
-  instructions.value = props.instructions || ''
+  id.value = props.id || null;
+  name.value = props.name || '';
+  content.value = props.content;
 })
 </script>
 
 <template>
-  <form class="recipes-form">
-    <label for="name">
-      <span>Name</span>
-      <input 
-        class="recipes-form__input-name"
-        type="text" 
-        v-model="name" 
-        placeholder="Name" />
-    </label>
-    <label for="ingredients">
-      <span>Ingredients</span>
-      <ul>
-        <li v-for="ingredient in ingredients" :key="ingredient">
-          {{ ingredient }}
-          <RemoveButton @click="removeIngredient(ingredient)" />
-        </li>
-        <li>
-          <input 
-          ref="newIngredientInput" 
+  <n-drawer-content>
+    <template #header>
+      <div class="slideout__header">Edit Recipe</div>
+    </template>
+    <form class="recipes-form">
+      <label for="name">
+        <span>Name</span>
+        <input 
+          class="recipes-form__input-name"
           type="text" 
-          v-model="newIngredient" 
-          placeholder="Add new ingredient"
-          @keyup.enter="addIngredient" />
-          <button type="button" @click="addIngredient">+</button>
-        </li>
-      </ul>
-    </label>
-    <label for="instructions">
-      <span>Instructions</span>
-      <textarea 
-        class="recipes-form__textarea"
-        type="text" 
-        v-model="instructions" 
-        placeholder="Instructions" /> 
-    </label>
-    <button type="button" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
-  </form>
+          v-model="name" 
+          placeholder="Name" />
+      </label>
+      <label for="content">
+        <span>Content</span>
+        <textarea name="content" v-model="content" placeholder="Write your recipe..." />
+      </label>
+    </form>
+    <template #footer>
+      <button @click="cancelSlideout">Cancel</button>
+      <button type="button" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
+    </template>
+  </n-drawer-content>
 </template>
 
 <style lang="sass">

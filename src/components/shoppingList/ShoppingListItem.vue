@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useShoppingListStore } from '@/stores/useShoppingList';
-import { EditPencil, Xmark, Check, Undo } from '@iconoir/vue';
+import { EditPencil, Xmark, Check, Undo, IconoirProvider } from '@iconoir/vue';
 
 const props = defineProps({
   id: Number,
@@ -20,7 +20,6 @@ function toggleCheckbox() {
 }
 
 function updateItem(id, item) {
-  console.log(id, item);
   shoppingListStore.update(id, item);
   isEditing.value = false;
 }
@@ -29,7 +28,6 @@ function handleLeftButton() {
   if (isEditing.value === true) {
     updateItem(props.id, itemValue.value)
   } else {
-    console.log("should enable edit")
     isEditing.value = true;
   }
 }
@@ -39,7 +37,6 @@ function handleRightButton() {
     isEditing.value = false;
     itemValue.value = props.item;
   } else {
-    console.log("should deelte")
     shoppingListStore.remove(props.id);
   }
 }
@@ -66,14 +63,18 @@ function handleRightButton() {
       <button 
         class="action-item-button action-item-button--edit" 
         @click="handleLeftButton">
-        <Check v-if="isEditing" width="18"/>
-        <EditPencil v-else width="18"/>
+        <IconoirProvider>
+          <Check v-if="isEditing" width="18"/>
+          <EditPencil v-else width="18"/>
+        </IconoirProvider>
       </button>
       <button 
         class="action-item-button action-item-button--delete" 
         @click="handleRightButton">
-        <Undo v-if="isEditing" width="18"/>
-        <Xmark v-else width="18"/>
+        <IconoirProvider>
+          <Undo v-if="isEditing" width="18"/>
+          <Xmark v-else width="18"/>
+        </IconoirProvider>
       </button>
     </div>
   </div>
