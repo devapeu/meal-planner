@@ -2,28 +2,26 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { Expand, Collapse } from '@iconoir/vue'
+import { Expand, Collapse, IconoirProvider } from '@iconoir/vue'
 import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
 
 const recipesStore = useRecipesStore()
 const slideoutStore = useSlideoutStore()
 
-
 const expand = ref(false)
-const recipes = computed(() => recipesStore.recipes)
-const selectedId = ref(null);
+const recipes = computed(() => recipesStore.recipes);
+const currentRecipe = computed(() => recipesStore.currentRecipe);
 
 function toggleExpand() {
   expand.value = !expand.value
 }
 
-function handleSelectRecipe(id, name) {
+function handleSelectRecipe(id) {
   if (window.innerWidth < 768) {
-    slideoutStore.open(RecipesSingleSlideout, { id }, name);
-  } else {
-    selectedId.value = id
+    slideoutStore.open(RecipesSingleSlideout, { id });
   }
+  recipesStore.getSingle(id);
 }
 
 onMounted(() => {
@@ -44,8 +42,8 @@ onMounted(() => {
             v-for="recipe in recipes" 
             :key="recipe.id" 
             class="recipe-item"
-            :class="{ 'recipe-item--active': selectedId === recipe.id }"
-            @click="handleSelectRecipe(recipe.id, recipe.name)">
+            :class="{ 'recipe-item--active': currentRecipe?.name === recipe.name }"
+            @click="handleSelectRecipe(recipe.id)">
             <div class="recipe-thumb">{{ recipe.name.charAt(0) }}</div>
             <div class="recipe-meta">
               <div class="recipe-name">{{ recipe.name }}</div>
@@ -60,18 +58,20 @@ onMounted(() => {
       <div class="detail-header">
         <div class="detail-actions">
           <button 
-            v-if="selectedId"
+            v-if="currentRecipe?.name"
             class="toggle-expand-button"
             @click="toggleExpand">
-            <component :is="expand ? Collapse : Expand" />
+            <IconoirProvider>
+              <component :is="expand ? Collapse : Expand" />
+            </IconoirProvider>
           </button>
         </div>
       </div>
 
       <div class="detail-body">
-          <template v-if="selectedId">
+          <template v-if="currentRecipe?.name">
             <RecipesSingle 
-              :id="selectedId" 
+              :recipe="currentRecipe" 
               :showTitle="true" 
               class="detail-recipe"
               :class="{ expanded: expand }"/>
