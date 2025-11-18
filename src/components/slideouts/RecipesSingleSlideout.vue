@@ -48,7 +48,7 @@ function openRecipeFormSlideout() {
     <template #header>
       <div class="slideout__header">{{ recipe.name }}</div>
     </template>
-    <RecipesSingle :recipe="recipe"/>
+    <RecipesSingle :recipe="recipe" :show-title="false"/>
     <template #footer>
       <button @click="slideoutStore.close">Close</button>
       <button 
