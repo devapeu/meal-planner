@@ -37,6 +37,7 @@ function onMouseUp(day, event) {
 
   // configure date values
   day.setHours(0, 0, 0, 0);
+  startDate.value = day.toISOString().split('T')[0];
   endDate.value = day.toISOString().split('T')[0];
 
   // show popup
@@ -52,7 +53,10 @@ function onMouseUp(day, event) {
         v-show="showPopup"
         class="popup"
         ref="new-meal-popup">
-        <NewMealForm @close="showPopup = false" />
+        <NewMealForm 
+          :start-date="startDate"
+          :end-date="endDate"
+          @close="showPopup = false" />
       </div>
     </Transition>
     <div 
@@ -94,7 +98,8 @@ function onMouseUp(day, event) {
   top: 0
   left: 0
   background-color: v.$cream
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5)
+  transition: top 200ms cubic-bezier(0,1,.5,1), left 200ms cubic-bezier(0,1,.5,1)
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075)
   @media (max-width: 768px)
     top: 0
     left: 0
