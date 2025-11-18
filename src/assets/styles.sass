@@ -8,7 +8,7 @@
 
 body
   font-family: 'Poppins', sans-serif
-  background-color: v.$cream
+  background-color: #fffbf8
   color: v.$wine
   //font-size: 16px
   margin: 0
@@ -60,3 +60,12 @@ textarea
 
 ul
   margin: 0
+
+.slide-down-enter-active,
+.slide-down-leave-active
+  transition: all 200ms ease-out
+
+.slide-down-enter-from,
+.slide-down-leave-to
+  transform: translateY(-10px)
+  opacity: 0
