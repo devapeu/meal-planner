@@ -137,7 +137,7 @@ onMounted(() => {
               class="meal-cell"
               :style="{ background: getColorFromId(id) }"
               :key="`meal-${day}-${id}`">
-              {{ meal }}
+              <span class="meal-cell__label">{{ meal }}</span>
               <RemoveButton @click="calendarStore.remove(id, start_date)" />
             </div>
           </template>
@@ -240,7 +240,7 @@ onMounted(() => {
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
-  grid-template-columns: 64px 1fr
+  grid-template-columns: 64px minmax(0, 1fr)
   gap: 12px 4px
   padding: 8px
   background: v.$cream

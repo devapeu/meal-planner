@@ -1,5 +1,5 @@
 <script setup>
-import { ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 import NewMealForm from './NewMealForm.vue'
 
 const showPopup = ref(false)
@@ -43,6 +43,11 @@ function onMouseUp(day, event) {
   // show popup
   showPopup.value = true
 }
+
+watch(showPopup, () => {
+  $popup.value.top = "0";
+  $popup.value.left = "0";
+})
 
 </script>
 
