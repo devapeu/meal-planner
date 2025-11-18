@@ -1,26 +1,27 @@
-CREATE DATABASE meal_planner;
+DROP TABLE IF EXISTS calendar;
+DROP TABLE IF EXISTS shopping_list;
+DROP TABLE IF EXISTS recipes;
 
-USE meal_planner;
+CREATE TABLE recipes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Calendar table to store meals for each day
 CREATE TABLE calendar (
     id INT AUTO_INCREMENT PRIMARY KEY,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    recipe_id INT,
     meal VARCHAR(255) NOT NULL,
-    FOREIGN KEY (recipe_id) REFERENCES recipes(id)
-);
+    recipe_id INT NULL,
+    CONSTRAINT calendar_recipe_fk
+        FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Shopping list table to store items
 CREATE TABLE shopping_list (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    item VARCHAR(255) NOT NULL
-);
-
--- Recipes table to store recipes with ingredients and instructions
-CREATE TABLE recipes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL -- cooklang-style recipe
-);
+    item VARCHAR(255) NOT NULL,
+    position INT NOT NULL DEFAULT 0,
+    KEY shopping_list_position_idx (position)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

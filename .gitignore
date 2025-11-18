@@ -31,3 +31,22 @@ api/config.php
 *.sw?
 
 *.tsbuildinfo
+
+# Django
+.venv/
+venv/
+__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+*.sqlite3
+db.sqlite3
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Django build artifacts
+api/media/
+api/staticfiles/
+api/logs/
