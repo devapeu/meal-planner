@@ -1,20 +1,14 @@
 import { defineStore } from 'pinia';
 import { ref, markRaw } from 'vue'
-
-const HEADER_LIST = {
-  "RecipesForm": "Add Recipe",
-  "NewMealForm": "Add Meal to Calendar",
-}
+import type { Component, ExtractPropTypes } from 'vue';
 
 export const useSlideoutStore = defineStore('slideout', () => {
-  const component = ref(null)
-  const props = ref({})
+  const component = ref<Component | null>(null)
+  const props = ref<Record<string, any>>({})
   const isOpen = ref(false)
-  const header = ref("");
 
-  function open(c, p, h = null) {
+  function open<T extends Component>(c: T, p?: T extends { props?: infer P } ? ExtractPropTypes<P> : Record<string, any>) {
     isOpen.value = true
-    header.value = h ?? HEADER_LIST[c.__name];
     component.value = markRaw(c)
     props.value = p
   }
@@ -27,7 +21,6 @@ export const useSlideoutStore = defineStore('slideout', () => {
 
   return {
     isOpen,
-    header,
     component,
     props,
     open,

@@ -60,18 +60,22 @@ watch(shoppingList, (newList) => {
     </header>
     <div class="shopping-list">
       <template v-if="draggableList.length > 0">
-        <draggable 
+        <draggable
           v-model="draggableList"
           :animation="200"
           item-key="id"
-          @end="handleDragEnd"
+          handle=".drag-handle"
           tag="ul"
-          class="draggable-container">
-          <template #item="{element}">
+          class="draggable-container"
+        >
+          <template #item="{ element }">
             <li class="draggable-item">
-              <ShoppingListItem 
+              <span class="drag-handle">:::</span>
+
+              <ShoppingListItem
                 :id="element.id"
-                :item="element.item" />
+                :item="element.item"
+              />
             </li>
           </template>
         </draggable>
@@ -178,13 +182,24 @@ watch(shoppingList, (newList) => {
     padding: 0
 
   .draggable-item
-    cursor: grab
+    display: flex
+    align-items: center
     transition: background-color 0.2s ease
     border-radius: 8px
+
+    .drag-handle
+      cursor: grab
+      width: 24px
+      display: flex
+      align-items: center
+
+    .shopping-list-item
+      flex: 1
     
-    &:active
-      cursor: grabbing
-      background: v.$background 
+    &.active
+      .drag-handle
+        cursor: grabbing
+        background: v.$background 
 
 .add-button
   display: flex

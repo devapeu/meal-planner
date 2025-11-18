@@ -2,7 +2,7 @@
 import { onMounted, ref, computed, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { getColorFromId } from './getColorFromId'
+import { getColorFromId } from './getColorFromId.ts'
 import NewMealForm from './NewMealForm.vue'
 import NewMealRow from './NewMealRow.vue'
 import RemoveButton from '@/components/interface/RemoveButton.vue'
@@ -95,7 +95,7 @@ onMounted(() => {
                 gridColumn: `${day.getDay() || 7} / span ${duration}`,
                 background: getColorFromId(id)
               }">
-              {{ meal }}
+              <span class="meal-cell__label">{{ meal }}</span>
               <button 
                 class="meal-cell__remove-button"
                 @click="calendarStore.remove(id, start_date)">&times;</button>
@@ -137,7 +137,7 @@ onMounted(() => {
               class="meal-cell"
               :style="{ background: getColorFromId(id) }"
               :key="`meal-${day}-${id}`">
-              {{ meal }}
+              <span class="meal-cell__label">{{ meal }}</span>
               <RemoveButton @click="calendarStore.remove(id, start_date)" />
             </div>
           </template>
@@ -164,7 +164,7 @@ onMounted(() => {
 
 .calendar 
   display: grid
-  grid-template-columns: repeat(7, 1fr)
+  grid-template-columns: repeat(7, minmax(0, 1fr))
   grid-auto-rows: minmax(32px, auto)
   padding: 8px
   gap: 4px
@@ -206,17 +206,21 @@ onMounted(() => {
   padding: 4px 8px
   user-select: none
   white-space: nowrap
+  position: relative
   @media (pointer: fine)
     &:hover
       .meal-cell__remove-button
         display: flex
+  &__label
+    overflow: hidden
+    text-overflow: ellipsis
   &__remove-button
     cursor: pointer
     display: none
     align-items: center
     justify-content: center
     height: 20px
-    min-width: unset!important
+    min-width: 20px!important
     padding: 0!important
     width: 20px!important
     border: none
@@ -236,7 +240,7 @@ onMounted(() => {
 .calendar-responsive 
   display: none
   grid-auto-rows: minmax(72px, auto)
-  grid-template-columns: 64px 1fr
+  grid-template-columns: 64px minmax(0, 1fr)
   gap: 12px 4px
   padding: 8px
   background: v.$cream

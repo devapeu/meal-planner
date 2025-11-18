@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useCalendarStore } from '@/stores/useCalendar'
 import { useRecipesStore } from '@/stores/useRecipes'
 
@@ -56,6 +56,13 @@ onMounted(() => {
   today.setHours(0,0,0)
   startDate.value = props.startDate ?? today.toISOString().split('T')[0];
   endDate.value = props.endDate ?? today.toISOString().split('T')[0];
+})
+
+watch(() => props.startDate, (d) => {
+  startDate.value = d;
+})
+watch(() => props.endDate, (d) => {
+  endDate.value = d;
 })
 </script>
 

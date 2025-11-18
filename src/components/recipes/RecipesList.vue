@@ -1,16 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRecipesStore } from '@/stores/useRecipes'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import RecipesForm from '@/components/recipes/RecipesForm.vue'
-import RecipeSingle from '@/components/recipes/RecipeSingle.vue'
+import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
+import RecipesFormSlideout from '@/components/slideouts/RecipesFormSlideout.vue'
 
 const recipesStore = useRecipesStore()
-const recipes = computed(() => recipesStore.recipes)
-const search = ref('')
 const slideoutStore = useSlideoutStore()
-const sortBy = ref('name')
 
+const recipes = computed(() => recipesStore.recipes)
+
+const sortBy = ref<string>('name')
+const search = ref<string>('')
 const sortedRecipes = computed(() => {
   return recipes.value.sort((a, b) => {
     if (sortBy.value === 'name') {
@@ -24,12 +25,12 @@ const filteredRecipes = computed(() => {
   return sortedRecipes.value.filter(recipe => recipe.name.toLowerCase().includes(search.value.toLowerCase()))
 })
 
-function openRecipes(id, name) {
-  slideoutStore.open(RecipeSingle, { id }, name);
+function openRecipes(id) {
+  slideoutStore.open(RecipesSingleSlideout, { id });
 }
 
 function addRecipe() {
-  slideoutStore.open(RecipesForm)
+  slideoutStore.open(RecipesFormSlideout)
 }
 
 onMounted(() => {
@@ -54,7 +55,7 @@ onMounted(() => {
         v-for="recipe in filteredRecipes" 
         :key="recipe.id"
         class="recipes-list__item"
-        @click="openRecipes(recipe.id, recipe.name)">
+        @click="openRecipes(recipe.id)">
         {{ recipe.name }}
       </li>
     </ul>
