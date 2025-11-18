@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { NDrawer, NTooltip } from 'naive-ui'
 import { Bbq, Calendar, IconoirProvider, OrganicFood } from '@iconoir/vue'
+import Pepper from './components/icons/Pepper.vue'
 
 const route = useRoute()
 const slideoutStore = useSlideoutStore()  
@@ -11,9 +12,7 @@ const slideoutStore = useSlideoutStore()
 <template>
   <nav class="navigation">
     <div class="navigation__brand">
-      <IconoirProvider>
-        <OrganicFood width="32" height="32" />
-      </IconoirProvider>
+      <Pepper class="navigation__brand-icon"/>
       <h1>Meal Planner</h1>
     </div>
     
