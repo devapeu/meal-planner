@@ -36,10 +36,11 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
   display: grid
   grid-template-columns: 2fr 1fr
   gap: 1rem
-  @media (max-width: 768px)
+  @media (max-width: 1024px)
     display: grid
-    gap: 0.5rem
     grid-template-columns: 1fr
+    gap: 0.5rem
+  @media (max-width: 768px)
     .home-grid__meal-calendar
       grid-column: auto
     .home-grid__shopping-list
