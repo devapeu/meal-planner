@@ -1,6 +1,6 @@
 # Meal Planner
 
-Weekly meal planner with a shopping list and recipes to add from made with Vue 3 and a Django + MySQL backend.
+Weekly meal planner with a shopping list and recipes to add from made with Vue 3 and a Django + PostgreSQL backend.
 
 ## Backend
 
@@ -8,19 +8,48 @@ The backend lives in `/api` and is a Django REST project that exposes the same r
 
 ### Setup
 
+Deploy for both development and production using Docker.
+
+#### Development
+
 ```sh
-cd api
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp env.sample .env
-python manage.py migrate
-# Optional: reset schema/data (drops tables!)
-mysql -u <user> -p <database> < database.sql
-python manage.py runserver 0.0.0.0:8000
+# Copy environment file
+cp .env.example .env
+
+# Run development containers
+docker compose up -d
 ```
 
-Update `.env` with your database credentials, frontend URL, and secret key. The frontend continues to hit `/calendar`, `/shopping-list`, and `/recipes`.
+#### Production
+
+```bash
+# Copy production environment template
+cp .env.prod.example .env
+
+# Edit .env with secure values
+nano .env
+```
+
+**Important:** Set these values in `.env`:
+- `DJANGO_SECRET_KEY` - Generate with: `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
+- `DJANGO_DEBUG=false` - Must be false in production
+- `DJANGO_ALLOWED_HOSTS` - Your domain(s), comma-separated
+- `DB_PASSWORD` - Strong database password
+- `FRONTEND_URL` - Your frontend URL (for CORS)
+
+```bash
+# Build and start production containers
+docker compose -f docker-compose.prod.yml up -d --build
+
+# Run migrations
+docker compose -f docker-compose.prod.yml exec api python manage.py migrate 
+
+# View logs
+docker compose -f docker-compose.prod.yml logs -f
+
+# Access the application
+# API: http://localhost (Nginx on port 80)
+```
 
 ## Frontend
 
@@ -37,6 +66,8 @@ npm run dev -- --host
 ```
 
 ### Compile and Minify for Production
+
+Assuming a static hosted service like Netlify, just set as your build command:
 
 ```sh
 npm run build
