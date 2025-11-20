@@ -16,7 +16,10 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
   function add(ingredient) {  
     fetch(`${VITE_API_URL}/shopping-list`, {
       method: 'POST',
-      body: JSON.stringify({ item: ingredient })
+      body: JSON.stringify({ item: ingredient }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(response => response.json())
     .then(data => shoppingList.value = data.shopping_list)
@@ -25,7 +28,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function remove(ingredient) {
     fetch(`${VITE_API_URL}/shopping-list/${ingredient}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     })
     .then(response => response.json())
     .then(data => shoppingList.value = data.shopping_list)
@@ -35,7 +38,10 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
   function update(id, ingredient) {
     fetch(`${VITE_API_URL}/shopping-list`, {
       method: 'PUT',
-      body: JSON.stringify({ id, item: ingredient })
+      body: JSON.stringify({ id, item: ingredient }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(response => response.json())
     .then(data => shoppingList.value = data.shopping_list)
@@ -54,7 +60,10 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
   function reorder(newOrder) {
     fetch(`${VITE_API_URL}/shopping-list/reorder`, {
       method: 'PUT',
-      body: JSON.stringify({ items: newOrder })
+      body: JSON.stringify({ items: newOrder }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(response => response.json())
     .then(data => shoppingList.value = data.shopping_list)

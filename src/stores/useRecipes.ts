@@ -32,7 +32,10 @@ export const useRecipesStore = defineStore('recipes', () => {
   function add(recipe: Recipe) {
     fetch(`${VITE_API_URL}/recipes`, {
       method: 'POST',
-      body: JSON.stringify({...recipe})
+      body: JSON.stringify({...recipe}),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(async response => {
       const data: ListRecipesResponse = await response.json();
@@ -53,7 +56,10 @@ export const useRecipesStore = defineStore('recipes', () => {
   function update(id: number, recipe: Recipe) {
     fetch(`${VITE_API_URL}/recipes/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({...recipe})
+      body: JSON.stringify({...recipe}),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(async response => {
       const data: ListRecipesResponse = await response.json();

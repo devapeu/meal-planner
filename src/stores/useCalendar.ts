@@ -18,7 +18,10 @@ export const useCalendarStore = defineStore('calendar', () => {
   function add(meal: string, startDate: string, endDate: string) {
     fetch(`${VITE_API_URL}/calendar`, {
       method: 'POST',
-      body: JSON.stringify({ meal, startDate, endDate })
+      body: JSON.stringify({ meal, startDate, endDate }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     .then(async response => {
       const data: CalendarResponse = await response.json();
