@@ -51,7 +51,6 @@ onMounted(() => {
             class="recipe-item"
             :class="{ 'recipe-item--active': currentRecipe?.name === recipe.name }"
             @click="handleSelectRecipe(recipe.id)">
-            <div class="recipe-thumb">{{ recipe.name.charAt(0) }}</div>
             <div class="recipe-meta">
               <div class="recipe-name">{{ recipe.name }}</div>
             </div>
@@ -159,10 +158,10 @@ onMounted(() => {
       padding: 0
 
       .recipe-item
-        margin-bottom: 10px
+        margin-bottom: 4px
         display: flex
         gap: 12px
-        padding: 10px
+        padding: 16px
         border-radius: 8px
         text-decoration: none
         color: inherit
@@ -176,22 +175,9 @@ onMounted(() => {
         &--active
           background: $background
 
-        .recipe-thumb
-          width: 44px
-          height: 44px
-          border-radius: 6px
-          background: $background
-          display: flex
-          align-items: center
-          justify-content: center
-          font-weight: 700
-
-        .recipe-meta
-          .recipe-name
-            font-weight: 600
-          .recipe-sub
-            font-size: 12px
-            color: $background-300
+        .recipe-name
+          font-weight: 400
+          font-size: 16px
 
     .recipes-panel__new
       width: calc(100% - 24px)
