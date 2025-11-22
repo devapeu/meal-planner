@@ -41,11 +41,15 @@ function submitRecipe() {
 }
 
 function cancelSlideout(){
-  openRecipeSlideout({
-    id: props.id,
-    name: props.name,
-    content: props.content,
-  })
+  if (id.value) {
+    openRecipeSlideout({
+      id: props.id,
+      name: props.name,
+      content: props.content,
+    })
+  } else {
+    slideoutStore.close();
+  }
 }
 
 function openRecipeSlideout(payload) {
@@ -73,7 +77,7 @@ onMounted(() => {
           v-model="name" 
           placeholder="Name" />
       </label>
-      <label for="content">
+      <label for="content" class="recipes-form__content">
         <span>Content</span>
         <textarea name="content" v-model="content" placeholder="Write your recipe..." />
       </label>
@@ -90,16 +94,20 @@ onMounted(() => {
 <style lang="sass">
 @use '@/assets/variables' as v
 .recipes-form
-  margin: 4px
   display: flex
   flex-direction: column
   gap: 16px
+  height: 100%
   label
     display: flex
     flex-direction: column
     gap: 4px
     span
       font-weight: 600
+  &__content
+    flex: 1
+    textarea
+      height: 100%
   input, textarea
     border: 1px solid v.$background
     background: white

@@ -15,8 +15,10 @@ export const useSlideoutStore = defineStore('slideout', () => {
 
   function close() {
     isOpen.value = false
-    component.value = null
-    props.value = {}
+    setTimeout(() => {
+      component.value = null
+      props.value = {}
+    }, 300) // wait for slideout transition to finish
   }
 
   return {

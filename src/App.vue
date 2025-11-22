@@ -154,6 +154,7 @@ header
   gap: 8px
   h1
     margin: 0
+
 .slideout
   max-width: 480px
   background: $cream
@@ -162,6 +163,10 @@ header
   &__buttons
     display: flex
     gap: 10px
+
+.n-drawer .n-drawer-content
+  .n-drawer-header, .n-drawer-footer
+    border-color: $background
 
 @media (pointer: coarse)
   .n-popover
