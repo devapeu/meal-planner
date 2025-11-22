@@ -159,6 +159,9 @@ header
   background: $cream
   &__header
     font-size: 24px
+  &__buttons
+    display: flex
+    gap: 10px
 
 @media (pointer: coarse)
   .n-popover

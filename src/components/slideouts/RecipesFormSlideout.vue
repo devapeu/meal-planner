@@ -79,8 +79,10 @@ onMounted(() => {
       </label>
     </form>
     <template #footer>
-      <button @click="cancelSlideout">Cancel</button>
-      <button type="button" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
+      <div class="slideout__buttons">
+        <button @click="cancelSlideout">Cancel</button>
+        <button class="btn-accent" @click="submitRecipe">{{ props.id ? 'Update' : 'Create' }}</button>
+      </div>
     </template>
   </n-drawer-content>
 </template>
