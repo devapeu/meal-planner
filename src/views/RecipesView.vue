@@ -57,7 +57,7 @@ onMounted(() => {
             </div>
           </li>
         </ul>
-        <div>No recipes found</div>
+        <div v-else>No recipes found</div>
       </div>
     </aside>
 
