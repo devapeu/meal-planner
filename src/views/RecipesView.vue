@@ -51,9 +51,7 @@ onMounted(() => {
             class="recipe-item"
             :class="{ 'recipe-item--active': currentRecipe?.name === recipe.name }"
             @click="handleSelectRecipe(recipe.id)">
-            <div class="recipe-meta">
-              <div class="recipe-name">{{ recipe.name }}</div>
-            </div>
+            <div class="recipe-name">{{ recipe.name }}</div>
           </li>
         </ul>
         <div v-else>No recipes found</div>
@@ -161,7 +159,7 @@ onMounted(() => {
         margin-bottom: 4px
         display: flex
         gap: 12px
-        padding: 16px
+        padding: 12px 16px
         border-radius: 8px
         text-decoration: none
         color: inherit
