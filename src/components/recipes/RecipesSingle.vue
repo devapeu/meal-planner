@@ -84,17 +84,13 @@ function ingredientIsInShoppingList(ingredient: string) {
     <div class="recipe-single__section">
       <h4 style="display: none;">Instructions</h4>
       <div v-if="recipe.sections?.length === 0" class="recipe-single__instructions">
-        <p v-for="instruction in recipe.instructions">
-          {{ instruction }}
-        </p>
+        <p v-for="instruction in recipe.instructions" v-html="instruction"></p>
       </div>
       <template v-else>
         <template v-for="section in recipe.sections">
           <h5 style="display: none;" class="recipe-single__heading">{{ section.name }}</h5>
           <div class="recipe-single__instructions">
-            <p v-for="instruction in section.instructions">
-              {{ instruction }}
-            </p>
+            <p v-for="instruction in section.instructions" v-html="instruction"></p>
           </div>
         </template>
       </template>
@@ -132,6 +128,8 @@ function ingredientIsInShoppingList(ingredient: string) {
       margin-top: 0
       margin-bottom: 1.33em
       line-height: 1.66  
+      span
+        color: v.$accent
       &:last-child
         margin-bottom: 0
   &__ingredient-wrapper

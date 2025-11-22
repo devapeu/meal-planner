@@ -19,7 +19,7 @@ export const useRecipesStore = defineStore('recipes', () => {
     fetch(`${VITE_API_URL}/recipes/${id}`)
       .then(async response => {
         const data: SingleRecipeResponse = await response.json()
-        const parsed = Parser(data.recipe.content)
+        const parsed = Parser(data.recipe.content, { ingredientTag: 'span' })
         currentRecipe.value = {
           id: data.recipe.id,
           name: data.recipe.name,
@@ -71,7 +71,7 @@ export const useRecipesStore = defineStore('recipes', () => {
         id: updatedRecipe.id,
         name: updatedRecipe.name,
         content: updatedRecipe.content,
-        ...(Parser(updatedRecipe.content))
+        ...(Parser(updatedRecipe.content, { ingredientTag: 'span' }))
       };
     })
   }
