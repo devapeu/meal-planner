@@ -53,7 +53,7 @@ function handleRightButton() {
       @submit.prevent="updateItem(id, itemValue)">
       <input v-model="itemValue" type="text"/>
     </form>
-    <div v-else class="row">
+    <div v-else class="row drag-handle">
       <span 
         class="shopping-list-item__checkbox" 
         @click="toggleCheckbox"></span>
@@ -133,6 +133,13 @@ function handleRightButton() {
       color: inherit
   &__item
     flex: 1
+
+.drag-handle
+  flex: 1
+  &:before
+    content: "::"
+    letter-spacing: -2px
+    cursor: grab
 
 .action-item-button
   cursor: pointer

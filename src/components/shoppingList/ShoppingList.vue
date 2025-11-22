@@ -70,8 +70,6 @@ watch(shoppingList, (newList) => {
         >
           <template #item="{ element }">
             <li class="draggable-item">
-              <span class="drag-handle">:::</span>
-
               <ShoppingListItem
                 :id="element.id"
                 :item="element.item"
@@ -187,17 +185,11 @@ watch(shoppingList, (newList) => {
     transition: background-color 0.2s ease
     border-radius: 8px
 
-    .drag-handle
-      cursor: grab
-      width: 24px
-      display: flex
-      align-items: center
-
     .shopping-list-item
       flex: 1
     
     &.active
-      .drag-handle
+      :deep(.drag-handle)
         cursor: grabbing
         background: v.$background 
 
