@@ -55,7 +55,8 @@ const slideoutStore = useSlideoutStore()
     placement="right"
     width="clamp(auto, 100%, 480px)"
     class="slideout"
-    :mask-closable="true">
+    :mask-closable="true"
+    @after-leave="slideoutStore.cleanup">
     <component
       v-if="slideoutStore.component"
       :is="slideoutStore.component"
