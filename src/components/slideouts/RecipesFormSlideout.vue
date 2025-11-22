@@ -62,7 +62,7 @@ onMounted(() => {
 <template>
   <n-drawer-content>
     <template #header>
-      <div class="slideout__header">Edit Recipe</div>
+      <div class="slideout__header">{{ id ? 'Edit Recipe' : 'Add Recipe' }}</div>
     </template>
     <form class="recipes-form">
       <label for="name">
