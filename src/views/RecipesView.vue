@@ -5,6 +5,7 @@ import { useSlideoutStore } from '../stores/useSlideout'
 import { Expand, Collapse, IconoirProvider } from '@iconoir/vue'
 import RecipesSingle from '@/components/recipes/RecipesSingle.vue'
 import RecipesSingleSlideout from '@/components/slideouts/RecipesSingleSlideout.vue'
+import RecipesFormSlideout from '@/components/slideouts/RecipesFormSlideout.vue'
 import { Recipe, FullRecipe } from '@/types/recipe'
 
 const recipesStore = useRecipesStore()  
@@ -25,6 +26,10 @@ function handleSelectRecipe(id: number) {
   recipesStore.getSingle(id);
 }
 
+function openNewRecipeForm() {
+  slideoutStore.open(RecipesFormSlideout, {});
+}
+
 onMounted(() => {
   recipesStore.get()
 })
@@ -35,10 +40,11 @@ onMounted(() => {
     <aside class="recipes-panel" aria-hidden="false">
       <header class="recipes-panel__top">
         <h1>Recipes</h1>
+        <button @click="openNewRecipeForm">Add New</button>
       </header>
 
-      <div class="recipes-panel__list">
-        <ul>
+      <div  class="recipes-panel__list">
+        <ul v-if="recipes.length > 0">
           <li 
             v-for="recipe in recipes" 
             :key="recipe.id" 
@@ -51,6 +57,7 @@ onMounted(() => {
             </div>
           </li>
         </ul>
+        <div>No recipes found</div>
       </div>
     </aside>
 
@@ -75,6 +82,9 @@ onMounted(() => {
               :showTitle="true" 
               class="detail-recipe"
               :class="{ expanded: expand }"/>
+          </template>
+          <template v-else-if="recipes.length == 0">
+            You have no recipes. Add one to get started!
           </template>
           <template v-else>
             <div class="detail-empty">Select a recipe to view details</div>
@@ -113,6 +123,10 @@ onMounted(() => {
   &__top
     padding: 16px
     border-bottom: 1px solid $background-200
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: 12px
 
   .recipes-brand
     display: flex
