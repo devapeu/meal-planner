@@ -18,7 +18,6 @@ export const useSlideoutStore = defineStore('slideout', () => {
   }
 
   function cleanup() {
-    console.log("cleanup")
     component.value = null;
     props.value = {}
   }
