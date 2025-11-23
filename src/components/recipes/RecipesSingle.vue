@@ -21,7 +21,7 @@ function ingredientIsInShoppingList(ingredient: string) {
 
 <template>
   <div class="recipe-single">
-    <h3 
+    <h3
       v-if="showTitle"
       class="recipe-single__name">
       {{ recipe.name }}
@@ -29,7 +29,7 @@ function ingredientIsInShoppingList(ingredient: string) {
     <div class="recipe-single__section">
       <h4 style="display: none;">Ingredients</h4>
       <ul
-        v-if="recipe.sections?.length === 0"
+        v-if="recipe.sections.length === 0"
         class="recipe-single__ingredients">
         <li v-for="ingredient in recipe.ingredients" :key="`ingredient-${ingredient}`">
           <div class="recipe-single__ingredient-wrapper">
@@ -81,11 +81,11 @@ function ingredientIsInShoppingList(ingredient: string) {
     </div>
     <div class="recipe-single__section">
       <h4 style="display: none;">Instructions</h4>
-      <div v-if="recipe.sections?.length === 0" class="recipe-single__instructions">
-        <p v-for="instruction in recipe.instructions" v-html="instruction"></p>
+      <div v-if="recipe?.sections?.length === 0" class="recipe-single__instructions">
+        <p v-for="instruction in recipe?.instructions" v-html="instruction"></p>
       </div>
       <template v-else>
-        <template v-for="section in recipe.sections">
+        <template v-for="section in recipe?.sections">
           <h5 style="display: none;" class="recipe-single__heading">{{ section.name }}</h5>
           <div class="recipe-single__instructions">
             <p v-for="instruction in section.instructions" v-html="instruction"></p>

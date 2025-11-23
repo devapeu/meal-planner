@@ -46,15 +46,24 @@ function openRecipeFormSlideout() {
 <template>
   <n-drawer-content>
     <template #header>
-      <div class="slideout__header">{{ recipe.name }}</div>
+      <div class="slideout__header">{{ recipe?.name || 'Loading...' }}</div>
     </template>
-    <RecipesSingle :recipe="recipe" :show-title="false"/>
+    <RecipesSingle v-if="recipe" :recipe="recipe" :show-title="false"/>
+    <div v-else class="loading-state">Loading recipe...</div>
     <template #footer>
       <button @click="slideoutStore.close">Close</button>
-      <button 
+      <button
+        :disabled="!recipe"
         @click="openRecipeFormSlideout">
         Edit Recipe
       </button>
     </template>
   </n-drawer-content>
 </template>
+
+<style lang="sass" scoped>
+.loading-state
+  padding: 20px
+  text-align: center
+  color: #666
+</style>
