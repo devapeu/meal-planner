@@ -16,7 +16,7 @@ from .serializers import (
 )
 
 
-def _calendar_response(start_date_str: str):
+def _calendar_response(start_date_str: str, user):
     parsed = parse_date(start_date_str)
     if not parsed:
         return Response(
@@ -31,7 +31,9 @@ def _calendar_response(start_date_str: str):
         F("end_date") - F("start_date"), output_field=DurationField()
     )
     entries = (
-        CalendarEntry.objects.filter(start_date__lte=sunday, end_date__gte=monday)
+        CalendarEntry.objects.filter(
+            user=user, start_date__lte=sunday, end_date__gte=monday
+        )
         .annotate(duration_span=duration_expression)
         .order_by("start_date", "-duration_span")
     )
@@ -42,7 +44,7 @@ def _calendar_response(start_date_str: str):
 class CalendarView(APIView):
     def get(self, request):
         start_date = request.query_params.get("startDate")
-        return _calendar_response(start_date)
+        return _calendar_response(start_date, request.user)
 
     def post(self, request):
         meal = request.data.get("meal")
@@ -77,22 +79,23 @@ class CalendarView(APIView):
             start_date=parsed_start,
             end_date=parsed_end,
             recipe_id=recipe_identifier,
+            user=request.user,
         )
 
-        return _calendar_response(start_date)
+        return _calendar_response(start_date, request.user)
 
 
 class CalendarDetailView(APIView):
     def delete(self, request, pk: int):
         start_date = request.query_params.get("startDate")
-        entry = get_object_or_404(CalendarEntry, pk=pk)
+        entry = get_object_or_404(CalendarEntry, pk=pk, user=request.user)
         entry.delete()
-        return _calendar_response(start_date or entry.start_date.isoformat())
+        return _calendar_response(start_date or entry.start_date.isoformat(), request.user)
 
 
 class ShoppingListView(APIView):
     def get(self, request):
-        return self._response()
+        return self._response(request.user)
 
     def post(self, request):
         item = request.data.get("item")
@@ -101,8 +104,8 @@ class ShoppingListView(APIView):
                 {"error": "item is required"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        ShoppingListItem.objects.create(item=item)
-        return self._response()
+        ShoppingListItem.objects.create(item=item, user=request.user)
+        return self._response(request.user)
 
     def put(self, request):
         item_id = request.data.get("id")
@@ -112,28 +115,30 @@ class ShoppingListView(APIView):
                 {"error": "id and item are required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        shopping_item = get_object_or_404(ShoppingListItem, pk=item_id)
+        shopping_item = get_object_or_404(ShoppingListItem, pk=item_id, user=request.user)
         shopping_item.item = item_value
         shopping_item.save()
-        return self._response()
+        return self._response(request.user)
 
     def delete(self, request):
-        ShoppingListItem.objects.all().delete()
-        return self._response()
+        ShoppingListItem.objects.filter(user=request.user).delete()
+        return self._response(request.user)
 
-    def _response(self):
+    def _response(self, user):
         serializer = ShoppingListItemSerializer(
-            ShoppingListItem.objects.order_by("position", "id"), many=True
+            ShoppingListItem.objects.filter(user=user).order_by("position", "id"),
+            many=True,
         )
         return Response({"shopping_list": serializer.data})
 
 
 class ShoppingListDetailView(APIView):
     def delete(self, request, pk: int):
-        item = get_object_or_404(ShoppingListItem, pk=pk)
+        item = get_object_or_404(ShoppingListItem, pk=pk, user=request.user)
         item.delete()
         serializer = ShoppingListItemSerializer(
-            ShoppingListItem.objects.order_by("position", "id"), many=True
+            ShoppingListItem.objects.filter(user=request.user).order_by("position", "id"),
+            many=True,
         )
         return Response({"shopping_list": serializer.data})
 
@@ -155,41 +160,46 @@ class ShoppingListReorderView(APIView):
 
         with transaction.atomic():
             for index, item_id in enumerate(ids, start=1):
-                ShoppingListItem.objects.filter(pk=item_id).update(position=index)
+                ShoppingListItem.objects.filter(
+                    pk=item_id, user=request.user
+                ).update(position=index)
 
         serializer = ShoppingListItemSerializer(
-            ShoppingListItem.objects.order_by("position", "id"), many=True
+            ShoppingListItem.objects.filter(user=request.user).order_by("position", "id"),
+            many=True,
         )
         return Response({"shopping_list": serializer.data})
 
 
 class RecipesView(APIView):
     def get(self, request):
-        serializer = RecipeSerializer(Recipe.objects.all(), many=True)
+        serializer = RecipeSerializer(
+            Recipe.objects.filter(user=request.user), many=True
+        )
         return Response({"recipes": serializer.data})
 
     def post(self, request):
         serializer = RecipeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(user=request.user)
         return self.get(request)
 
 
 class RecipeDetailView(APIView):
     def get(self, request, pk: int):
-        recipe = get_object_or_404(Recipe, pk=pk)
+        recipe = get_object_or_404(Recipe, pk=pk, user=request.user)
         serializer = RecipeSerializer(recipe)
         return Response({"recipe": serializer.data})
 
     def put(self, request, pk: int):
-        recipe = get_object_or_404(Recipe, pk=pk)
+        recipe = get_object_or_404(Recipe, pk=pk, user=request.user)
         serializer = RecipeSerializer(recipe, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return RecipesView().get(request)
 
     def delete(self, request, pk: int):
-        recipe = get_object_or_404(Recipe, pk=pk)
+        recipe = get_object_or_404(Recipe, pk=pk, user=request.user)
         recipe.delete()
         return RecipesView().get(request)
 

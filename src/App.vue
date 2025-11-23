@@ -1,21 +1,29 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useSlideoutStore } from '@/stores/useSlideout'
-import { NDrawer, NTooltip } from 'naive-ui'
-import { Bbq, Calendar, IconoirProvider, OrganicFood } from '@iconoir/vue'
+import { useAuthStore } from '@/stores/useAuth'
+import { NDrawer, NTooltip, NButton } from 'naive-ui'
+import { Bbq, Calendar, IconoirProvider, LogOut } from '@iconoir/vue'
 import Pepper from './components/icons/Pepper.vue'
 
 const route = useRoute()
-const slideoutStore = useSlideoutStore()  
+const router = useRouter()
+const slideoutStore = useSlideoutStore()
+const authStore = useAuthStore()
+
+async function handleLogout() {
+  await authStore.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
-  <nav class="navigation">
+  <nav v-if="authStore.isAuthenticated" class="navigation">
     <div class="navigation__brand">
       <Pepper class="navigation__brand-icon"/>
       <h1>Meal Planner</h1>
     </div>
-    
+
     <ul class="navigation__menu">
       <li>
         <n-tooltip placement="right" trigger="hover" display-directive="show">
@@ -48,6 +56,22 @@ const slideoutStore = useSlideoutStore()
         </n-tooltip>
       </li>
     </ul>
+
+    <div class="navigation__logout">
+      <n-tooltip placement="right" trigger="hover" display-directive="show">
+        <template #trigger>
+          <button @click="handleLogout" class="logout-btn">
+            <IconoirProvider>
+              <LogOut width="24" height="24"/>
+            </IconoirProvider>
+            <div class="navigation__menu__label">
+              Logout
+            </div>
+          </button>
+        </template>
+        Logout
+      </n-tooltip>
+    </div>
   </nav>
   <RouterView class="router-view" />
   <n-drawer
@@ -124,6 +148,28 @@ const slideoutStore = useSlideoutStore()
       &.active
         background-color: $background-200
 
+  &__logout
+    margin-top: auto
+    width: 100%
+
+    .logout-btn
+      height: 54px
+      width: 54px
+      border-radius: 8px
+      display: flex
+      align-items: center
+      justify-content: center
+      color: $wine
+      transition: all 0.2s ease
+      text-decoration: none
+      background: none
+      border: none
+      cursor: pointer
+
+      @media (pointer: fine)
+        &:hover
+          color: $accent
+
   @media (max-width: 768px)
     order: 2
     padding: 8px
@@ -143,6 +189,15 @@ const slideoutStore = useSlideoutStore()
           height: 28px!important
       &__label
         display: inline
+    &__logout
+      .logout-btn
+        height: auto
+        width: auto
+        padding: 8px 4px
+        flex-direction: column
+        svg
+          width: 28px!important
+          height: 28px!important
 
 .router-view
   overflow-y: scroll

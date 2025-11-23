@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .auth_views import CurrentUserView, LoginView, LogoutView, RegisterView
 from .views import (
     CalendarDetailView,
     CalendarView,
@@ -11,6 +12,10 @@ from .views import (
 )
 
 urlpatterns = [
+    path("auth/register", RegisterView.as_view(), name="auth-register"),
+    path("auth/login", LoginView.as_view(), name="auth-login"),
+    path("auth/logout", LogoutView.as_view(), name="auth-logout"),
+    path("auth/user", CurrentUserView.as_view(), name="auth-user"),
     path("calendar", CalendarView.as_view(), name="calendar"),
     path("calendar/<int:pk>", CalendarDetailView.as_view(), name="calendar-detail"),
     path("shopping-list", ShoppingListView.as_view(), name="shopping-list"),
