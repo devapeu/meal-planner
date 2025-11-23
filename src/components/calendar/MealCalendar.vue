@@ -18,6 +18,12 @@ const weekStart = computed(() => {
   return date;
 });
 
+const weekEnd = computed(() => {
+  const date = new Date(weekStart.value);
+  date.setDate(date.getDate() + 6);
+  return date;
+});
+
 const daysOfWeek = computed(() => {
   const days = [];
   const start = new Date(weekStart.value);
@@ -29,10 +35,27 @@ const daysOfWeek = computed(() => {
   return days;
 });
 
-function grabDate(day) {
-  const date = new Date(day);
+const mealsToRender = computed(() => {
+  const meals = [];
+  for (const meal of calendarStore.calendar) {
+    for (const day of daysOfWeek.value) {
+      if (shouldRenderMeal(day, meal.start_date)) {
+        meals.push({
+          ...meal,
+          day,
+          gridColumn: getMealGridColumn(day, meal.end_date),
+          key: `meal-${day}-${meal.id}`
+        });
+      }
+    }
+  }
+  return meals;
+});
+
+function grabDate(d) {
+  const date = new Date(d);
   date.setHours(0, 0, 0, 0);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  return date.toISOString().slice(0, 10);
 }
 
 function getAdjacentWeek(direction) {
@@ -43,10 +66,29 @@ function getAdjacentWeek(direction) {
 
 function responsiveAddMeal(day) {
   day.setHours(0, 0, 0, 0);
-  slideoutStore.open(NewMealForm, { 
-    startDate: day.toISOString().split('T')[0], 
+  slideoutStore.open(NewMealForm, {
+    startDate: day.toISOString().split('T')[0],
     endDate: day.toISOString().split('T')[0],
   })
+}
+
+function shouldRenderMeal(day, startDate) {
+  const currentDay = grabDate(day);
+  const weekStartDate = grabDate(weekStart.value);
+  const mealStartInWeek = startDate >= weekStartDate ? startDate : weekStartDate;
+  return currentDay === mealStartInWeek;
+}
+
+function getMealGridColumn(day, endDate) {
+  const dayOfWeek = day.getDay() || 7;
+  const weekEndDate = grabDate(weekEnd.value);
+  const dayDate = new Date(grabDate(day));
+  const endDateObj = new Date(endDate);
+  const weekEndDateObj = new Date(weekEndDate);
+  const daysInWeek = endDateObj <= weekEndDateObj
+    ? Math.ceil((endDateObj - dayDate) / (1000 * 60 * 60 * 24)) + 1
+    : Math.ceil((weekEndDateObj - dayDate) / (1000 * 60 * 60 * 24)) + 1;
+  return `${dayOfWeek} / span ${daysInWeek}`;
 }
 
 watch(selectedDate, () => {
@@ -84,24 +126,20 @@ onMounted(() => {
           {{ day.getDate() }}
         </span>
       </div>
-      <template v-if="calendarStore.calendar.length > 0">
-        <template v-for="day in daysOfWeek">
-          <template v-for="{id, meal, start_date, duration} in calendarStore.calendar">
-            <div 
-              v-if="start_date === grabDate(day)"
-              :key="`meal-${day}-${id}`"
-              class="meal-cell"
-              :style="{ 
-                gridColumn: `${day.getDay() || 7} / span ${duration}`,
-                background: getColorFromId(id)
-              }">
-              <span class="meal-cell__label">{{ meal }}</span>
-              <button 
-                class="meal-cell__remove-button"
-                @click="calendarStore.remove(id, start_date)">&times;</button>
-            </div>
-          </template>
-        </template>
+      <template v-if="mealsToRender.length > 0">
+        <div
+          v-for="mealItem in mealsToRender"
+          :key="mealItem.key"
+          class="meal-cell"
+          :style="{
+            gridColumn: mealItem.gridColumn,
+            background: getColorFromId(mealItem.id)
+          }">
+          <span class="meal-cell__label">{{ mealItem.meal }}</span>
+          <button
+            class="meal-cell__remove-button"
+            @click="calendarStore.remove(mealItem.id, mealItem.start_date)">&times;</button>
+        </div>
       </template>
       <template v-else>
         <div class="no-meals-cell">
