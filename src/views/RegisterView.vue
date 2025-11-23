@@ -87,7 +87,7 @@ async function handleRegister() {
           <button type="submit" class="btn-accent" :disabled="loading">
             {{ loading ? 'Loading...' : 'Register' }}
           </button>
-          <p>Already have an account? <router-link to="/login">Login</router-link></p>
+          <p>Already have an account? <router-link to="/login">Login</router-link>.</p>
         </div>
       </form>
     </div>
@@ -136,6 +136,9 @@ async function handleRegister() {
   flex-direction: column
   gap: 0.5rem
   margin-top: 0.5rem
+
+  a:visited
+    color: $accent
 
   button
     width: 100%

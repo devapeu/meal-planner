@@ -63,7 +63,7 @@ async function handleLogin() {
 </template>
 
 <style lang="sass" scoped>
-@use '@/assets/variables' as v
+@use '@/assets/variables' as *
 
 .auth-container
   display: flex
@@ -83,12 +83,12 @@ async function handleLogin() {
 
   h1
     margin-bottom: 1.5rem
-    color: v.$wine
+    color: $wine
 
 .auth-error
-  background: v.$cream-200
-  border: 1px solid v.$accent
-  color: v.$burgundy
+  background: $cream-200
+  border: 1px solid $accent
+  color: $burgundy
   padding: 12px
   border-radius: 4px
   margin-bottom: 1rem
@@ -104,6 +104,9 @@ async function handleLogin() {
   flex-direction: column
   gap: 0.5rem
   margin-top: 0.5rem
+
+  a:visited
+    color: $accent
 
   button
     width: 100%
