@@ -28,10 +28,10 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
 
 .home-header
   display: none
-  gap: 4px
+  margin-bottom: 12px
   @media (min-width: 768px)
     display: grid
-  h1, p
+  h1
     margin: 0
 .home-grid
   display: grid
