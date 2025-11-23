@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { useSlideoutStore } from '@/stores/useSlideout'
 import { useAuthStore } from '@/stores/useAuth'
-import { NDrawer, NTooltip, NButton } from 'naive-ui'
+import { NDrawer, NTooltip } from 'naive-ui'
 import { Bbq, Calendar, IconoirProvider, LogOut } from '@iconoir/vue'
 import Pepper from './components/icons/Pepper.vue'
 
