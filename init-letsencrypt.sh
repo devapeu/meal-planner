@@ -62,13 +62,13 @@ echo
 
 # Start nginx with HTTP-only config
 echo "### Starting nginx with HTTP-only config ..."
-docker-compose -f docker-compose.prod.yml up -d nginx
+docker compose -f docker-compose.prod.yml up -d nginx
 sleep 5  # Give nginx time to start
 echo
 
 # Verify nginx is responding
 echo "### Verifying nginx is accessible ..."
-if docker-compose -f docker-compose.prod.yml exec -T nginx wget -q --spider http://localhost/health 2>/dev/null; then
+if docker compose -f docker-compose.prod.yml exec -T nginx wget -q --spider http://localhost/health 2>/dev/null; then
   echo "✓ Nginx is responding"
 else
   echo "✗ Warning: Nginx health check failed, but continuing..."
@@ -91,7 +91,7 @@ esac
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker-compose -f docker-compose.prod.yml run --rm --entrypoint "\
+docker compose -f docker-compose.prod.yml run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \
@@ -111,7 +111,7 @@ echo
 
 # Restart nginx with HTTPS config
 echo "### Restarting nginx with HTTPS ..."
-docker-compose -f docker-compose.prod.yml restart nginx
+docker compose -f docker-compose.prod.yml restart nginx
 echo
 
 # Wait for nginx to be ready
