@@ -77,7 +77,6 @@ async function handleLogout() {
     <header v-if="authStore.isAuthenticated" class="user-header">
       <div class="user-header__brand">
         <Pepper class="user-header__brand-icon"/>
-        <h1>Meal Planner</h1>
       </div>
       <div class="user-header__user">
         <span>{{ authStore.user?.username }}</span>

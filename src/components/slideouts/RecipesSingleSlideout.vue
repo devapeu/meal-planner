@@ -48,7 +48,7 @@ function openRecipeFormSlideout() {
     <template #header>
       <div class="slideout__header">{{ recipe?.name || 'Loading...' }}</div>
     </template>
-    <RecipesSingle v-if="recipe" :recipe="recipe" :show-title="false"/>
+    <RecipesSingle v-if="recipe" :recipe="recipe" :showTitle="false"/>
     <div v-else class="loading-state">Loading recipe...</div>
     <template #footer>
       <button @click="slideoutStore.close">Close</button>
