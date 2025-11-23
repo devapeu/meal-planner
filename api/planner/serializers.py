@@ -5,7 +5,7 @@ from .models import CalendarEntry, Recipe, ShoppingListItem
 
 class CalendarEntrySerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
-    recipe_id = serializers.IntegerField(source="recipe_id", read_only=True)
+    recipe_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = CalendarEntry
