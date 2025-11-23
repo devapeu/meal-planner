@@ -14,8 +14,19 @@ export const useCalendarStore = defineStore('calendar', () => {
       headers: authStore.getAuthHeaders()
     })
       .then(async response => {
+        if (!response.ok) {
+          const errorData = await response.json()
+          console.error('Calendar fetch failed:', response.status, errorData)
+          if (response.status === 401) {
+            console.error('Authentication failed - token might be invalid')
+          }
+          return
+        }
         const data: CalendarResponse = await response.json();
         calendar.value = data.calendar;
+      })
+      .catch(error => {
+        console.error('Network error fetching calendar:', error)
       })
   }
 
@@ -30,8 +41,16 @@ export const useCalendarStore = defineStore('calendar', () => {
       }
     })
     .then(async response => {
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('Calendar add failed:', response.status, errorData)
+        return
+      }
       const data: CalendarResponse = await response.json();
       calendar.value = data.calendar;
+    })
+    .catch(error => {
+      console.error('Network error adding to calendar:', error)
     })
   }
 
@@ -42,8 +61,16 @@ export const useCalendarStore = defineStore('calendar', () => {
       headers: authStore.getAuthHeaders()
     })
     .then(async response => {
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('Calendar remove failed:', response.status, errorData)
+        return
+      }
       const data: CalendarResponse = await response.json();
       calendar.value = data.calendar;
+    })
+    .catch(error => {
+      console.error('Network error removing from calendar:', error)
     })
   }
 
