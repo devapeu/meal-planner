@@ -50,28 +50,29 @@ if [ -d "$data_path/conf/live/$domains" ]; then
   fi
 fi
 
-# Create dummy certificate for nginx to start
-echo "### Creating dummy certificate for $domains ..."
-path="/etc/letsencrypt/live/$domains"
-mkdir -p "$data_path/conf/live/$domains"
-docker compose -f docker-compose.prod.yml run --rm --entrypoint "\
-  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
-    -keyout '$path/privkey.pem' \
-    -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'" certbot
+# Temporarily switch to HTTP-only config for certificate acquisition
+echo "### Switching to HTTP-only config for certificate acquisition ..."
+if [ -f nginx/conf.d/default.conf ]; then
+  mv nginx/conf.d/default.conf nginx/conf.d/default-https.conf.tmp
+fi
+if [ -f nginx/conf.d/default-http-only.conf ]; then
+  cp nginx/conf.d/default-http-only.conf nginx/conf.d/default.conf
+fi
 echo
 
-# Start nginx with dummy certificate
-echo "### Starting nginx ..."
-docker compose -f docker-compose.prod.yml up --force-recreate -d nginx
+# Start nginx with HTTP-only config
+echo "### Starting nginx with HTTP-only config ..."
+docker-compose -f docker-compose.prod.yml up -d nginx
+sleep 5  # Give nginx time to start
 echo
 
-# Delete dummy certificate
-echo "### Deleting dummy certificate for $domains ..."
-docker compose -f docker-compose.prod.yml run --rm --entrypoint "\
-  rm -Rf /etc/letsencrypt/live/$domains && \
-  rm -Rf /etc/letsencrypt/archive/$domains && \
-  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+# Verify nginx is responding
+echo "### Verifying nginx is accessible ..."
+if docker-compose -f docker-compose.prod.yml exec -T nginx wget -q --spider http://localhost/health 2>/dev/null; then
+  echo "✓ Nginx is responding"
+else
+  echo "✗ Warning: Nginx health check failed, but continuing..."
+fi
 echo
 
 # Request Let's Encrypt certificate
@@ -90,7 +91,7 @@ esac
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker compose -f docker-compose.prod.yml run --rm --entrypoint "\
+docker-compose -f docker-compose.prod.yml run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \
@@ -100,10 +101,28 @@ docker compose -f docker-compose.prod.yml run --rm --entrypoint "\
     --force-renewal" certbot
 echo
 
-# Reload nginx to load the real certificates
-echo "### Reloading nginx ..."
-docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
+# Restore HTTPS config
+echo "### Restoring HTTPS config ..."
+rm nginx/conf.d/default.conf
+if [ -f nginx/conf.d/default-https.conf.tmp ]; then
+  mv nginx/conf.d/default-https.conf.tmp nginx/conf.d/default.conf
+fi
 echo
+
+# Restart nginx with HTTPS config
+echo "### Restarting nginx with HTTPS ..."
+docker-compose -f docker-compose.prod.yml restart nginx
+echo
+
+# Wait for nginx to be ready
+sleep 3
 
 echo "### SSL certificates successfully obtained and configured!"
 echo "### Your site is now accessible via HTTPS at https://$domains"
+echo ""
+echo "### Testing HTTPS (this may take a moment) ..."
+if curl -sf -o /dev/null https://$domains/health 2>/dev/null; then
+  echo "✓ HTTPS is working correctly!"
+else
+  echo "! HTTPS test inconclusive. Please test manually: https://$domains"
+fi

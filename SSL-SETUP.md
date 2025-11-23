@@ -45,15 +45,18 @@ ssl_trusted_certificate /etc/letsencrypt/live/yourdomain.com/chain.pem;
 
 ### 3. Run the SSL Initialization Script
 
-This script will:
+This script will automatically:
 - Download recommended TLS parameters
-- Create a temporary certificate for nginx to start
+- Temporarily switch to HTTP-only config
+- Start nginx to handle Let's Encrypt verification
 - Request a real certificate from Let's Encrypt
-- Reload nginx with the real certificate
+- Restore HTTPS config and restart nginx
 
 ```bash
 ./init-letsencrypt.sh
 ```
+
+The script handles all config switching automatically - you don't need to do anything manually!
 
 **Important**: The script will fail if:
 - Your domain doesn't point to your server
