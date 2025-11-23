@@ -13,8 +13,8 @@ Deploy for both development and production using Docker.
 #### Development
 
 ```sh
-# Copy environment file
-cp .env.example .env
+# Copy development environment template
+cp .env.dev.example .env
 
 # Run development containers
 docker compose up -d
@@ -24,9 +24,9 @@ docker compose up -d
 
 ```bash
 # Copy production environment template
-cp .env.prod.example .env
+cp .env.example .env
 
-# Edit .env with secure values
+# Edit .env with secure production values
 nano .env
 ```
 

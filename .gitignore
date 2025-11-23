@@ -50,3 +50,7 @@ htmlcov/
 api/media/
 api/staticfiles/
 api/logs/
+
+# SSL certificates (Let's Encrypt)
+certbot/conf/
+certbot/www/
