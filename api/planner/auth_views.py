@@ -27,6 +27,12 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        if email and User.objects.filter(email=email).exists():
+            return Response(
+                {"error": "Email already exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         user = User.objects.create_user(
             username=username, password=password, email=email
         )
