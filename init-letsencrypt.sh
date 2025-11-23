@@ -7,10 +7,11 @@ set -e
 
 # Load environment variables
 if [ -f .env ]; then
-    export $(cat .env | grep -v '^#' | xargs)
+    set -a
+    . .env
+    set +a
 else
     echo "Error: .env file not found!"
-    echo "Please create .env from .env.example and configure your domain"
     exit 1
 fi
 
