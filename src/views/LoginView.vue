@@ -69,7 +69,6 @@ async function handleLogin() {
   display: flex
   justify-content: center
   align-items: center
-  min-height: 80vh
   width: 100vw
   padding: 1rem
 

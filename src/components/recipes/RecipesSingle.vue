@@ -4,14 +4,12 @@ import { useShoppingListStore } from '@/stores/useShoppingList'
 import { Cart, Check, IconoirProvider } from '@iconoir/vue'
 import { FullRecipe } from '@/types/recipe';
 
-//// Props
-
-const props = defineProps<{
-  recipe: FullRecipe,
-  showTitle: boolean,
-}>();
-
-//// Pinia
+const props = withDefaults(defineProps<{
+  recipe: FullRecipe
+  showTitle: boolean
+}>(), {
+  showTitle: false,
+});
 
 const shoppingListStore = useShoppingListStore()
 const shoppingList = computed(() => shoppingListStore.shoppingList)

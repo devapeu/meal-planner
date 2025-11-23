@@ -73,7 +73,23 @@ async function handleLogout() {
       </n-tooltip>
     </div>
   </nav>
-  <RouterView class="router-view" />
+  <div class="router-view-wrapper">
+    <header v-if="authStore.isAuthenticated" class="user-header">
+      <div class="user-header__brand">
+        <Pepper class="user-header__brand-icon"/>
+        <h1>Meal Planner</h1>
+      </div>
+      <div class="user-header__user">
+        <span>{{ authStore.user?.username }}</span>
+        <button @click="handleLogout" class="user-header__logout-btn">
+          <IconoirProvider>
+            <LogOut width="20" height="20"/>
+          </IconoirProvider>
+        </button>
+      </div>
+    </header>
+    <RouterView class="router-view" />
+  </div>
   <n-drawer
     v-model:show="slideoutStore.isOpen"
     placement="right"
@@ -151,6 +167,8 @@ async function handleLogout() {
   &__logout
     margin-top: auto
     width: 100%
+    @media (max-width: 768px)
+      display: none
 
     .logout-btn
       height: 54px
@@ -199,10 +217,17 @@ async function handleLogout() {
           width: 28px!important
           height: 28px!important
 
-.router-view
+.router-view-wrapper
   overflow-y: scroll
   max-height: 100vh
   width: 100%
+  display: grid
+
+  .router-view
+    width: 100%
+
+  @media (max-width: 768px)
+    grid-template-rows: auto 1fr
 
 header
   display: flex
@@ -223,6 +248,51 @@ header
 .n-drawer .n-drawer-content
   .n-drawer-header, .n-drawer-footer
     border-color: $background
+
+.user-header
+  padding: 12px 16px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  border-bottom: 1px solid $background-200
+  gap: 16px
+
+  &__brand
+    display: flex
+    align-items: center
+    gap: 8px
+
+    &-icon
+      width: 32px
+      height: 32px
+      color: $accent
+
+    h1
+      font-size: 18px
+      font-weight: 600
+      color: $wine
+      margin: 0
+
+  &__user
+    display: flex
+    align-items: center
+    gap: 12px
+
+  &__logout-btn
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 36px
+    height: 36px
+    padding: 0
+
+    @media (pointer: fine)
+      &:hover
+        background: $background-200
+        color: $accent
+
+  @media (min-width: 768px)
+    display: none
 
 @media (pointer: coarse)
   .n-popover

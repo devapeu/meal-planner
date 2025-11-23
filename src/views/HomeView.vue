@@ -7,7 +7,6 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
   <div class="home">
     <header class="home-header">
       <h1>Meal Planner</h1>
-      <p>What will I cook today?</p>
     </header>
     <main class="home-grid">
       <div class="home-grid__meal-calendar">
@@ -28,8 +27,10 @@ import MealCalendar from '@/components/calendar/MealCalendar.vue'
     padding: 1rem 3rem
 
 .home-header
-  display: grid
+  display: none
   gap: 4px
+  @media (min-width: 768px)
+    display: grid
   h1, p
     margin: 0
 .home-grid
