@@ -63,7 +63,7 @@ This script will:
 ### 4. Start Your Application
 
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 Your application will now be available at:
