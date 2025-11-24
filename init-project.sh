@@ -52,6 +52,10 @@ sleep 3
 # ---------------------------------------------------------
 echo "=== Requesting Let's Encrypt certificate ==="
 
+# Remove dummy certificate so Certbot can create a fresh one
+echo "=== Removing dummy certificate ==="
+rm -rf "$DOMAIN_DIR"
+
 STAGING_ARG=""
 [ "$STAGING" -ne 0 ] && STAGING_ARG="--staging"
 
