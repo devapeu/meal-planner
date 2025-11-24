@@ -9,7 +9,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function get() {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list`, {
+    fetch(`${VITE_API_URL}/shopping-list/`, {
       headers: authStore.getAuthHeaders()
     })
       .then(response => response.json())
@@ -19,7 +19,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function add(ingredient) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list`, {
+    fetch(`${VITE_API_URL}/shopping-list/`, {
       method: 'POST',
       body: JSON.stringify({ item: ingredient }),
       headers: {
@@ -34,7 +34,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function remove(ingredient) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list/${ingredient}`, {
+    fetch(`${VITE_API_URL}/shopping-list/${ingredient}/`, {
       method: 'DELETE',
       headers: authStore.getAuthHeaders()
     })
@@ -45,7 +45,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function update(id, ingredient) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list`, {
+    fetch(`${VITE_API_URL}/shopping-list/`, {
       method: 'PUT',
       body: JSON.stringify({ id, item: ingredient }),
       headers: {
@@ -60,7 +60,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function clear() {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list`, {
+    fetch(`${VITE_API_URL}/shopping-list/`, {
       method: 'DELETE',
       headers: authStore.getAuthHeaders()
     })
@@ -71,7 +71,7 @@ export const useShoppingListStore = defineStore('shoppingList', () => {
 
   function reorder(newOrder) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/shopping-list/reorder`, {
+    fetch(`${VITE_API_URL}/shopping-list/reorder/`, {
       method: 'PUT',
       body: JSON.stringify({ items: newOrder }),
       headers: {

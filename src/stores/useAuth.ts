@@ -41,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function register(username: string, password: string, email: string = '') {
     try {
-      const response = await fetch(`${VITE_API_URL}/auth/register`, {
+      const response = await fetch(`${VITE_API_URL}/auth/register/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(username: string, password: string) {
     try {
-      const response = await fetch(`${VITE_API_URL}/auth/login`, {
+      const response = await fetch(`${VITE_API_URL}/auth/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      await fetch(`${VITE_API_URL}/auth/logout`, {
+      await fetch(`${VITE_API_URL}/auth/logout/`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${token.value}`,
@@ -115,7 +115,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      const response = await fetch(`${VITE_API_URL}/auth/user`, {
+      const response = await fetch(`${VITE_API_URL}/auth/user/`, {
         headers: {
           'Authorization': `Token ${token.value}`,
         },

@@ -12,7 +12,7 @@ export const useRecipesStore = defineStore('recipes', () => {
 
   function get() {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/recipes`, {
+    fetch(`${VITE_API_URL}/recipes/`, {
       headers: authStore.getAuthHeaders()
     })
       .then(response => response.json())
@@ -21,7 +21,7 @@ export const useRecipesStore = defineStore('recipes', () => {
 
   function getSingle(id: number) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/recipes/${id}`, {
+    fetch(`${VITE_API_URL}/recipes/${id}/`, {
       headers: authStore.getAuthHeaders()
     })
       .then(async response => {
@@ -38,7 +38,7 @@ export const useRecipesStore = defineStore('recipes', () => {
 
   function add(recipe: Recipe) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/recipes`, {
+    fetch(`${VITE_API_URL}/recipes/`, {
       method: 'POST',
       body: JSON.stringify({...recipe}),
       headers: {
@@ -54,7 +54,7 @@ export const useRecipesStore = defineStore('recipes', () => {
 
   function remove(id: number) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/recipes/${id}`, {
+    fetch(`${VITE_API_URL}/recipes/${id}/`, {
       method: 'DELETE',
       headers: authStore.getAuthHeaders()
     })
@@ -66,7 +66,7 @@ export const useRecipesStore = defineStore('recipes', () => {
 
   function update(id: number, recipe: Recipe) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/recipes/${id}`, {
+    fetch(`${VITE_API_URL}/recipes/${id}/`, {
       method: 'PUT',
       body: JSON.stringify({...recipe}),
       headers: {

@@ -10,7 +10,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
   function getMealsForWeek(startDate: string) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/calendar?startDate=${startDate}`, {
+    fetch(`${VITE_API_URL}/calendar/?startDate=${startDate}`, {
       headers: authStore.getAuthHeaders()
     })
       .then(async response => {
@@ -32,7 +32,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
   function add(meal: string, startDate: string, endDate: string) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/calendar`, {
+    fetch(`${VITE_API_URL}/calendar/`, {
       method: 'POST',
       body: JSON.stringify({ meal, startDate, endDate }),
       headers: {
@@ -56,7 +56,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
   function remove(id: string, startDate: string) {
     const authStore = useAuthStore()
-    fetch(`${VITE_API_URL}/calendar/${id}?startDate=${startDate}`, {
+    fetch(`${VITE_API_URL}/calendar/${id}/?startDate=${startDate}`, {
       method: 'DELETE',
       headers: authStore.getAuthHeaders()
     })
