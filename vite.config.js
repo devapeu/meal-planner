@@ -18,7 +18,7 @@ export default defineConfig({
         short_name: 'Meal Planner',
         description: 'Plan your meals with ease',
         theme_color: '#ea0e32',
-        background_color: '#fff6f6',
+        background_color: '#FF6050',
         display: 'standalone',
         icons: [
           {
