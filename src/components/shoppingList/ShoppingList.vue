@@ -62,12 +62,12 @@ watch(shoppingList, (newList) => {
       <template v-if="draggableList.length > 0">
         <draggable
           v-model="draggableList"
+          class="draggable-container"
           :animation="200"
           item-key="id"
           handle=".drag-handle"
           tag="ul"
-          class="draggable-container"
-        >
+          @end="handleDragEnd">
           <template #item="{ element }">
             <li class="draggable-item">
               <ShoppingListItem
